@@ -13,6 +13,11 @@
 @synthesize body =_body;
 @synthesize original =_original;
 @synthesize centroid = _centroid;
+@synthesize entryPoint = _entryPoint;//切割线首次和多边形解除的点
+@synthesize exitPoint = _exitPoint;//切割线第二次和多边形接触的点。
+@synthesize sliceEntered = _sliceEntered;//判断多边形是否已经有切割线进入了
+@synthesize sliceExited = _sliceExited;//判断多边形是否呗完整的切割过一次
+@synthesize sliceEntryTime = _sliceEntryTime;//切割线进入多边形时的准确时间。用来决定过慢的清扫动作不被视为切割动作
 
 
 +(id)spriteWithFile:(NSString *)filename body:(b2Body *)body  original:(BOOL)original
@@ -51,6 +56,12 @@
     
     if ((self = [super initWithPoints:points andTexture:texture]))
     {
+        _sliceExited = NO;
+        _sliceEntered = NO;
+        _entryPoint.SetZero();
+        _exitPoint.SetZero();
+        _sliceExited = 0;
+        
         _body = body;
         _body->SetUserData(self);
         _original = original;

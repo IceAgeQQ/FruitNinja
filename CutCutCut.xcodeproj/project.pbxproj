@@ -204,6 +204,7 @@
 		BC1E3EDA1818AC3300517C07 /* Grapes.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1E3ED31818AC3300517C07 /* Grapes.mm */; };
 		BC1E3EDB1818AC3300517C07 /* Pineapple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1E3ED51818AC3300517C07 /* Pineapple.mm */; };
 		BC1E3EDC1818AC3300517C07 /* Strawberry.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1E3ED71818AC3300517C07 /* Strawberry.mm */; };
+		BC58CD2D181A553D004338A8 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = BC58CD2C181A553D004338A8 /* bg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -612,6 +613,8 @@
 		BC1E3ED51818AC3300517C07 /* Pineapple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Pineapple.mm; sourceTree = "<group>"; };
 		BC1E3ED61818AC3300517C07 /* Strawberry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strawberry.h; sourceTree = "<group>"; };
 		BC1E3ED71818AC3300517C07 /* Strawberry.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Strawberry.mm; sourceTree = "<group>"; };
+		BC58CD2C181A553D004338A8 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		BCDAE77118199E1F004A29DB /* RayCastCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RayCastCallback.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -675,6 +678,9 @@
 			children = (
 				BC1E3E9E18185B2400517C07 /* AppDelegate.h */,
 				BC1E3E9F18185B2400517C07 /* AppDelegate.mm */,
+				BCDAE77118199E1F004A29DB /* RayCastCallback.h */,
+				BC1E3EA118185B2400517C07 /* HelloWorldLayer.h */,
+				BC1E3EA218185B2400517C07 /* HelloWorldLayer.mm */,
 				BC1E3EBC1818614900517C07 /* PolygonSprite.h */,
 				BC1E3EBD1818614900517C07 /* PolygonSprite.mm */,
 				BC1E3EBF1818A99500517C07 /* Watermelon.h */,
@@ -689,8 +695,6 @@
 				BC1E3ED51818AC3300517C07 /* Pineapple.mm */,
 				BC1E3ED61818AC3300517C07 /* Strawberry.h */,
 				BC1E3ED71818AC3300517C07 /* Strawberry.mm */,
-				BC1E3EA118185B2400517C07 /* HelloWorldLayer.h */,
-				BC1E3EA218185B2400517C07 /* HelloWorldLayer.mm */,
 				BC1E3EA418185B2400517C07 /* IntroLayer.h */,
 				BC1E3EA518185B2400517C07 /* IntroLayer.mm */,
 				BC1E3EA718185B2400517C07 /* GLES-Render.h */,
@@ -705,6 +709,7 @@
 		BC1E3C7B18185B2100517C07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BC58CD2C181A553D004338A8 /* bg.png */,
 				BC1E3EC21818AA7C00517C07 /* banana.png */,
 				BC1E3EC31818AA7C00517C07 /* bomb.png */,
 				BC1E3EC41818AA7C00517C07 /* grapes.png */,
@@ -1324,6 +1329,7 @@
 				BC1E3C7D18185B2100517C07 /* Default.png in Resources */,
 				BC1E3ECD1818AA7C00517C07 /* watermelon.png in Resources */,
 				BC1E3C8718185B2100517C07 /* Icon-Small-50.png in Resources */,
+				BC58CD2D181A553D004338A8 /* bg.png in Resources */,
 				BC1E3C9218185B2100517C07 /* iTunesArtwork in Resources */,
 				BC1E3EAB18185B2400517C07 /* blocks.png in Resources */,
 				BC1E3C8B18185B2100517C07 /* Icon-Small@2x.png in Resources */,
@@ -1628,6 +1634,7 @@
 				BC1E3EB018185B2400517C07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
