@@ -205,6 +205,8 @@
 		BC1E3EDB1818AC3300517C07 /* Pineapple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1E3ED51818AC3300517C07 /* Pineapple.mm */; };
 		BC1E3EDC1818AC3300517C07 /* Strawberry.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1E3ED71818AC3300517C07 /* Strawberry.mm */; };
 		BC58CD2D181A553D004338A8 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = BC58CD2C181A553D004338A8 /* bg.png */; };
+		BCCCDDA1181AF1BE00AC03CE /* streak.png in Resources */ = {isa = PBXBuildFile; fileRef = BCCCDD9F181AF1BE00AC03CE /* streak.png */; };
+		BCCCDDA4181AF9CA00AC03CE /* CCBlade.mm in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDDA3181AF9CA00AC03CE /* CCBlade.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -614,6 +616,9 @@
 		BC1E3ED61818AC3300517C07 /* Strawberry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strawberry.h; sourceTree = "<group>"; };
 		BC1E3ED71818AC3300517C07 /* Strawberry.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Strawberry.mm; sourceTree = "<group>"; };
 		BC58CD2C181A553D004338A8 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		BCCCDD9F181AF1BE00AC03CE /* streak.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = streak.png; sourceTree = "<group>"; };
+		BCCCDDA2181AF9CA00AC03CE /* CCBlade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBlade.h; sourceTree = "<group>"; };
+		BCCCDDA3181AF9CA00AC03CE /* CCBlade.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCBlade.mm; sourceTree = "<group>"; };
 		BCDAE77118199E1F004A29DB /* RayCastCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RayCastCallback.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -676,6 +681,8 @@
 		BC1E3C7A18185B2100517C07 /* CutCutCut */ = {
 			isa = PBXGroup;
 			children = (
+				BCCCDDA2181AF9CA00AC03CE /* CCBlade.h */,
+				BCCCDDA3181AF9CA00AC03CE /* CCBlade.mm */,
 				BC1E3E9E18185B2400517C07 /* AppDelegate.h */,
 				BC1E3E9F18185B2400517C07 /* AppDelegate.mm */,
 				BCDAE77118199E1F004A29DB /* RayCastCallback.h */,
@@ -709,6 +716,7 @@
 		BC1E3C7B18185B2100517C07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BCCCDD9F181AF1BE00AC03CE /* streak.png */,
 				BC58CD2C181A553D004338A8 /* bg.png */,
 				BC1E3EC21818AA7C00517C07 /* banana.png */,
 				BC1E3EC31818AA7C00517C07 /* bomb.png */,
@@ -1324,6 +1332,7 @@
 				BC1E3DEB18185B2300517C07 /* ChangeLog in Resources */,
 				BC1E3C7F18185B2100517C07 /* Default@2x.png in Resources */,
 				BC1E3C8918185B2100517C07 /* Icon-Small.png in Resources */,
+				BCCCDDA1181AF1BE00AC03CE /* streak.png in Resources */,
 				BC1E3EC81818AA7C00517C07 /* banana.png in Resources */,
 				BC1E3C8518185B2100517C07 /* Icon-72.png in Resources */,
 				BC1E3C7D18185B2100517C07 /* Default.png in Resources */,
@@ -1502,6 +1511,7 @@
 				BC1E3CF518185B2200517C07 /* CCLabelTTF.m in Sources */,
 				BC1E3DA218185B2300517C07 /* CCFileUtils.m in Sources */,
 				BC1E3E4518185B2300517C07 /* b2Body.cpp in Sources */,
+				BCCCDDA4181AF9CA00AC03CE /* CCBlade.mm in Sources */,
 				BC1E3D8F18185B2200517C07 /* CCEventDispatcher.m in Sources */,
 				BC1E3D4518185B2200517C07 /* CCSpriteBatchNode.m in Sources */,
 				BC1E3CCE18185B2100517C07 /* CCConfiguration.m in Sources */,

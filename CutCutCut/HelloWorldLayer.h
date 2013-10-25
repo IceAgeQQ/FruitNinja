@@ -15,6 +15,7 @@
 #import "GLES-Render.h"
 #import "PolygonSprite.h"
 #import "RayCastCallback.h"
+#import "CCBlade.h"
 
 //Pixel to metres ratio. Box2D uses metres as the unit for measurement.
 //This ratio defines how many pixels correspond to 1 Box2D "metre"
@@ -37,8 +38,12 @@
     CGPoint _endPoint;
     
     RaycastCallback * _raycastCallback;
+    CCArray *_blades;
+    CCBlade *_blade;
+    float _deltaRemainder;
 }
 @property(nonatomic,retain)CCArray *cache;
+@property(nonatomic,retain)CCArray *blades;
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 -(b2Vec2*)arrangeVertices:(b2Vec2*)vertices count:(int)count;

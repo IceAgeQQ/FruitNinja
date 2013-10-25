@@ -40,6 +40,7 @@ int comparator(const void *a,const void *b){
 }
 @implementation HelloWorldLayer
 @synthesize cache = _cache;
+@synthesize blades = _blades;
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -337,6 +338,19 @@ int comparator(const void *a,const void *b){
         [self initPhysics];
         [self initSprites];
         _raycastCallback = new RaycastCallback();
+        _deltaRemainder = 0.0;
+        _blades = [[CCArray alloc] initWithCapacity:3];
+        CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"streak.png"];
+        
+        for (int i = 0; i < 3; i++)
+        {
+            CCBlade *blade = [CCBlade bladeWithMaximumPoint:50];
+            blade.autoDim = NO;
+            blade.texture = texture;
+            
+            [self addChild:blade z:2];
+            [_blades addObject:blade];
+        }
         [self scheduleUpdate];
     }
     return self;
@@ -358,6 +372,8 @@ int comparator(const void *a,const void *b){
 	m_debugDraw = NULL;
 	[_cache release];
     _cache = Nil;
+    [_blades release];
+    _blades = Nil;
 	[super dealloc];
 }	
 -(void)initSprites
@@ -453,6 +469,16 @@ int comparator(const void *a,const void *b){
         location = [[CCDirector sharedDirector]convertToGL:location];
         _startPoint = location;
         _endPoint = location;
+        CCBlade *blade;
+        CCARRAY_FOREACH(_blades, blade)
+        {
+            if (blade.path.count == 0)
+            {
+                _blade = blade;
+                [_blade push:location];
+                break;
+            }
+        }
     }
 }
 
@@ -461,6 +487,7 @@ int comparator(const void *a,const void *b){
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         _endPoint = location;
+        [_blade push:location];
     }
     if (ccpLengthSQ(ccpSub(_startPoint, _endPoint)) >25) {
         world -> RayCast(_raycastCallback, b2Vec2(_startPoint.x/PTM_RATIO, _startPoint.y / PTM_RATIO), b2Vec2(_endPoint.x / PTM_RATIO,_endPoint.y / PTM_RATIO));
@@ -484,6 +511,12 @@ int comparator(const void *a,const void *b){
 	// generally best to keep the time step and iterations fixed.
 	world->Step(dt, velocityIterations, positionIterations);
 	[self checkAndSliceObjects];
+    if ([_blade.path count] > 3) {
+        _deltaRemainder+=dt*60*1.2;
+        int pop = (int)roundf(_deltaRemainder);
+        _deltaRemainder-=pop;
+        [_blade pop:pop];
+    }
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -493,9 +526,10 @@ int comparator(const void *a,const void *b){
 		CGPoint location = [touch locationInView: [touch view]];
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-		
+				
 	}
+    [_blade dim:YES];
+
     }
 
 #pragma mark GameKit delegate
