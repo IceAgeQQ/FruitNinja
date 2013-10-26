@@ -30,6 +30,9 @@
     
     if ((self = [super initWithFile:file body:body original:YES]))
     {
+        self.type = kTypePineapple;
+        self.splurt = [CCParticleSystemQuad particleWithFile:@"pineapple_splurt.plist"];
+        [self.splurt stopSystem];
     }
     return self;
 }

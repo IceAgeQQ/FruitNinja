@@ -16,6 +16,7 @@
 #import "PolygonSprite.h"
 #import "RayCastCallback.h"
 #import "CCBlade.h"
+#import "SimpleAudioEngine.h"
 
 //Pixel to metres ratio. Box2D uses metres as the unit for measurement.
 //This ratio defines how many pixels correspond to 1 Box2D "metre"
@@ -24,6 +25,15 @@
 #define PTM_RATIO 32
 #define calculate_determinant_2x2(x1,y1,x2,y2) x1*y2-y1*x2
 #define calculate_determinant_2x3(x1,y1,x2,y2,x3,y3) x1*y2+x2*y3+x3*y1-y1*x2-y2*x3-y3*x1
+#define frandom (float)arc4random()/UINT64_C(0x100000000)
+#define frandom_range(low,high) ((high-low)*frandom)+low
+#define random_range(low,high) (arc4random()%(high-low+1))+low
+#define midpoint(a,b)(float)(a+b)/2
+
+typedef enum _TossType{
+    kTossConsecutive = 0,
+    kTossSimultaneous
+}TossType;
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
 {
@@ -41,9 +51,24 @@
     CCArray *_blades;
     CCBlade *_blade;
     float _deltaRemainder;
+    double _nextTossTime;//这是下一次水果被抛起的时间，可以是一个或者一组水果
+    double _tossInterval;//这是两次抛水果的时间间隔（秒）。在每次抛水果时，你都把这个值加到nextTossTime上。
+    int _queuedForToss;//此值表示在当前的抛水果类型中，还需要被抛的水果的随机数量。
+    TossType _currentTossType;//当前抛水果的类型。在simultaneous（同时） 和 consecutive（顺序）中随机选一个。
+    
+    int _cuts;
+    int _lives;
+    CCLabelTTF *_cutsLabel;//切割次数和名的数量
+    
+    CCParticleSystemQuad *_bladeSparkle;
+    
+    float _timeCurrent;
+    float _timePrevious;
+    CDSoundSource *_swoosh;
 }
 @property(nonatomic,retain)CCArray *cache;
 @property(nonatomic,retain)CCArray *blades;
+@property(nonatomic,retain)CDSoundSource *swoosh;
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 -(b2Vec2*)arrangeVertices:(b2Vec2*)vertices count:(int)count;
@@ -51,6 +76,35 @@
 -(BOOL)areVerticesAcceptable:(b2Vec2*)vertices count:(int)count;
 -(b2Body*)createBodyWithPosition:(b2Vec2)position rotation:(float)rotation vertices:(b2Vec2*)vertices vertexCount:(int32)count density:(float)density friction:(float)friction restitution:(float)restitution;
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

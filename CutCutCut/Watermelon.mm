@@ -29,6 +29,9 @@
     if ((self = [super initWithFile:file body:body original:YES]))
     {
         // We will initialize more values for the fruit here later
+        self.type = kTypeWatermelon;
+        self.splurt = [CCParticleSystemQuad particleWithFile:@"watermelon_splurt.plist"];
+        [self.splurt stopSystem];
     }
     return self;
 }

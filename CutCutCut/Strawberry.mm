@@ -29,6 +29,9 @@
 
     if ((self = [super initWithFile:file body:body original:YES]))
     {
+        self.type = kTypeStrawberry;
+        self.splurt = [CCParticleSystemQuad particleWithFile:@"strawberry_splurt.plist"];
+        [self.splurt stopSystem];
     }
     return self;
 }

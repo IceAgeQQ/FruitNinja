@@ -30,7 +30,9 @@
     
     if ((self = [super initWithFile:file body:body original:YES]))
     {
-
+        self.type = kTypeGrapes;
+        self.splurt = [CCParticleSystemQuad particleWithFile:@"grapes_splurt.plist"];
+        [self.splurt stopSystem];
     }
     return self;
 }

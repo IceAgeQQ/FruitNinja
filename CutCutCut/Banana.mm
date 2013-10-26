@@ -29,6 +29,9 @@
     
     if ((self = [super initWithFile:file body:body original:YES]))
     {
+        self.type = kTypeBanana;
+        self.splurt = [CCParticleSystemQuad particleWithFile:@"banana_splurt.plist"];
+        [self.splurt stopSystem];
     }
     return self;
 }

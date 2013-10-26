@@ -18,7 +18,9 @@
 @synthesize sliceEntered = _sliceEntered;//判断多边形是否已经有切割线进入了
 @synthesize sliceExited = _sliceExited;//判断多边形是否呗完整的切割过一次
 @synthesize sliceEntryTime = _sliceEntryTime;//切割线进入多边形时的准确时间。用来决定过慢的清扫动作不被视为切割动作
-
+@synthesize state =_state;
+@synthesize type = _type;
+@synthesize splurt = _splurt;
 
 +(id)spriteWithFile:(NSString *)filename body:(b2Body *)body  original:(BOOL)original
 {
@@ -45,6 +47,7 @@
 -(id)initWithTexture:(CCTexture2D*)texture body:(b2Body*)body original:(BOOL)original
 {
     // gather all the vertices from our Box2D shape
+    _state = kStateIdle;
     b2Fixture *originalFixture = body->GetFixtureList();
     b2PolygonShape *shape = (b2PolygonShape*)originalFixture->GetShape();
     int vertexCount = shape->GetVertexCount();
@@ -100,6 +103,8 @@
     fixtureDef.restitution = restitution;
     fixtureDef.filter.categoryBits = 0;
     fixtureDef.filter.maskBits = 0;
+    //PolygonSprites中的body对象设成sensors，这意味着Box2D只会检测这些body的碰撞而不会实际作用这些碰撞。当你把一个水果从底部抛向空中时，你并不想让他们在下落时互相碰撞，因为玩家很有可能还没看见它们就输掉了。
+    fixtureDef.isSensor = YES;
     
     b2PolygonShape shape;
     shape.Set(vertices, count);

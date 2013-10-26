@@ -15,7 +15,11 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 #import "Watermelon.h"
-
+#import "Strawberry.h"
+#import "Pineapple.h"
+#import "Grapes.h"
+#import "Banana.h"
+#import "Bomb.h"
 enum {
 	kTagParentNode = 1,
 };
@@ -41,6 +45,7 @@ int comparator(const void *a,const void *b){
 @implementation HelloWorldLayer
 @synthesize cache = _cache;
 @synthesize blades = _blades;
+@synthesize swoosh = _swoosh;
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -54,6 +59,117 @@ int comparator(const void *a,const void *b){
 	
 	// return the scene
 	return scene;
+}
+-(void)spriteLoop{
+    double curTime = CACurrentMediaTime();
+    
+    //step 1 通过比较当前时间和nextTossTime，检查是否到了下一次抛水果的时间。
+    if (curTime > _nextTossTime)
+    {
+        PolygonSprite *sprite;
+        int chance = arc4random()%8;
+        if (chance == 0) {
+            CCARRAY_FOREACH(_cache, sprite){
+                if (sprite.state == kStateIdle && sprite.type == kTypeBomb) {
+                    [self tossSprite:sprite];
+                    [[SimpleAudioEngine sharedEngine]playEffect:@"toss_bomb.caf"];
+                    break;
+                }
+            }
+        }
+        
+        int random = random_range(0, 4);
+        //step 2 如果在consecutive模式中还有在队列中的水果等待被抛起，那么抛起它并直接进入阶段6.
+        Type type = (Type)random;
+        if (_currentTossType == kTossConsecutive && _queuedForToss > 0)
+        {
+            CCARRAY_FOREACH(_cache, sprite)
+            {
+                if (sprite.state == kStateIdle && sprite.type == type)
+                {
+                    [self tossSprite:sprite];
+                    _queuedForToss--;
+                    [[SimpleAudioEngine sharedEngine]playEffect:@"toss_consecutive.caf"];
+                    break;
+                }
+            }
+        }
+        else
+        { //step 3 从consecutive和simultaneous抛水果模式中选择其一，并设置一个被抛弃的水果的数量。
+            _queuedForToss = random_range(3, 8);
+            int tossType = random_range(0,1);
+            
+            _currentTossType = (TossType)tossType;
+            [[SimpleAudioEngine sharedEngine]playEffect:@"toss_consecutice.caf"];
+            //step 4 同时抛起随机数量的水果。注意水果tpye的范围从0到4因为你并不想包含Bomb（炸弹）类型。
+            if (_currentTossType == kTossSimultaneous)
+            {
+                CCARRAY_FOREACH(_cache, sprite)
+                {
+                    if (sprite.state == kStateIdle && sprite.type == type)
+                    {
+                        [self tossSprite:sprite];
+                        _queuedForToss--;
+                        [[SimpleAudioEngine sharedEngine]playEffect:@"toss_simultaneous.caf"];
+                        random = random_range(0, 4);
+                        type = (Type)random;
+                        
+                        if (_queuedForToss == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            } //step 5 与阶段2类似。检测如果是consecutive模式，就抛起第一个水果并进入阶段6.
+
+            else if (_currentTossType == kTossConsecutive)
+            {
+                CCARRAY_FOREACH(_cache, sprite)
+                {
+                    if (sprite.state == kStateIdle && sprite.type == type)
+                    {
+                        [self tossSprite:sprite];
+                        _queuedForToss--;
+                        [[SimpleAudioEngine sharedEngine]playEffect:@"toss_consecutice.caf"];
+                        break;
+                    }
+                }
+            }
+        }
+        //step 6 设置两次抛水果的间隔时间。当所有的水果都抛完后，你随机取一个较长的间隔时间，否则，说明你当前处在consecutive模式，那么就随机取一个较短的间隔时间。
+        if (_queuedForToss == 0)
+        {
+            _tossInterval = frandom_range(2,3);
+            _nextTossTime = curTime + _tossInterval;
+        }
+        else
+        {
+            _tossInterval = frandom_range(0.3,0.8);
+            _nextTossTime = curTime + _tossInterval;
+        }
+    }
+}
+
+
+//这个方式赋予在屏幕下方的sprite一个随机位置，并计算出一个随机的速度。min和max根据当前位置限制速度，让sprite不会太偏左，也不会太偏右。
+-(void)tossSprite:(PolygonSprite*)sprite
+{
+    CGSize screen = [[CCDirector sharedDirector] winSize];
+    CGPoint randomPosition = ccp(frandom_range(100, screen.width-164), -64);
+    float randomAngularVelocity = frandom_range(-1, 1);
+    
+    float xModifier = 50*(randomPosition.x - 100)/(screen.width - 264);
+    float min = -25.0 - xModifier;
+    float max = 75.0 - xModifier;
+    
+    float randomXVelocity = frandom_range(min,max);
+    float randomYVelocity = frandom_range(250, 300);
+    
+    sprite.state = kStateTossed;
+    sprite.position = randomPosition;
+    [sprite activateCollisions];
+    sprite.body->SetLinearVelocity(b2Vec2(randomXVelocity/PTM_RATIO,randomYVelocity/PTM_RATIO));
+    sprite.body->SetAngularVelocity(randomAngularVelocity);
 }
 -(void)clearSlices{
     for(b2Body* b = world ->GetBodyList();b;b = b->GetNext()){
@@ -206,6 +322,56 @@ int comparator(const void *a,const void *b){
     }
     return YES;
 }
+-(void)cleanSprites
+{
+    PolygonSprite *sprite;
+    
+    //we check for all tossed sprites that have dropped offscreen and reset them
+    CCARRAY_FOREACH(_cache, sprite)
+    {
+        if (sprite.state == kStateTossed)
+        {
+            CGPoint spritePosition = ccp(sprite.body->GetPosition().x*PTM_RATIO,sprite.body->GetPosition().y*PTM_RATIO);
+            float yVelocity = sprite.body->GetLinearVelocity().y;
+            
+            //this means the sprite has dropped offscreen
+            if (spritePosition.y < -64 && yVelocity < 0)
+            {
+                sprite.state = kStateIdle;
+                sprite.sliceEntered = NO;
+                sprite.sliceExited = NO;
+                sprite.entryPoint.SetZero();
+                sprite.exitPoint.SetZero();
+                sprite.position = ccp(-64,-64);
+                sprite.body->SetLinearVelocity(b2Vec2(0.0,0.0));
+                sprite.body->SetAngularVelocity(0.0);
+                [sprite deactivateCollisions];
+                if (sprite.type != kTypeBomb) {
+                    [self substractLife];
+                }
+            }
+        }
+    }
+    
+    //we check for all sliced pieces that have dropped offscreen and remove them
+    CGSize screen = [[CCDirector sharedDirector] winSize];
+    for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
+    {
+        if (b->GetUserData() != NULL) {
+            PolygonSprite *sprite = (PolygonSprite*)b->GetUserData();
+            CGPoint position = ccp(b->GetPosition().x*PTM_RATIO,b->GetPosition().y*PTM_RATIO);
+            if (position.x < -64 || position.x > screen.width || position.y < -64)
+            {
+                if (!sprite.original)
+                {
+                    world->DestroyBody(sprite.body);
+                    [self removeChild:sprite cleanup:YES];
+                }
+            }
+        }
+    }
+}
+
 -(void)splitPolygonSprite:(PolygonSprite*)sprite
 {
     //declare & initialize variables to be used for later
@@ -282,6 +448,16 @@ int comparator(const void *a,const void *b){
     //you destroy the old shape and create the new shapes and sprites
     if (sprite1VerticesAcceptable && sprite2VerticesAcceptable)
     {
+        _cuts ++;
+        [_cutsLabel setString:[NSString stringWithFormat:@"%d",_cuts]];
+        b2Vec2 worldEntry = sprite.body -> GetWorldPoint(sprite.entryPoint);
+        b2Vec2 worldExit = sprite.body -> GetWorldPoint(sprite.exitPoint);
+        float angle = ccpToAngle(ccpSub(ccp(worldExit.x,worldExit.y), ccp(worldEntry.x, worldEntry.y)));
+        CGPoint vector1 = ccpForAngle(angle + 1.570796);
+        CGPoint vector2 = ccpForAngle(angle - 1.570796);
+        float midX = midpoint(worldEntry.x, worldExit.x);
+        float midY = midpoint(worldEntry.y, worldExit.y);
+
         //create the first sprite's body
         b2Body *body1 = [self createBodyWithPosition:sprite.body->GetPosition() rotation:sprite.body->GetAngle() vertices:sprite1VerticesSorted vertexCount:sprite1VertexCount density:originalFixture->GetDensity() friction:originalFixture->GetFriction() restitution:originalFixture->GetRestitution()];
         
@@ -289,6 +465,8 @@ int comparator(const void *a,const void *b){
         
         newSprite1 = [PolygonSprite spriteWithTexture:sprite.texture body:body1 original:NO];
         [self addChild:newSprite1 z:1];
+        //为了把两片sprite推开，你对它们分别施加了linear impulse（线性冲量），作用点为线段中心，方向相反。此冲量基于每个body的质量，所以两个物体所受的推力基本上是一致的。更大的sprite会得到更大的冲量，更小的sprite会得到更小的冲量。
+        newSprite1.body -> ApplyLinearImpulse(b2Vec2(2*body1 ->GetMass()*vector1.x,2*body1 -> GetMass()*vector1.y), b2Vec2(midX,midY));
         
         //create the second sprite's body
         b2Body *body2 = [self createBodyWithPosition:sprite.body->GetPosition() rotation:sprite.body->GetAngle() vertices:sprite2VerticesSorted vertexCount:sprite2VertexCount density:originalFixture->GetDensity() friction:originalFixture->GetFriction() restitution:originalFixture->GetRestitution()];
@@ -296,19 +474,37 @@ int comparator(const void *a,const void *b){
         //create the second sprite
         newSprite2 = [PolygonSprite spriteWithTexture:sprite.texture body:body2 original:NO];
         [self addChild:newSprite2 z:1];
+        newSprite2.body->ApplyLinearImpulse(b2Vec2(2*body2->GetMass()*vector2.x,2*body2->GetMass()*vector2.y), b2Vec2(midX,midY));
         
         //you don't need the old shape & sprite anymore so you either destroy it or squirrel it away
         if (sprite.original)
+            
         {
+            
+            sprite.state = kStateIdle;
             [sprite deactivateCollisions];
             sprite.position = ccp(-256,-256);   //cast them faraway
             sprite.sliceEntered = NO;
             sprite.sliceExited = NO;
             sprite.entryPoint.SetZero();
             sprite.exitPoint.SetZero();
+            b2Vec2 convertedWorldEntry = b2Vec2(worldEntry.x*PTM_RATIO,worldEntry.y*PTM_RATIO);
+            b2Vec2 convertedWorldExit = b2Vec2(worldExit.x*PTM_RATIO,worldExit.y*PTM_RATIO);
+            float midX = midpoint(convertedWorldEntry.x, convertedWorldExit.x);
+            float midY = midpoint(convertedWorldEntry.y, convertedWorldExit.y);
+            sprite.splurt.position = ccp(midX,midY);
+            [sprite.splurt resetSystem];
+            //然后在splitPolygonSprite方法检查sprite是否被切割的位置同样检查炸弹，如果划到了一颗炸弹，那么就调用subtractLife减少玩家1条命。
+            if (sprite.type == kTypeBomb) {
+                [[SimpleAudioEngine sharedEngine]playEffect:@"explosion.caf"];
+                [self substractLife];
+            }
+            else{
+                [[SimpleAudioEngine sharedEngine]playEffect:@"squash.caf"];
+            }
         }
         else
-        {
+        {   [[SimpleAudioEngine sharedEngine]playEffect:@"smallcut.caf"];
             world->DestroyBody(sprite.body);
             [self removeChild:sprite cleanup:YES];
         }
@@ -328,6 +524,13 @@ int comparator(const void *a,const void *b){
 -(id) init
 {
 	if( (self=[super init])) {
+        
+        _bladeSparkle = [CCParticleSystemQuad particleWithFile:@"blade_sparkle.plist"];
+        [_bladeSparkle stopSystem];
+        [self addChild:_bladeSparkle z:3];
+        
+        _nextTossTime = CACurrentMediaTime() + 1;
+        _queuedForToss = 0;
         [self initBackground];
         // enable events
         self.isTouchEnabled = YES;
@@ -337,6 +540,7 @@ int comparator(const void *a,const void *b){
         // init physics
         [self initPhysics];
         [self initSprites];
+        [self initHUD];
         _raycastCallback = new RaycastCallback();
         _deltaRemainder = 0.0;
         _blades = [[CCArray alloc] initWithCapacity:3];
@@ -352,8 +556,68 @@ int comparator(const void *a,const void *b){
             [_blades addObject:blade];
         }
         [self scheduleUpdate];
+        [[SimpleAudioEngine sharedEngine]preloadEffect:@"swoosh.caf"];
+        [[SimpleAudioEngine sharedEngine]preloadEffect:@"squash.caf"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"toss_consecutive.caf"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"toss_simultaneous.caf"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"toss_bomb.caf"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"lose_life.caf"];
+        _swoosh = [[[SimpleAudioEngine sharedEngine]soundSourceForFile:@"swoosh.caf"]retain];
+        [[SimpleAudioEngine sharedEngine]playBackgroundMusic:@"nature_bgm.aifc"];
+        _timeCurrent = 0;
+        _timePrevious = 0;
     }
     return self;
+}
+//initHUD方法在屏幕的左上角创建了3个标记用来显示玩家的命数。它还放置了一张图片代表分数，分数本身也显示在左上角。
+-(void)initHUD
+{
+    CGSize screen = [[CCDirector sharedDirector] winSize];
+    
+    _cuts = 0;
+    _lives = 3;
+    
+    for (int i = 0; i < 3; i++)
+    {
+        CCSprite *cross = [CCSprite spriteWithFile:@"x_unfilled.png"];
+        cross.position = ccp(screen.width - cross.contentSize.width/2 - i*cross.contentSize.width, screen.height - cross.contentSize.height/2);
+        [self addChild:cross z:4];
+    }
+    
+    CCSprite *cutsIcon = [CCSprite spriteWithFile:@"fruit_cut.png"];
+    cutsIcon.position = ccp(cutsIcon.contentSize.width/2, screen.height - cutsIcon.contentSize.height/2);
+    [self addChild:cutsIcon];
+    
+    _cutsLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Helvetica Neue" fontSize:30];
+    _cutsLabel.anchorPoint = ccp(0, 0.5);
+    _cutsLabel.position = ccp(cutsIcon.position.x + cutsIcon.contentSize.width/2 +                _cutsLabel.contentSize.width/2,cutsIcon.position.y);
+    [self addChild:_cutsLabel z:4];
+}
+-(void)restart{
+    [[CCDirector sharedDirector]replaceScene:[HelloWorldLayer scene]];
+}
+//endGame方法首先移除对update的schedule以停止游戏逻辑，然后在屏幕中添加restart按钮，如果此按钮被点击，那么游戏就会重新开始。
+-(void)endGame{
+    [self unscheduleUpdate];
+    CCMenuItemLabel *label = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"RESTART" fontName:@"Helvetica Neue" fontSize:50] target:self selector:@selector(restart)];
+    CCMenu *menu = [CCMenu menuWithItems:label, nil];
+    CGSize screen = [[CCDirector sharedDirector]winSize];
+    menu.position = ccp(screen.width/2, screen.height/2);
+    [self addChild:menu z:4];
+}
+//subtractLife方法在标记命数的位置叠加一个新的标记图片，用来代表生命损失，每当此方法被调用，它还检查玩家当前是否还有足够的命数，如果没有，游戏就应该结束了。
+-(void)substractLife{
+    [[SimpleAudioEngine sharedEngine]playEffect:@"lose_life.caf"];
+    CGSize screen = [[CCDirector sharedDirector]winSize];
+    _lives --;
+    CCSprite *lostLife = [CCSprite spriteWithFile:@"x_filled.png"];
+    lostLife.position = ccp(screen.width - lostLife.contentSize.width/2 - _lives*lostLife.contentSize.width, screen.height - lostLife.contentSize.height/2);
+    [self addChild:lostLife z:4];
+    
+    if (_lives <= 0)
+    {
+        [self endGame];
+    }
 }
 -(void)initBackground
     {
@@ -361,6 +625,8 @@ int comparator(const void *a,const void *b){
         CCSprite *background = [CCSprite spriteWithFile:@"bg.png"];
         background.position = ccp(screen.width/2,screen.height/2);
         [self addChild:background z:0];
+        CCParticleSystemQuad *sunPollen = [CCParticleSystemQuad particleWithFile:@"sun_pollen.plist"];
+        [self addChild:sunPollen];
 }
 
 -(void) dealloc
@@ -374,17 +640,63 @@ int comparator(const void *a,const void *b){
     _cache = Nil;
     [_blades release];
     _blades = Nil;
+    [_swoosh release];
 	[super dealloc];
-}	
+}
 -(void)initSprites
-{
-    _cache = [[CCArray alloc] initWithCapacity:53];
+    {
+        _cache = [[CCArray alloc] initWithCapacity:53];
+        
+        for (int i = 0; i < 10; i++)
+        {
+            PolygonSprite *sprite = [[Watermelon alloc] initWithWorld:world];
+            sprite.position = ccp(-64*(i+1),-64);
+            [self addChild:sprite z:1];
+            [_cache addObject:sprite];
+            [self addChild:sprite.splurt z:3];
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            PolygonSprite *sprite = [[Strawberry alloc] initWithWorld:world];
+            sprite.position = ccp(-64*(i+1),-64);
+            [self addChild:sprite z:1];
+            [_cache addObject:sprite];
+            [self addChild:sprite.splurt z:3];
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            PolygonSprite *sprite = [[Pineapple alloc] initWithWorld:world];
+            sprite.position = ccp(-64*(i+1),-64);
+            [self addChild:sprite z:1];
+            [_cache addObject:sprite];
+            [self addChild:sprite.splurt z:3];
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            PolygonSprite *sprite = [[Grapes alloc] initWithWorld:world];
+            sprite.position = ccp(-64*(i+1),-64);
+            [self addChild:sprite z:1];
+            [_cache addObject:sprite];
+            [self addChild:sprite.splurt z:3];
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            PolygonSprite *sprite = [[Banana alloc] initWithWorld:world];
+            sprite.position = ccp(-64*(i+1),-64);
+            [self addChild:sprite z:1];
+            [_cache addObject:sprite];
+            [self addChild:sprite.splurt z:3];
+        }
+        
+        for (int i = 0; i < 3; i++)
+        {
+            PolygonSprite *sprite = [[Bomb alloc] initWithWorld:world];
+            sprite.position = ccp(-64*(i+1),-64);
+            [self addChild:sprite z:1];
+            [_cache addObject:sprite];
+            [self addChild:sprite.splurt z:3];
+        }
     
-    // Just create one sprite for now. This whole method will be replaced later.
-    PolygonSprite *sprite = [[Watermelon alloc] initWithWorld:world];
-    [self addChild:sprite z:1];
-    [sprite activateCollisions];
-    [_cache addObject:sprite];
 }
 -(void) initPhysics
 {
@@ -392,7 +704,7 @@ int comparator(const void *a,const void *b){
 	CGSize s = [[CCDirector sharedDirector] winSize];
 	
 	b2Vec2 gravity;
-	gravity.Set(0.0f, -10.0f);
+	gravity.Set(0.0f, -4.25f);
 	world = new b2World(gravity);
 	
 	
@@ -424,7 +736,7 @@ int comparator(const void *a,const void *b){
 	
 	// Define the ground box shape.
 	b2EdgeShape groundBox;		
-	
+/**
 	// bottom
 	
 	groundBox.Set(b2Vec2(0,0), b2Vec2(s.width/PTM_RATIO,0));
@@ -441,6 +753,7 @@ int comparator(const void *a,const void *b){
 	// right
 	groundBox.Set(b2Vec2(s.width/PTM_RATIO,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,0));
 	groundBody->CreateFixture(&groundBox,0);
+ **/
 }
 
 -(void) draw
@@ -470,6 +783,8 @@ int comparator(const void *a,const void *b){
         _startPoint = location;
         _endPoint = location;
         CCBlade *blade;
+        _bladeSparkle.position = location;
+        [_bladeSparkle resetSystem];
         CCARRAY_FOREACH(_blades, blade)
         {
             if (blade.path.count == 0)
@@ -479,6 +794,7 @@ int comparator(const void *a,const void *b){
                 break;
             }
         }
+       
     }
 }
 
@@ -488,6 +804,18 @@ int comparator(const void *a,const void *b){
         location = [[CCDirector sharedDirector] convertToGL:location];
         _endPoint = location;
         [_blade push:location];
+        
+        ccTime deltaTime = _timeCurrent - _timePrevious;
+        _timePrevious = _timeCurrent;
+        CGPoint oldPosition = _bladeSparkle.position;
+      _bladeSparkle.position = location;
+        if (ccpDistance(_bladeSparkle.position, oldPosition) / deltaTime > 1000)
+        {
+            if (!_swoosh.isPlaying)
+            {
+                [_swoosh play];
+            }
+        }
     }
     if (ccpLengthSQ(ccpSub(_startPoint, _endPoint)) >25) {
         world -> RayCast(_raycastCallback, b2Vec2(_startPoint.x/PTM_RATIO, _startPoint.y / PTM_RATIO), b2Vec2(_endPoint.x / PTM_RATIO,_endPoint.y / PTM_RATIO));
@@ -496,6 +824,7 @@ int comparator(const void *a,const void *b){
                        b2Vec2(_startPoint.x / PTM_RATIO, _startPoint.y / PTM_RATIO));
         _startPoint = _endPoint;
     }
+    
 }
 -(void) update: (ccTime) dt
 {
@@ -503,7 +832,8 @@ int comparator(const void *a,const void *b){
 	//of the simulation, however, we are using a variable time step here.
 	//You need to make an informed choice, the following URL is useful
 	//http://gafferongames.com/game-physics/fix-your-timestep/
-	
+	_timeCurrent += dt;
+    
 	int32 velocityIterations = 8;
 	int32 positionIterations = 1;
 	
@@ -511,6 +841,8 @@ int comparator(const void *a,const void *b){
 	// generally best to keep the time step and iterations fixed.
 	world->Step(dt, velocityIterations, positionIterations);
 	[self checkAndSliceObjects];
+    [self cleanSprites];
+    [self spriteLoop];
     if ([_blade.path count] > 3) {
         _deltaRemainder+=dt*60*1.2;
         int pop = (int)roundf(_deltaRemainder);
@@ -526,7 +858,7 @@ int comparator(const void *a,const void *b){
 		CGPoint location = [touch locationInView: [touch view]];
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
-				
+        [_bladeSparkle stopSystem];
 	}
     [_blade dim:YES];
 

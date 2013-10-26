@@ -30,6 +30,9 @@
     
     if ((self = [super initWithFile:file body:body original:YES]))
     {
+        self.type = kTypeBomb;
+        self.splurt = [CCParticleSystemQuad particleWithFile:@"explosion.plist"];
+        [self.splurt stopSystem];
     }
     return self;
 }
