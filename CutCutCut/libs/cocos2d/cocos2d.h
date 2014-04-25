@@ -34,13 +34,22 @@
  *
  * <hr>
  *
+<<<<<<< HEAD
  * @todo A native english speaker should check the grammar. We need your help!
+=======
+ * @todo A native English speaker should check the grammar. We need your help!
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  *
  */
 
 // 0x00 HI ME LO
+<<<<<<< HEAD
 // 00   02 00 00
 #define COCOS2D_VERSION 0x00020000
+=======
+// 00   02 01 00
+#define COCOS2D_VERSION 0x00020100
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 //
@@ -61,6 +70,10 @@
 #import "CCActionGrid.h"
 #import "CCActionProgressTimer.h"
 #import "CCActionPageTurn3D.h"
+<<<<<<< HEAD
+=======
+#import "CCActionCatmullRom.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #import "CCAnimation.h"
 #import "CCAnimationCache.h"
@@ -102,6 +115,10 @@
 #import "CCCamera.h"
 #import "CCProtocols.h"
 #import "CCNode.h"
+<<<<<<< HEAD
+=======
+#import "CCNode+Debug.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import "CCDirector.h"
 #import "CCAtlasNode.h"
 #import "CCGrabber.h"
@@ -110,6 +127,13 @@
 #import "CCRenderTexture.h"
 #import "CCMotionStreak.h"
 #import "CCConfiguration.h"
+<<<<<<< HEAD
+=======
+#import "CCDrawNode.h"
+#import "CCClippingNode.h"
+
+#import "ccFPSImages.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 // Shaders
 #import "CCGLProgram.h"
@@ -117,6 +141,17 @@
 #import "CCShaderCache.h"
 #import "ccShaders.h"
 
+<<<<<<< HEAD
+=======
+// Physics integration
+// Box2d integration should include these 2 files manually
+#if CC_ENABLE_CHIPMUNK_INTEGRATION
+#import CC_CHIPMUNK_IMPORT
+#import "CCPhysicsSprite.h"
+#import "CCPhysicsDebugNode.h"
+#endif
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 //
 // cocos2d macros
 //
@@ -157,6 +192,12 @@
 #import "Support/ccUtils.h"
 #import "Support/TransformUtils.h"
 #import "Support/CCProfiling.h"
+<<<<<<< HEAD
+=======
+#import "Support/NSThread+performBlock.h"
+#import "Support/uthash.h"
+#import "Support/utlist.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 //
 // external
@@ -166,9 +207,25 @@
 
 
 
+<<<<<<< HEAD
 // free functions
 NSString * cocos2dVersion(void);
 
+=======
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// free functions
+NSString * cocos2dVersion(void);
+extern const char * cocos2d_version;
+
+#ifdef __cplusplus
+}
+#endif
+
+	
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #ifdef __CC_PLATFORM_IOS
 #ifndef __IPHONE_4_0
 #error "If you are targeting iPad, you should set BASE SDK = 4.0 (or 4.1, or 4.2), and set the 'iOS deploy target' = 3.2"

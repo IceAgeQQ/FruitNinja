@@ -37,9 +37,15 @@
 
 	if ((self = [super initWithDuration:aDuration])) {
 
+<<<<<<< HEAD
 		key_	= [key copy];
 		to_		= to;
 		from_	= from;
+=======
+		_key	= [key copy];
+		_to		= to;
+		_from	= from;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	}
 
@@ -48,24 +54,40 @@
 
 - (void) dealloc
 {
+<<<<<<< HEAD
 	[key_ release];
+=======
+	[_key release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 - (void)startWithTarget:aTarget
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	delta_ = to_ - from_;
+=======
+	_delta = _to - _from;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (void) update:(ccTime) dt
 {
+<<<<<<< HEAD
 	[target_ setValue:[NSNumber numberWithFloat:to_  - delta_ * (1 - dt)] forKey:key_];
+=======
+	[_target setValue:[NSNumber numberWithFloat:_to  - _delta * (1 - dt)] forKey:_key];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (CCActionInterval *) reverse
 {
+<<<<<<< HEAD
 	return [[self class] actionWithDuration:duration_ key:key_ from:to_ to:from_];
+=======
+	return [[self class] actionWithDuration:_duration key:_key from:_to to:_from];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 

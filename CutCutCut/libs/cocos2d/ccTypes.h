@@ -41,6 +41,14 @@
 /** RGB color composed of bytes 3 bytes
 @since v0.8
  */
+<<<<<<< HEAD
+=======
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 typedef struct _ccColor3B
 {
 	GLubyte	r;
@@ -55,7 +63,12 @@ ccc3(const GLubyte r, const GLubyte g, const GLubyte b)
 	ccColor3B c = {r, g, b};
 	return c;
 }
+<<<<<<< HEAD
 //ccColor3B predefined colors
+=======
+
+	//ccColor3B predefined colors
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 //! White color (255,255,255)
 static const ccColor3B ccWHITE = {255,255,255};
 //! Yellow color (255,255,0)
@@ -93,7 +106,10 @@ ccc4(const GLubyte r, const GLubyte g, const GLubyte b, const GLubyte o)
 	return c;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** RGBA color composed of 4 floats
 @since v0.8
 */
@@ -103,9 +119,15 @@ typedef struct _ccColor4F {
 	GLfloat b;
 	GLfloat a;
 } ccColor4F;
+<<<<<<< HEAD
 //! helper that creates a ccColor4f type
 static inline ccColor4F 
 ccc4f(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a)
+=======
+
+//! helper that creates a ccColor4f type
+static inline ccColor4F ccc4f(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	return (ccColor4F){r, g, b, a};
 }
@@ -133,6 +155,15 @@ static inline BOOL ccc4FEqual(ccColor4F a, ccColor4F b)
 {
 	return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
 }
+<<<<<<< HEAD
+=======
+	
+static inline ccColor4B ccc4BFromccc4F(ccColor4F c)
+{
+	return (ccColor4B){(GLubyte)(c.r*255), (GLubyte)(c.g*255), (GLubyte)(c.b*255), (GLubyte)(c.a*255)};
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** A vertex composed of 2 GLfloats: x, y
  @since v0.8
@@ -187,6 +218,7 @@ typedef struct _ccQuad3 {
 	ccVertex3F		tr;
 } ccQuad3;
 
+<<<<<<< HEAD
 //! A 2D grid size
 typedef struct _ccGridSize
 {
@@ -202,6 +234,8 @@ ccg(const NSInteger x, const NSInteger y)
 	return v;
 }
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 //! a Point with a vertex point, a tex coord point and a color 4B
 typedef struct _ccV2F_C4B_T2F
 {
@@ -263,7 +297,23 @@ typedef struct _ccV3F_C4B_T2F
 	ccTex2F			texCoords;			// 8 byts
 } ccV3F_C4B_T2F;
 
+<<<<<<< HEAD
 //! 4 ccVertex2FTex2FColor4B Quad
+=======
+	
+//! A Triangle of ccV2F_C4B_T2F 
+typedef struct _ccV2F_C4B_T2F_Triangle
+{
+	//! Point A
+	ccV2F_C4B_T2F a;
+	//! Point B
+	ccV2F_C4B_T2F b;
+	//! Point B
+	ccV2F_C4B_T2F c;
+} ccV2F_C4B_T2F_Triangle;
+	
+//! A Quad of ccV2F_C4B_T2F
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 typedef struct _ccV2F_C4B_T2F_Quad
 {
 	//! bottom left
@@ -311,6 +361,7 @@ typedef struct _ccBlendFunc
 	GLenum dst;
 } ccBlendFunc;
 
+<<<<<<< HEAD
 //! ccResolutionType
 typedef enum
 {
@@ -320,10 +371,29 @@ typedef enum
 	kCCResolutioniPhone,
 	//! RetinaDisplay resolution type
 	kCCResolutioniPhoneRetinaDisplay,
+=======
+static const ccBlendFunc kCCBlendFuncDisable = {GL_ONE, GL_ZERO};
+
+//! ccResolutionType
+typedef enum
+{
+	//! Unknown resolution type
+	kCCResolutionUnknown,
+#ifdef __CC_PLATFORM_IOS
+	//! iPhone resolution type
+	kCCResolutioniPhone,
+	//! iPhone RetinaDisplay resolution type
+	kCCResolutioniPhoneRetinaDisplay,
+	//! iPhone5 resolution type
+	kCCResolutioniPhone5,
+	//! iPhone 5 RetinaDisplay resolution type
+	kCCResolutioniPhone5RetinaDisplay,
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	//! iPad resolution type
 	kCCResolutioniPad,
 	//! iPad Retina Display resolution type
 	kCCResolutioniPadRetinaDisplay,
+<<<<<<< HEAD
 
 } ccResolutionType;
 
@@ -333,3 +403,106 @@ typedef float ccTime;
 //typedef double ccTime;
 
 typedef float ccMat4[16];
+=======
+	
+#elif defined(__CC_PLATFORM_MAC)
+	//! Mac resolution type
+	kCCResolutionMac,
+
+	//! Mac RetinaDisplay resolution type
+	kCCResolutionMacRetinaDisplay,
+#endif // platform
+
+} ccResolutionType;
+
+// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
+//! Vertical text alignment type
+typedef enum
+{
+    kCCVerticalTextAlignmentTop,
+    kCCVerticalTextAlignmentCenter,
+    kCCVerticalTextAlignmentBottom,
+} CCVerticalTextAlignment;
+
+// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
+//! Horizontal text alignment type
+typedef enum
+{
+	kCCTextAlignmentLeft,
+	kCCTextAlignmentCenter,
+	kCCTextAlignmentRight,
+} CCTextAlignment;
+
+// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
+//! Line break modes
+typedef enum {
+	kCCLineBreakModeWordWrap,
+	kCCLineBreakModeCharacterWrap,
+	kCCLineBreakModeClip,
+	kCCLineBreakModeHeadTruncation,
+	kCCLineBreakModeTailTruncation,
+	kCCLineBreakModeMiddleTruncation
+} CCLineBreakMode;
+
+//! delta time type
+//! if you want more resolution redefine it as a double
+typedef CGFloat ccTime;
+//typedef double ccTime;
+
+typedef float ccMat4[16];
+    
+    
+typedef struct _ccFontShadow
+{
+    // true if shadow enabled
+    bool   m_shadowEnabled;
+    // shadow x and y offset
+    CGSize m_shadowOffset;
+    // shadow blurrines
+    float  m_shadowBlur;
+    // shadow opacity
+    float  m_shadowOpacity;
+    
+} ccFontShadow;
+
+typedef struct _ccFontStroke
+{
+    // true if stroke enabled
+    bool        m_strokeEnabled;
+    // stroke color
+    ccColor3B   m_strokeColor;
+    // stroke size
+    float       m_strokeSize;
+    
+} ccFontStroke;
+    
+/*
+typedef struct _ccFontDefinition
+{
+    // font name
+    NSString                *m_fontName;
+    // font size
+    int                     m_fontSize;
+    // horizontal alignment
+    CCTextAlignment         m_alignment;
+    // vertical alignment
+    CCVerticalTextAlignment m_vertAlignment;
+    // line break mode
+    CCLineBreakMode         m_lineBreakMode;
+    // renering box
+    CGSize                  m_dimensions;
+    // font color
+    ccColor3B               m_fontFillColor;
+    // font shadow
+    ccFontShadow            m_shadow;
+    // font stroke
+    ccFontStroke            m_stroke;
+    
+} ccFontDefinition;
+*/
+    
+#ifdef __cplusplus
+}
+#endif
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c

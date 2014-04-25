@@ -33,25 +33,41 @@
 @class CCSpriteFrame;
 
 /** CCParticleSystemQuad is a subclass of CCParticleSystem
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  It includes all the features of ParticleSystem.
 
  Special features and Limitations:
   - Particle size can be any float number.
   - The system can be scaled
   - The particles can be rotated
+<<<<<<< HEAD
   - On 1st and 2nd gen iPhones: It is only a bit slower that CCParticleSystemPoint
   - On 3rd gen iPhone and iPads: It is MUCH faster than CCParticleSystemPoint
   - It consumes more RAM and more GPU memory than CCParticleSystemPoint
   - It supports subrects
+=======
+  - It supports subrects
+  - It supports batched rendering since 1.1
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  @since v0.8
  */
 @interface CCParticleSystemQuad : CCParticleSystem
 {
+<<<<<<< HEAD
 	ccV3F_C4B_T2F_Quad	*quads_;		// quads to be rendered
 	GLushort			*indices_;		// indices
 	GLuint				VAOname_;
 	GLuint				buffersVBO_[2]; //0: vertex  1: indices
+=======
+	ccV3F_C4B_T2F_Quad	*_quads;		// quads to be rendered
+	GLushort			*_indices;		// indices
+	GLuint				_VAOname;
+	GLuint				_buffersVBO[2]; //0: vertex  1: indices
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** initialices the indices for the vertices */

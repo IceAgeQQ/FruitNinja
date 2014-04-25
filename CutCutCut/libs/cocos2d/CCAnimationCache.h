@@ -35,10 +35,17 @@
  */
 @interface CCAnimationCache : NSObject
 {
+<<<<<<< HEAD
 	NSMutableDictionary *animations_;
 }
 
 /** Retruns ths shared instance of the Animation cache */
+=======
+	NSMutableDictionary *_animations;
+}
+
+/** Returns the shared instance of the Animation cache */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 + (CCAnimationCache *) sharedAnimationCache;
 
 /** Purges the cache. It releases all the CCAnimation objects and the shared instance.

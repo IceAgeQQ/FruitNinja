@@ -40,7 +40,11 @@
 -(id) initWithDuration:(ccTime) t scene:(CCScene*)s backwards:(BOOL) back
 {
 	// XXX: needed before [super init]
+<<<<<<< HEAD
 	back_ = back;
+=======
+	_back = back;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	if( ( self = [super initWithDuration:t scene:s] ) )
 	{
@@ -51,7 +55,11 @@
 
 -(void) sceneOrder
 {
+<<<<<<< HEAD
 	inSceneOnTop_ = back_;
+=======
+	_inSceneOnTop = _back;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 //
@@ -72,11 +80,19 @@
 		y = 16;
 	}
 
+<<<<<<< HEAD
 	id action  = [self actionWithSize:ccg(x,y)];
 
 	if(! back_ )
 	{
 		[outScene_ runAction: [CCSequence actions:
+=======
+	id action  = [self actionWithSize:CGSizeMake(x,y)];
+
+	if(! _back )
+	{
+		[_outScene runAction: [CCSequence actions:
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 							  action,
 							  [CCCallFunc actionWithTarget:self selector:@selector(finish)],
 							  [CCStopGrid action],
@@ -86,8 +102,13 @@
 	else
 	{
 		// to prevent initial flicker
+<<<<<<< HEAD
 		inScene_.visible = NO;
 		[inScene_ runAction: [CCSequence actions:
+=======
+		_inScene.visible = NO;
+		[_inScene runAction: [CCSequence actions:
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 							 [CCShow action],
 							 action,
 							 [CCCallFunc actionWithTarget:self selector:@selector(finish)],
@@ -98,6 +119,7 @@
 
 }
 
+<<<<<<< HEAD
 -(CCActionInterval*) actionWithSize: (ccGridSize) v
 {
 	if( back_ )
@@ -105,11 +127,24 @@
 		// Get hold of the PageTurn3DAction
 		return [CCReverseTime actionWithAction:
 				[CCPageTurn3D actionWithSize:v duration:duration_]];
+=======
+-(CCActionInterval*) actionWithSize: (CGSize) v
+{
+	if( _back )
+	{
+		// Get hold of the PageTurn3DAction
+		return [CCReverseTime actionWithAction:
+				[CCPageTurn3D actionWithDuration:_duration size:v]];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	else
 	{
 		// Get hold of the PageTurn3DAction
+<<<<<<< HEAD
 		return [CCPageTurn3D actionWithSize:v duration:duration_];
+=======
+		return [CCPageTurn3D actionWithDuration:_duration size:v];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 

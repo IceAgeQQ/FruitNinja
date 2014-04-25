@@ -39,6 +39,7 @@
 #define CCNSSizeToCGSize
 #define CCNSRectToCGRect
 #define CCNSPointToCGPoint
+<<<<<<< HEAD
 #define CCTextAlignment				UITextAlignment
 #define CCTextAlignmentCenter		UITextAlignmentCenter
 #define CCTextAlignmentLeft			UITextAlignmentLeft
@@ -51,6 +52,8 @@
 #define CCLineBreakModeTailTruncation	UILineBreakModeTailTruncation
 #define CCLineBreakModeMiddleTruncation	UILineBreakModeMiddleTruncation
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 #elif defined(__CC_PLATFORM_MAC)
@@ -61,6 +64,7 @@
 #define CCNSSizeToCGSize			NSSizeToCGSize
 #define CCNSRectToCGRect			NSRectToCGRect
 #define CCNSPointToCGPoint			NSPointToCGPoint
+<<<<<<< HEAD
 #define CCTextAlignment				NSTextAlignment
 #define CCTextAlignmentCenter		NSCenterTextAlignment
 #define CCTextAlignmentLeft			NSLeftTextAlignment
@@ -73,6 +77,8 @@
 #define CCLineBreakModeMiddleTruncation	-1
 
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #endif
 
 

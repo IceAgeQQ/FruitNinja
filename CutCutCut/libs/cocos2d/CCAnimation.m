@@ -33,7 +33,11 @@
 #pragma mark - CCAnimationFrame
 @implementation CCAnimationFrame
 
+<<<<<<< HEAD
 @synthesize spriteFrame = spriteFrame_, delayUnits = delayUnits_, userInfo=userInfo_;
+=======
+@synthesize spriteFrame = _spriteFrame, delayUnits = _delayUnits, userInfo=_userInfo;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 -(id) initWithSpriteFrame:(CCSpriteFrame *)spriteFrame delayUnits:(float)delayUnits userInfo:(NSDictionary*)userInfo
 {
@@ -50,21 +54,34 @@
 {    
 	CCLOGINFO( @"cocos2d: deallocing %@", self);
 
+<<<<<<< HEAD
 	[spriteFrame_ release];
 	[userInfo_ release];
+=======
+	[_spriteFrame release];
+	[_userInfo release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
     [super dealloc];
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCAnimationFrame *copy = [[[self class] allocWithZone: zone] initWithSpriteFrame:[[spriteFrame_ copy] autorelease] delayUnits:delayUnits_ userInfo:[[userInfo_ copy] autorelease] ];
+=======
+	CCAnimationFrame *copy = [[[self class] allocWithZone: zone] initWithSpriteFrame:[[_spriteFrame copy] autorelease] delayUnits:_delayUnits userInfo:[[_userInfo copy] autorelease] ];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return copy;
 }
 
 -(NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X | SpriteFrame = %08X, delayUnits = %0.2f >", [self class], self, spriteFrame_, delayUnits_ ];
+=======
+	return [NSString stringWithFormat:@"<%@ = %p | SpriteFrame = %p, delayUnits = %0.2f >", [self class], self, _spriteFrame, _delayUnits ];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 @end
 
@@ -72,7 +89,11 @@
 #pragma mark - CCAnimation
 
 @implementation CCAnimation
+<<<<<<< HEAD
 @synthesize frames = frames_, totalDelayUnits=totalDelayUnits_, delayPerUnit=delayPerUnit_, restoreOriginalFrame=restoreOriginalFrame_, loops=loops_;
+=======
+@synthesize frames = _frames, totalDelayUnits=_totalDelayUnits, delayPerUnit=_delayPerUnit, restoreOriginalFrame=_restoreOriginalFrame, loops=_loops;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id) animation
 {
@@ -108,8 +129,13 @@
 {
 	if( (self=[super init]) )
 	{
+<<<<<<< HEAD
 		loops_ = 1;
 		delayPerUnit_ = delay;
+=======
+		_loops = 1;
+		_delayPerUnit = delay;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		self.frames = [NSMutableArray arrayWithCapacity:[array count]];
 		
@@ -118,7 +144,11 @@
 			
 			[self.frames addObject:animFrame];
 			[animFrame release];
+<<<<<<< HEAD
 			totalDelayUnits_++;
+=======
+			_totalDelayUnits++;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 		
 	}
@@ -129,6 +159,7 @@
 {
 	if( ( self=[super init]) )
 	{
+<<<<<<< HEAD
 		delayPerUnit_ = delayPerUnit;
 		loops_ = loops;
 
@@ -136,29 +167,55 @@
 
 		for( CCAnimationFrame *animFrame in frames_ )
 			totalDelayUnits_ += animFrame.delayUnits;
+=======
+		_delayPerUnit = delayPerUnit;
+		_loops = loops;
+
+		self.frames = [NSMutableArray arrayWithArray:arrayOfAnimationFrames];
+
+		for( CCAnimationFrame *animFrame in _frames )
+			_totalDelayUnits += animFrame.delayUnits;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	return self;
 }
 
 - (NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X | frames=%d, totalDelayUnits=%d, delayPerUnit=%f, loops=%d>", [self class], self,
 			[frames_ count],
 			totalDelayUnits_,
 			delayPerUnit_,
 			loops_
+=======
+	return [NSString stringWithFormat:@"<%@ = %p | frames=%lu, totalDelayUnits=%f, delayPerUnit=%f, loops=%lu>", [self class], self,
+			(unsigned long)[_frames count],
+			_totalDelayUnits,
+			_delayPerUnit,
+			(unsigned long)_loops
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			];
 }
 
 -(float) duration
 {
+<<<<<<< HEAD
 	return totalDelayUnits_ * delayPerUnit_;
+=======
+	return _totalDelayUnits * _delayPerUnit;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
+<<<<<<< HEAD
 	CCAnimation *animation  = [[[self class] allocWithZone: zone] initWithAnimationFrames:frames_ delayPerUnit:delayPerUnit_ loops:loops_];
 	animation.restoreOriginalFrame = restoreOriginalFrame_;
+=======
+	CCAnimation *animation  = [[[self class] allocWithZone: zone] initWithAnimationFrames:_frames delayPerUnit:_delayPerUnit loops:_loops];
+	animation.restoreOriginalFrame = _restoreOriginalFrame;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	return animation;
 }
@@ -167,18 +224,30 @@
 {
 	CCLOGINFO( @"cocos2d: deallocing %@",self);
 
+<<<<<<< HEAD
 	[frames_ release];
+=======
+	[_frames release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(void) addSpriteFrame:(CCSpriteFrame*)frame
 {
 	CCAnimationFrame *animFrame = [[CCAnimationFrame alloc] initWithSpriteFrame:frame delayUnits:1 userInfo:nil];
+<<<<<<< HEAD
 	[frames_ addObject:animFrame];
 	[animFrame release];
 	
 	// update duration
 	totalDelayUnits_++;
+=======
+	[_frames addObject:animFrame];
+	[animFrame release];
+	
+	// update duration
+	_totalDelayUnits++;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) addSpriteFrameWithFilename:(NSString*)filename

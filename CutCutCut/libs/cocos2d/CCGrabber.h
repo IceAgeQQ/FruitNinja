@@ -32,8 +32,13 @@
 /** FBO class that grabs the the contents of the screen */
 @interface CCGrabber : NSObject
 {
+<<<<<<< HEAD
 	GLuint	fbo_;
 	GLint	oldFBO_;
+=======
+	GLuint	_FBO;
+	GLint	_oldFBO;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	GLfloat	oldClearColor_[4];
 }
 

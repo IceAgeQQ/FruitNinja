@@ -3,6 +3,10 @@
  *
  * Copyright (c) 2008-2010 Ricardo Quesada
  * Copyright (c) 2011 Zynga Inc.
+<<<<<<< HEAD
+=======
+ * Copyright (c) 2013 Nader Eloshaiker
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +27,20 @@
  * THE SOFTWARE.
  */
 
+<<<<<<< HEAD
+=======
+/*
+ *
+ * IMPORTANT       IMPORTANT        IMPORTANT        IMPORTANT 
+ *
+ *
+ * LEGACY FUNCTIONS
+ *
+ * USE CCDrawNode instead
+ *
+ */
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import <math.h>
 #import <stdlib.h>
 #import <string.h>
@@ -33,6 +51,10 @@
 #import "ccGLStateCache.h"
 #import "CCShaderCache.h"
 #import "CCGLProgram.h"
+<<<<<<< HEAD
+=======
+#import "CCActionCatmullRom.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import "Support/OpenGL_Internal.h"
 
 
@@ -51,15 +73,38 @@ static void lazy_init( void )
 		// Position and 1 color passed as a uniform (to similate glColor4ub )
 		//
 		shader_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_Position_uColor];
+<<<<<<< HEAD
 
 		colorLocation_ = glGetUniformLocation( shader_->program_, "u_color");
 		pointSizeLocation_ = glGetUniformLocation( shader_->program_, "u_pointSize");
+=======
+		[shader_ retain];
+
+		colorLocation_ = glGetUniformLocation( shader_.program, "u_color");
+		pointSizeLocation_ = glGetUniformLocation( shader_.program, "u_pointSize");
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		initialized = YES;
 	}
 
 }
 
+<<<<<<< HEAD
+=======
+void ccDrawFree(void)
+{
+	[shader_ release];
+	
+	shader_ = nil;
+	initialized = NO;
+}
+
+void ccDrawInit(void)
+{
+	lazy_init();
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 void ccDrawPoint( CGPoint point )
 {
 	lazy_init();
@@ -69,7 +114,11 @@ void ccDrawPoint( CGPoint point )
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];
+=======
+	[shader_ setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 	[shader_ setUniformLocation:pointSizeLocation_ withF1:pointSize_];
@@ -88,7 +137,11 @@ void ccDrawPoints( const CGPoint *points, NSUInteger numberOfPoints )
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];
+=======
+	[shader_ setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 	[shader_ setUniformLocation:pointSizeLocation_ withF1:pointSize_];
 
@@ -124,7 +177,11 @@ void ccDrawLine( CGPoint origin, CGPoint destination )
 	};
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];
+=======
+	[shader_ setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
@@ -134,13 +191,39 @@ void ccDrawLine( CGPoint origin, CGPoint destination )
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
+<<<<<<< HEAD
+=======
+void ccDrawRect( CGPoint origin, CGPoint destination )
+{
+	ccDrawLine(CGPointMake(origin.x, origin.y), CGPointMake(destination.x, origin.y));
+	ccDrawLine(CGPointMake(destination.x, origin.y), CGPointMake(destination.x, destination.y));
+	ccDrawLine(CGPointMake(destination.x, destination.y), CGPointMake(origin.x, destination.y));
+	ccDrawLine(CGPointMake(origin.x, destination.y), CGPointMake(origin.x, origin.y));
+}
+
+void ccDrawSolidRect( CGPoint origin, CGPoint destination, ccColor4F color )
+{
+	CGPoint vertices[] = {
+		origin,
+		{destination.x, origin.y},
+		destination,
+		{origin.x, destination.y},
+	};
+	
+	ccDrawSolidPoly(vertices, 4, color );
+}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 void ccDrawPoly( const CGPoint *poli, NSUInteger numberOfPoints, BOOL closePolygon )
 {
 	lazy_init();
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];
+=======
+	[shader_ setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
@@ -169,12 +252,20 @@ void ccDrawPoly( const CGPoint *poli, NSUInteger numberOfPoints, BOOL closePolyg
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
+<<<<<<< HEAD
 void ccDrawFilledPoly( const CGPoint *poli, NSUInteger numberOfPoints, ccColor4F color )
+=======
+void ccDrawSolidPoly( const CGPoint *poli, NSUInteger numberOfPoints, ccColor4F color )
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	lazy_init();
     
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];    
+=======
+	[shader_ setUniformsForBuiltins];    
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color.r count:1];
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
@@ -225,7 +316,11 @@ void ccDrawCircle( CGPoint center, float r, float a, NSUInteger segs, BOOL drawL
 	vertices[(segs+1)*2+1] = center.y;
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];    
+=======
+	[shader_ setUniformsForBuiltins];    
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
@@ -238,6 +333,132 @@ void ccDrawCircle( CGPoint center, float r, float a, NSUInteger segs, BOOL drawL
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
+<<<<<<< HEAD
+=======
+void ccDrawSolidCircle( CGPoint center, float r, NSUInteger segs)
+{
+	lazy_init();
+    
+	int additionalSegment = 1;
+    
+	const float coef = 2.0f * (float)M_PI/segs;
+    
+	GLfloat *vertices = calloc( sizeof(GLfloat)*2*(segs+2), 1);
+	if( ! vertices )
+		return;
+    
+	for(NSUInteger i = 0;i <= segs; i++) {
+		float rads = i*coef;
+		GLfloat j = r * cosf(rads) + center.x;
+		GLfloat k = r * sinf(rads) + center.y;
+        
+		vertices[i*2] = j;
+		vertices[i*2+1] = k;
+	}
+	vertices[(segs+1)*2] = center.x;
+	vertices[(segs+1)*2+1] = center.y;
+    
+	[shader_ use];
+	[shader_ setUniformsForBuiltins];
+	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
+    
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+    
+	glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei) segs+additionalSegment);
+    
+	free( vertices );
+	
+	CC_INCREMENT_GL_DRAWS(1);
+}
+
+void ccDrawArc(CGPoint center, CGFloat r, CGFloat a, CGFloat arcLength, NSUInteger segs, BOOL drawLineToCenter)
+{
+	lazy_init();
+    
+	int additionalSegment = 1;
+	if (drawLineToCenter)
+		additionalSegment++;
+    
+    const float coef = arcLength / segs;
+    
+    GLfloat *vertices = calloc( sizeof(GLfloat)*2*(segs+2), 1);
+    if( ! vertices )
+        return;
+    
+	for(NSUInteger i = 0;i <= segs; i++) {
+		float rads = i*coef;
+		GLfloat j = r * cosf(rads + a) + center.x;
+		GLfloat k = r * sinf(rads + a) + center.y;
+        
+		vertices[i*2] = j;
+		vertices[i*2+1] = k;
+	}
+	vertices[(segs+1)*2] = center.x;
+	vertices[(segs+1)*2+1] = center.y;
+    
+    vertices[(segs+1)*2] = center.x;
+	vertices[(segs+1)*2+1] = center.y;
+    
+	[shader_ use];
+	[shader_ setUniformsForBuiltins];
+	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
+    
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+    
+	glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) segs+additionalSegment);
+    
+	free( vertices );
+	
+	CC_INCREMENT_GL_DRAWS(1);
+    
+}
+
+void ccDrawSolidArc(CGPoint center, CGFloat r, CGFloat a, CGFloat arcLength, NSUInteger segs)
+{
+    lazy_init();
+    
+    if (arcLength == 0.0) return;
+    
+    const int additionalSegment = 2;
+    
+    const float coef = arcLength / segs;
+    
+    GLfloat *vertices = calloc( sizeof(GLfloat)*2*(segs+2), 1);
+    if( ! vertices )
+        return;
+    
+	for(NSUInteger i = 0;i <= segs; i++) {
+		float rads = i*coef;
+		GLfloat j = r * cosf(rads + a) + center.x;
+		GLfloat k = r * sinf(rads + a) + center.y;
+        
+		vertices[i*2] = j;
+		vertices[i*2+1] = k;
+	}
+	vertices[(segs+1)*2] = center.x;
+	vertices[(segs+1)*2+1] = center.y;
+    
+    vertices[(segs+1)*2] = center.x;
+	vertices[(segs+1)*2+1] = center.y;
+    
+	[shader_ use];
+	[shader_ setUniformsForBuiltins];
+	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
+    
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+    
+	glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei) segs+additionalSegment);
+    
+	free( vertices );
+	
+	CC_INCREMENT_GL_DRAWS(1);
+    
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 void ccDrawQuadBezier(CGPoint origin, CGPoint control, CGPoint destination, NSUInteger segments)
 {
 	lazy_init();
@@ -254,7 +475,11 @@ void ccDrawQuadBezier(CGPoint origin, CGPoint control, CGPoint destination, NSUI
 	vertices[segments] = (ccVertex2F) {destination.x, destination.y};
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];    
+=======
+	[shader_ setUniformsForBuiltins];    
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
@@ -265,6 +490,60 @@ void ccDrawQuadBezier(CGPoint origin, CGPoint control, CGPoint destination, NSUI
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
+<<<<<<< HEAD
+=======
+void ccDrawCatmullRom( CCPointArray *points, NSUInteger segments )
+{
+	ccDrawCardinalSpline( points, 0.5f, segments );
+}
+
+void ccDrawCardinalSpline( CCPointArray *config, CGFloat tension,  NSUInteger segments )
+{
+	lazy_init();
+	
+	ccVertex2F vertices[segments + 1];
+
+	NSUInteger p;
+	CGFloat lt;
+	CGFloat deltaT = 1.0 / [config count];
+	
+	for( NSUInteger i=0; i < segments+1;i++) {
+		
+		CGFloat dt = (CGFloat)i / segments;
+	
+		// border
+		if( dt == 1 ) {
+			p = [config count] - 1;
+			lt = 1;
+		} else {
+			p = dt / deltaT;
+			lt = (dt - deltaT * (CGFloat)p) / deltaT;
+		}
+		
+		// Interpolate
+		CGPoint pp0 = [config getControlPointAtIndex:p-1];
+		CGPoint pp1 = [config getControlPointAtIndex:p+0];
+		CGPoint pp2 = [config getControlPointAtIndex:p+1];
+		CGPoint pp3 = [config getControlPointAtIndex:p+2];
+		
+		CGPoint newPos = ccCardinalSplineAt( pp0, pp1, pp2, pp3, tension, lt);
+		vertices[i].x = newPos.x;
+		vertices[i].y = newPos.y;
+	}
+	
+	[shader_ use];
+	[shader_ setUniformsForBuiltins];    
+	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
+	
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+	
+	glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) segments + 1);
+	
+	CC_INCREMENT_GL_DRAWS(1);
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 void ccDrawCubicBezier(CGPoint origin, CGPoint control1, CGPoint control2, CGPoint destination, NSUInteger segments)
 {
 	lazy_init();
@@ -281,7 +560,11 @@ void ccDrawCubicBezier(CGPoint origin, CGPoint control1, CGPoint control2, CGPoi
 	vertices[segments] = (ccVertex2F) {destination.x, destination.y};
 
 	[shader_ use];
+<<<<<<< HEAD
 	[shader_ setUniformForModelViewProjectionMatrix];    
+=======
+	[shader_ setUniformsForBuiltins];    
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[shader_ setUniformLocation:colorLocation_ with4fv:(GLfloat*) &color_.r count:1];
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );

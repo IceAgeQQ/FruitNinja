@@ -33,7 +33,11 @@ typedef struct
 {
 	CGPoint	position;
 	CGPoint	startPosition;
+<<<<<<< HEAD
 	ccGridSize	delta;
+=======
+	CGSize	delta;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 } Tile;
 
 #pragma mark -
@@ -41,6 +45,7 @@ typedef struct
 
 @implementation CCShakyTiles3D
 
+<<<<<<< HEAD
 +(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithRange:range shakeZ:shakeZ grid:gridSize duration:d] autorelease];
@@ -52,6 +57,19 @@ typedef struct
 	{
 		randrange = range;
 		shakeZ = sz;
+=======
++(id)actionWithDuration:(ccTime)duration size:(CGSize)gridSize range:(int)range shakeZ:(BOOL)shakeZ
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize range:range shakeZ:shakeZ] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration size:(CGSize)gridSize range:(int)range shakeZ:(BOOL)shakeZ
+{
+	if ( (self = [super initWithDuration:duration size:gridSize]) )
+	{
+		_randrange = range;
+		_shakeZ = shakeZ;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -59,8 +77,12 @@ typedef struct
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithRange:randrange shakeZ:shakeZ grid:gridSize_ duration:duration_];
 	return copy;
+=======
+	return [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize range:_randrange shakeZ:_shakeZ];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 
@@ -68,6 +90,7 @@ typedef struct
 {
 	int i, j;
 
+<<<<<<< HEAD
 	for( i = 0; i < gridSize_.x; i++ )
 	{
 		for( j = 0; j < gridSize_.y; j++ )
@@ -94,6 +117,34 @@ typedef struct
 			}
 
 			[self setTile:ccg(i,j) coords:coords];
+=======
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		for( j = 0; j < _gridSize.height; j++ )
+		{
+			ccQuad3 coords = [self originalTile:ccp(i,j)];
+
+			// X
+			coords.bl.x += ( rand() % (_randrange*2) ) - _randrange;
+			coords.br.x += ( rand() % (_randrange*2) ) - _randrange;
+			coords.tl.x += ( rand() % (_randrange*2) ) - _randrange;
+			coords.tr.x += ( rand() % (_randrange*2) ) - _randrange;
+
+			// Y
+			coords.bl.y += ( rand() % (_randrange*2) ) - _randrange;
+			coords.br.y += ( rand() % (_randrange*2) ) - _randrange;
+			coords.tl.y += ( rand() % (_randrange*2) ) - _randrange;
+			coords.tr.y += ( rand() % (_randrange*2) ) - _randrange;
+
+			if( _shakeZ ) {
+				coords.bl.z += ( rand() % (_randrange*2) ) - _randrange;
+				coords.br.z += ( rand() % (_randrange*2) ) - _randrange;
+				coords.tl.z += ( rand() % (_randrange*2) ) - _randrange;
+				coords.tr.z += ( rand() % (_randrange*2) ) - _randrange;
+			}
+
+			[self setTile:ccp(i,j) coords:coords];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 	}
 }
@@ -107,6 +158,7 @@ typedef struct
 
 @implementation CCShatteredTiles3D
 
+<<<<<<< HEAD
 +(id)actionWithRange:(int)range shatterZ:(BOOL)sz grid:(ccGridSize)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithRange:range shatterZ:sz grid:gridSize duration:d] autorelease];
@@ -119,6 +171,21 @@ typedef struct
 		once = NO;
 		randrange = range;
 		shatterZ = sz;
+=======
++(id)actionWithDuration:(ccTime)duration size:(CGSize)gridSize range:(int)range shatterZ:(BOOL)shatterZ
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize range:range shatterZ:shatterZ] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration size:(CGSize)gridSize range:(int)range shatterZ:(BOOL)shatterZ
+
+{
+	if ( (self = [super initWithDuration:duration size:gridSize]) )
+	{
+		_once = NO;
+		_randrange = range;
+		_shatterZ = shatterZ;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -126,8 +193,12 @@ typedef struct
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithRange:randrange shatterZ:shatterZ grid:gridSize_ duration:duration_];
 	return copy;
+=======
+	return [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize range:_randrange shatterZ:_shatterZ];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 
@@ -135,6 +206,7 @@ typedef struct
 {
 	int i, j;
 
+<<<<<<< HEAD
 	if ( once == NO )
 	{
 		for( i = 0; i < gridSize_.x; i++ )
@@ -167,6 +239,40 @@ typedef struct
 		}
 
 		once = YES;
+=======
+	if ( _once == NO )
+	{
+		for( i = 0; i < _gridSize.width; i++ )
+		{
+			for( j = 0; j < _gridSize.height; j++ )
+			{
+				ccQuad3 coords = [self originalTile:ccp(i,j)];
+
+				// X
+				coords.bl.x += ( rand() % (_randrange*2) ) - _randrange;
+				coords.br.x += ( rand() % (_randrange*2) ) - _randrange;
+				coords.tl.x += ( rand() % (_randrange*2) ) - _randrange;
+				coords.tr.x += ( rand() % (_randrange*2) ) - _randrange;
+
+				// Y
+				coords.bl.y += ( rand() % (_randrange*2) ) - _randrange;
+				coords.br.y += ( rand() % (_randrange*2) ) - _randrange;
+				coords.tl.y += ( rand() % (_randrange*2) ) - _randrange;
+				coords.tr.y += ( rand() % (_randrange*2) ) - _randrange;
+
+				if( _shatterZ ) {
+					coords.bl.z += ( rand() % (_randrange*2) ) - _randrange;
+					coords.br.z += ( rand() % (_randrange*2) ) - _randrange;
+					coords.tl.z += ( rand() % (_randrange*2) ) - _randrange;
+					coords.tr.z += ( rand() % (_randrange*2) ) - _randrange;
+				}
+
+				[self setTile:ccp(i,j) coords:coords];
+			}
+		}
+
+		_once = YES;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
@@ -179,6 +285,7 @@ typedef struct
 
 @implementation CCShuffleTiles
 
+<<<<<<< HEAD
 +(id)actionWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithSeed:s grid:gridSize duration:d] autorelease];
@@ -191,6 +298,20 @@ typedef struct
 		seed = s;
 		tilesOrder = nil;
 		tiles = nil;
+=======
++(id)actionWithDuration:(ccTime)duration size:(CGSize)gridSize seed:(unsigned)seed
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize seed:seed] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration size:(CGSize)gridSize seed:(unsigned)seed
+{
+	if ( (self = [super initWithDuration:duration size:gridSize]) )
+	{
+		_seed = seed;
+		_tilesOrder = nil;
+		_tiles = nil;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -198,30 +319,50 @@ typedef struct
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithSeed:seed grid:gridSize_ duration:duration_];
 	return copy;
+=======
+	return [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize seed:_seed];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	if ( tilesOrder ) free(tilesOrder);
 	if ( tiles ) free(tiles);
 	[super dealloc];
 }
 
 -(void)shuffle:(int*)array count:(NSUInteger)len
+=======
+	if(_tilesOrder)
+		free(_tilesOrder);
+	if(_tiles)
+		free(_tiles);
+	[super dealloc];
+}
+
+-(void)shuffle:(NSUInteger*)array count:(NSUInteger)len
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	NSInteger i;
 	for( i = len - 1; i >= 0; i-- )
 	{
 		NSInteger j = rand() % (i+1);
+<<<<<<< HEAD
 		int v = array[i];
+=======
+		NSUInteger v = array[i];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		array[i] = array[j];
 		array[j] = v;
 	}
 }
 
+<<<<<<< HEAD
 -(ccGridSize)getDelta:(ccGridSize)pos
 {
 	CGPoint	pos2;
@@ -239,6 +380,25 @@ typedef struct
 	ccQuad3	coords = [self originalTile:pos];
 
 	CGPoint step = [[target_ grid] step];
+=======
+-(CGSize)getDelta:(CGSize)pos
+{
+	CGPoint	pos2;
+
+	NSUInteger idx = pos.width * _gridSize.height + pos.height;
+
+	pos2.x = _tilesOrder[idx] / (NSUInteger)_gridSize.height;
+	pos2.y = _tilesOrder[idx] % (NSUInteger)_gridSize.height;
+
+	return CGSizeMake(pos2.x - pos.width, pos2.y - pos.height);
+}
+
+-(void)placeTile:(CGPoint)pos tile:(Tile)t
+{
+	ccQuad3	coords = [self originalTile:pos];
+
+	CGPoint step = [[_target grid] step];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	coords.bl.x += (int)(t.position.x * step.x);
 	coords.bl.y += (int)(t.position.y * step.y);
 
@@ -258,6 +418,7 @@ typedef struct
 {
 	[super startWithTarget:aTarget];
 
+<<<<<<< HEAD
 	if ( seed != -1 )
 		srand(seed);
 
@@ -280,6 +441,30 @@ typedef struct
 			tileArray->position = ccp(i,j);
 			tileArray->startPosition = ccp(i,j);
 			tileArray->delta = [self getDelta:ccg(i,j)];
+=======
+	if ( _seed != -1 )
+		srand(_seed);
+
+	_tilesCount = _gridSize.width * _gridSize.height;
+	_tilesOrder = (NSUInteger*)malloc(_tilesCount*sizeof(NSUInteger));
+	int i, j;
+
+	for( i = 0; i < _tilesCount; i++ )
+		_tilesOrder[i] = i;
+
+	[self shuffle:_tilesOrder count:_tilesCount];
+
+	_tiles = malloc(_tilesCount*sizeof(Tile));
+	Tile *tileArray = (Tile*)_tiles;
+
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		for( j = 0; j < _gridSize.height; j++ )
+		{
+			tileArray->position = ccp(i,j);
+			tileArray->startPosition = ccp(i,j);
+			tileArray->delta = [self getDelta:CGSizeMake(i,j)];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			tileArray++;
 		}
 	}
@@ -289,6 +474,7 @@ typedef struct
 {
 	int i, j;
 
+<<<<<<< HEAD
 	Tile *tileArray = (Tile*)tiles;
 
 	for( i = 0; i < gridSize_.x; i++ )
@@ -297,6 +483,16 @@ typedef struct
 		{
 			tileArray->position = ccpMult( ccp(tileArray->delta.x, tileArray->delta.y), time);
 			[self placeTile:ccg(i,j) tile:*tileArray];
+=======
+	Tile *tileArray = (Tile*)_tiles;
+
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		for( j = 0; j < _gridSize.height; j++ )
+		{
+			tileArray->position = ccpMult( ccp(tileArray->delta.width, tileArray->delta.height), time);
+			[self placeTile:ccp(i,j) tile:*tileArray];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			tileArray++;
 		}
 	}
@@ -311,6 +507,7 @@ typedef struct
 
 @implementation CCFadeOutTRTiles
 
+<<<<<<< HEAD
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
 	CGPoint	n = ccpMult( ccp(gridSize_.x,gridSize_.y), time);
@@ -321,21 +518,44 @@ typedef struct
 }
 
 -(void)turnOnTile:(ccGridSize)pos
+=======
+-(float)testFunc:(CGSize)pos time:(ccTime)time
+{
+	CGPoint	n = ccpMult( ccp(_gridSize.width,_gridSize.height), time);
+	if ( (n.x+n.y) == 0.0f )
+		return 1.0f;
+
+	return powf( (pos.width+pos.height) / (n.x+n.y), 6 );
+}
+
+-(void)turnOnTile:(CGPoint)pos
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	[self setTile:pos coords:[self originalTile:pos]];
 }
 
+<<<<<<< HEAD
 -(void)turnOffTile:(ccGridSize)pos
+=======
+-(void)turnOffTile:(CGPoint)pos
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	ccQuad3	coords;
 	bzero(&coords, sizeof(ccQuad3));
 	[self setTile:pos coords:coords];
 }
 
+<<<<<<< HEAD
 -(void)transformTile:(ccGridSize)pos distance:(float)distance
 {
 	ccQuad3	coords = [self originalTile:pos];
 	CGPoint	step = [[target_ grid] step];
+=======
+-(void)transformTile:(CGPoint)pos distance:(float)distance
+{
+	ccQuad3	coords = [self originalTile:pos];
+	CGPoint	step = [[_target grid] step];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	coords.bl.x += (step.x / 2) * (1.0f - distance);
 	coords.bl.y += (step.y / 2) * (1.0f - distance);
@@ -356,6 +576,7 @@ typedef struct
 {
 	int i, j;
 
+<<<<<<< HEAD
 	for( i = 0; i < gridSize_.x; i++ )
 	{
 		for( j = 0; j < gridSize_.y; j++ )
@@ -367,6 +588,19 @@ typedef struct
 				[self transformTile:ccg(i,j) distance:distance];
 			else
 				[self turnOnTile:ccg(i,j)];
+=======
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		for( j = 0; j < _gridSize.height; j++ )
+		{
+			float distance = [self testFunc:CGSizeMake(i,j) time:time];
+			if ( distance == 0 )
+				[self turnOffTile:ccp(i,j)];
+			else if ( distance < 1 )
+				[self transformTile:ccp(i,j) distance:distance];
+			else
+				[self turnOnTile:ccp(i,j)];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 	}
 }
@@ -380,6 +614,7 @@ typedef struct
 
 @implementation CCFadeOutBLTiles
 
+<<<<<<< HEAD
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
 	CGPoint	n = ccpMult(ccp(gridSize_.x, gridSize_.y), (1.0f-time));
@@ -387,6 +622,15 @@ typedef struct
 		return 1.0f;
 
 	return powf( (n.x+n.y) / (pos.x+pos.y), 6 );
+=======
+-(float)testFunc:(CGSize)pos time:(ccTime)time
+{
+	CGPoint	n = ccpMult(ccp(_gridSize.width, _gridSize.height), (1.0f-time));
+	if ( (pos.width+pos.height) == 0 )
+		return 1.0f;
+
+	return powf( (n.x+n.y) / (pos.width+pos.height), 6 );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end
@@ -398,6 +642,7 @@ typedef struct
 
 @implementation CCFadeOutUpTiles
 
+<<<<<<< HEAD
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
 	CGPoint	n = ccpMult(ccp(gridSize_.x, gridSize_.y), time);
@@ -411,6 +656,21 @@ typedef struct
 {
 	ccQuad3	coords = [self originalTile:pos];
 	CGPoint step = [[target_ grid] step];
+=======
+-(float)testFunc:(CGSize)pos time:(ccTime)time
+{
+	CGPoint	n = ccpMult(ccp(_gridSize.width, _gridSize.height), time);
+	if ( n.y == 0 )
+		return 1.0f;
+
+	return powf( pos.height / n.y, 6 );
+}
+
+-(void)transformTile:(CGPoint)pos distance:(float)distance
+{
+	ccQuad3	coords = [self originalTile:pos];
+	CGPoint step = [[_target grid] step];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	coords.bl.y += (step.y / 2) * (1.0f - distance);
 	coords.br.y += (step.y / 2) * (1.0f - distance);
@@ -429,6 +689,7 @@ typedef struct
 
 @implementation CCFadeOutDownTiles
 
+<<<<<<< HEAD
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
 	CGPoint	n = ccpMult(ccp(gridSize_.x,gridSize_.y), (1.0f - time));
@@ -436,6 +697,15 @@ typedef struct
 		return 1.0f;
 
 	return powf( n.y / pos.y, 6 );
+=======
+-(float)testFunc:(CGSize)pos time:(ccTime)time
+{
+	CGPoint	n = ccpMult(ccp(_gridSize.width,_gridSize.height), (1.0f - time));
+	if ( pos.height == 0 )
+		return 1.0f;
+
+	return powf( n.y / pos.height, 6 );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end
@@ -447,6 +717,7 @@ typedef struct
 
 @implementation CCTurnOffTiles
 
+<<<<<<< HEAD
 +(id)actionWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithSeed:s grid:gridSize duration:d] autorelease];
@@ -458,6 +729,19 @@ typedef struct
 	{
 		seed = s;
 		tilesOrder = nil;
+=======
++(id)actionWithDuration:(ccTime)duration size:(CGSize)gridSize seed:(unsigned)seed
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize seed:seed] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration size:(CGSize)gridSize seed:(unsigned)seed
+{
+	if ( (self = [super initWithDuration:duration size:gridSize]) )
+	{
+		_seed = seed;
+		_tilesOrder = nil;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -465,34 +749,60 @@ typedef struct
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithSeed:seed grid:gridSize_ duration:duration_];
 	return copy;
+=======
+	return [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize seed:_seed];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	if ( tilesOrder ) free(tilesOrder);
 	[super dealloc];
 }
 
 -(void)shuffle:(int*)array count:(NSUInteger)len
+=======
+	if(_tilesOrder)
+		free(_tilesOrder);
+	[super dealloc];
+}
+
+-(void)shuffle:(NSUInteger*)array count:(NSUInteger)len
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	NSInteger i;
 	for( i = len - 1; i >= 0; i-- )
 	{
+<<<<<<< HEAD
 		NSInteger j = rand() % (i+1);
 		int v = array[i];
+=======
+		NSUInteger j = rand() % (i+1);
+		NSUInteger v = array[i];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		array[i] = array[j];
 		array[j] = v;
 	}
 }
 
+<<<<<<< HEAD
 -(void)turnOnTile:(ccGridSize)pos
+=======
+-(void)turnOnTile:(CGPoint)pos
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	[self setTile:pos coords:[self originalTile:pos]];
 }
 
+<<<<<<< HEAD
 -(void)turnOffTile:(ccGridSize)pos
+=======
+-(void)turnOffTile:(CGPoint)pos
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	ccQuad3	coords;
 
@@ -502,6 +812,7 @@ typedef struct
 
 -(void)startWithTarget:(id)aTarget
 {
+<<<<<<< HEAD
 	int i;
 
 	[super startWithTarget:aTarget];
@@ -516,10 +827,27 @@ typedef struct
 		tilesOrder[i] = i;
 
 	[self shuffle:tilesOrder count:tilesCount];
+=======
+	NSUInteger i;
+
+	[super startWithTarget:aTarget];
+
+	if ( _seed != -1 )
+		srand(_seed);
+
+	_tilesCount = _gridSize.width * _gridSize.height;
+	_tilesOrder = (NSUInteger*)malloc(_tilesCount*sizeof(NSUInteger));
+
+	for( i = 0; i < _tilesCount; i++ )
+		_tilesOrder[i] = i;
+
+	[self shuffle:_tilesOrder count:_tilesCount];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)update:(ccTime)time
 {
+<<<<<<< HEAD
 	int i, l, t;
 
 	l = (int)(time * (float)tilesCount);
@@ -528,6 +856,17 @@ typedef struct
 	{
 		t = tilesOrder[i];
 		ccGridSize tilePos = ccg( t / gridSize_.y, t % gridSize_.y );
+=======
+	NSUInteger i, l, t;
+
+	l = (NSUInteger)(time * (float)_tilesCount);
+
+	for( i = 0; i < _tilesCount; i++ )
+	{
+		t = _tilesOrder[i];
+		CGPoint tilePos = ccp( (NSUInteger)(t / _gridSize.height),
+							  t % (NSUInteger)_gridSize.height );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		if ( i < l )
 			[self turnOffTile:tilePos];
@@ -545,6 +884,7 @@ typedef struct
 
 @implementation CCWavesTiles3D
 
+<<<<<<< HEAD
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
@@ -560,6 +900,23 @@ typedef struct
 		waves = wav;
 		amplitude = amp;
 		amplitudeRate = 1.0f;
+=======
+@synthesize amplitude = _amplitude;
+@synthesize amplitudeRate = _amplitudeRate;
+
++(id)actionWithDuration:(ccTime)duration size:(CGSize)gridSize waves:(NSUInteger)wav amplitude:(float)amp
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize waves:wav amplitude:amp] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration size:(CGSize)gridSize waves:(NSUInteger)wav amplitude:(float)amp
+{
+	if ( (self = [super initWithDuration:duration size:gridSize]) )
+	{
+		_waves = wav;
+		_amplitude = amp;
+		_amplitudeRate = 1.0f;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -567,7 +924,11 @@ typedef struct
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithWaves:waves amplitude:amplitude grid:gridSize_ duration:duration_];
+=======
+	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize waves:_waves amplitude:_amplitude];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return copy;
 }
 
@@ -576,6 +937,7 @@ typedef struct
 {
 	int i, j;
 
+<<<<<<< HEAD
 	for( i = 0; i < gridSize_.x; i++ )
 	{
 		for( j = 0; j < gridSize_.y; j++ )
@@ -583,11 +945,24 @@ typedef struct
 			ccQuad3 coords = [self originalTile:ccg(i,j)];
 
 			coords.bl.z = (sinf(time*(CGFloat)M_PI*waves*2 + (coords.bl.y+coords.bl.x) * .01f) * amplitude * amplitudeRate );
+=======
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		for( j = 0; j < _gridSize.height; j++ )
+		{
+			ccQuad3 coords = [self originalTile:ccp(i,j)];
+
+			coords.bl.z = (sinf(time*(CGFloat)M_PI*_waves*2 + (coords.bl.y+coords.bl.x) * .01f) * _amplitude * _amplitudeRate );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			coords.br.z	= coords.bl.z;
 			coords.tl.z = coords.bl.z;
 			coords.tr.z = coords.bl.z;
 
+<<<<<<< HEAD
 			[self setTile:ccg(i,j) coords:coords];
+=======
+			[self setTile:ccp(i,j) coords:coords];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 	}
 }
@@ -600,6 +975,7 @@ typedef struct
 
 @implementation CCJumpTiles3D
 
+<<<<<<< HEAD
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
@@ -615,6 +991,23 @@ typedef struct
 		jumps = j;
 		amplitude = amp;
 		amplitudeRate = 1.0f;
+=======
+@synthesize amplitude = _amplitude;
+@synthesize amplitudeRate = _amplitudeRate;
+
++(id)actionWithDuration:(ccTime)duration size:(CGSize)gridSize jumps:(NSUInteger)numberOfJumps amplitude:(float)amplitude
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize jumps:numberOfJumps amplitude:amplitude] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration size:(CGSize)gridSize jumps:(NSUInteger)numberOfJumps amplitude:(float)amplitude
+{
+	if ( (self = [super initWithDuration:duration size:gridSize]) )
+	{
+		_jumps = numberOfJumps;
+		_amplitude = amplitude;
+		_amplitudeRate = 1.0f;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -622,7 +1015,11 @@ typedef struct
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithJumps:jumps amplitude:amplitude grid:gridSize_ duration:duration_];
+=======
+	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize jumps:_jumps amplitude:_amplitude];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return copy;
 }
 
@@ -631,6 +1028,7 @@ typedef struct
 {
 	int i, j;
 
+<<<<<<< HEAD
 	float sinz =  (sinf((CGFloat)M_PI*time*jumps*2) * amplitude * amplitudeRate );
 	float sinz2 = (sinf((CGFloat)M_PI*(time*jumps*2 + 1)) * amplitude * amplitudeRate );
 
@@ -639,6 +1037,16 @@ typedef struct
 		for( j = 0; j < gridSize_.y; j++ )
 		{
 			ccQuad3 coords = [self originalTile:ccg(i,j)];
+=======
+	float sinz =  (sinf((CGFloat)M_PI*time*_jumps*2) * _amplitude * _amplitudeRate );
+	float sinz2 = (sinf((CGFloat)M_PI*(time*_jumps*2 + 1)) * _amplitude * _amplitudeRate );
+
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		for( j = 0; j < _gridSize.height; j++ )
+		{
+			ccQuad3 coords = [self originalTile:ccp(i,j)];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			if ( ((i+j) % 2) == 0 )
 			{
@@ -655,7 +1063,11 @@ typedef struct
 				coords.tr.z += sinz2;
 			}
 
+<<<<<<< HEAD
 			[self setTile:ccg(i,j) coords:coords];
+=======
+			[self setTile:ccp(i,j) coords:coords];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 	}
 }
@@ -668,6 +1080,7 @@ typedef struct
 
 @implementation CCSplitRows
 
+<<<<<<< HEAD
 +(id)actionWithRows:(int)r duration:(ccTime)d
 {
 	return [[[self alloc] initWithRows:r duration:d] autorelease];
@@ -677,38 +1090,76 @@ typedef struct
 {
 	rows = r;
 	return [super initWithSize:ccg(1,r) duration:d];
+=======
++(id)actionWithDuration:(ccTime)duration rows:(NSUInteger)rows
+{
+	return [[[self alloc] initWithDuration:duration rows:rows] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration rows:(NSUInteger)rows
+{
+	if( (self=[super initWithDuration:duration size:CGSizeMake(1,rows)]) )
+		_rows = rows;
+	
+	return self;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithRows:rows duration:duration_];
 	return copy;
+=======
+	return [[[self class] allocWithZone:zone] initWithDuration:_duration rows:_rows];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	winSize = [[CCDirector sharedDirector] winSizeInPixels];
+=======
+	_winSize = [[CCDirector sharedDirector] winSizeInPixels];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)update:(ccTime)time
 {
+<<<<<<< HEAD
 	int j;
 
 	for( j = 0; j < gridSize_.y; j++ )
 	{
 		ccQuad3 coords = [self originalTile:ccg(0,j)];
+=======
+	NSUInteger j;
+
+	for( j = 0; j < _gridSize.height; j++ )
+	{
+		ccQuad3 coords = [self originalTile:ccp(0,j)];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		float	direction = 1;
 
 		if ( (j % 2 ) == 0 )
 			direction = -1;
 
+<<<<<<< HEAD
 		coords.bl.x += direction * winSize.width * time;
 		coords.br.x += direction * winSize.width * time;
 		coords.tl.x += direction * winSize.width * time;
 		coords.tr.x += direction * winSize.width * time;
 
 		[self setTile:ccg(0,j) coords:coords];
+=======
+		coords.bl.x += direction * _winSize.width * time;
+		coords.br.x += direction * _winSize.width * time;
+		coords.tl.x += direction * _winSize.width * time;
+		coords.tr.x += direction * _winSize.width * time;
+
+		[self setTile:ccp(0,j) coords:coords];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
@@ -721,6 +1172,7 @@ typedef struct
 
 @implementation CCSplitCols
 
+<<<<<<< HEAD
 +(id)actionWithCols:(int)c duration:(ccTime)d
 {
 	return [[[self alloc] initWithCols:c duration:d] autorelease];
@@ -730,38 +1182,75 @@ typedef struct
 {
 	cols = c;
 	return [super initWithSize:ccg(c,1) duration:d];
+=======
++(id)actionWithDuration:(ccTime)duration cols:(NSUInteger)cols
+{
+	return [[[self alloc] initWithDuration:duration cols:cols] autorelease];
+}
+
+-(id)initWithDuration:(ccTime)duration cols:(NSUInteger)cols
+{
+	if( (self=[super initWithDuration:duration size:CGSizeMake(cols,1)]) )
+		_cols = cols;
+	return self;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithCols:cols duration:duration_];
 	return copy;
+=======
+	return [[[self class] allocWithZone:zone] initWithDuration:_duration cols:_cols];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	winSize = [[CCDirector sharedDirector] winSizeInPixels];
+=======
+	_winSize = [[CCDirector sharedDirector] winSizeInPixels];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)update:(ccTime)time
 {
+<<<<<<< HEAD
 	int i;
 
 	for( i = 0; i < gridSize_.x; i++ )
 	{
 		ccQuad3 coords = [self originalTile:ccg(i,0)];
+=======
+	NSUInteger i;
+
+	for( i = 0; i < _gridSize.width; i++ )
+	{
+		ccQuad3 coords = [self originalTile:ccp(i,0)];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		float	direction = 1;
 
 		if ( (i % 2 ) == 0 )
 			direction = -1;
 
+<<<<<<< HEAD
 		coords.bl.y += direction * winSize.height * time;
 		coords.br.y += direction * winSize.height * time;
 		coords.tl.y += direction * winSize.height * time;
 		coords.tr.y += direction * winSize.height * time;
 
 		[self setTile:ccg(i,0) coords:coords];
+=======
+		coords.bl.y += direction * _winSize.height * time;
+		coords.br.y += direction * _winSize.height * time;
+		coords.tl.y += direction * _winSize.height * time;
+		coords.tr.y += direction * _winSize.height * time;
+
+		[self setTile:ccp(i,0) coords:coords];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 

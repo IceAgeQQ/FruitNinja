@@ -47,11 +47,16 @@
  *
  * if COCOS2D_DEBUG==1 then:
  *		CCLOG() will be enabled
+<<<<<<< HEAD
  *		CCLOGERROR() will be enabled
+=======
+ *		CCLOGWARN() will be enabled
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  *		CCLOGINFO()	will be disabled
  *
  * if COCOS2D_DEBUG==2 or higher then:
  *		CCLOG() will be enabled
+<<<<<<< HEAD
  *		CCLOGERROR() will be enabled
  *		CCLOGINFO()	will be enabled
  */
@@ -71,6 +76,37 @@
 #define CCLOGINFO(...) NSLog(__VA_ARGS__)
 #endif // COCOS2D_DEBUG
 
+=======
+ *		CCLOGWARN() will be enabled
+ *		CCLOGINFO()	will be enabled
+ */
+
+
+#define __CCLOGWITHFUNCTION(s, ...) \
+NSLog(@"%s : %@",__FUNCTION__,[NSString stringWithFormat:(s), ##__VA_ARGS__])
+
+#define __CCLOG(s, ...) \
+NSLog(@"%@",[NSString stringWithFormat:(s), ##__VA_ARGS__])
+
+
+#if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
+#define CCLOG(...) do {} while (0)
+#define CCLOGWARN(...) do {} while (0)
+#define CCLOGINFO(...) do {} while (0)
+
+#elif COCOS2D_DEBUG == 1
+#define CCLOG(...) __CCLOG(__VA_ARGS__)
+#define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#define CCLOGINFO(...) do {} while (0)
+
+#elif COCOS2D_DEBUG > 1
+#define CCLOG(...) __CCLOG(__VA_ARGS__)
+#define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#define CCLOGINFO(...) __CCLOG(__VA_ARGS__)
+#endif // COCOS2D_DEBUG
+
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** @def CC_SWAP
 simple macro that swaps 2 variables
 */
@@ -100,7 +136,11 @@ simple macro that swaps 2 variables
  */
 #define CC_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
 
+<<<<<<< HEAD
 #define kCCRepeatForever UINT_MAX -1
+=======
+#define kCCRepeatForever (UINT_MAX -1)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** @def CC_BLEND_SRC
 default gl blend src function. Compatible with premultiplied alpha images.
 */
@@ -110,7 +150,11 @@ default gl blend src function. Compatible with premultiplied alpha images.
 /** @def CC_DIRECTOR_INIT
 	- Initializes an CCGLView with 0-bit depth format, and RGB565 render buffer.
 	- The CCGLView view will have multiple touches disabled.
+<<<<<<< HEAD
 	- It will create a UIWindow and it will assign it the 'window_' ivar. 'window_' must be declared before calling this marcro.
+=======
+	- It will create a UIWindow and it will assign it the 'window_' ivar. 'window_' must be declared before calling this macro.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
     - It will create a UINavigationController and it will assign it the 'navigationController_' ivar. 'navController_' must be declared before using this macro.
     - The director_ will be the root view controller of the navController.
 	- It will connect the CCGLView to the Director
@@ -178,9 +222,16 @@ do	{																							\
  */
 #define CC_NODE_DRAW_SETUP()																	\
 do {																							\
+<<<<<<< HEAD
 	ccGLEnable( glServerState_ );																\
 	[shaderProgram_ use];																		\
 	[shaderProgram_ setUniformForModelViewProjectionMatrix];									\
+=======
+	ccGLEnable( _glServerState );																\
+    NSAssert1(_shaderProgram, @"No shader program set for node: %@", self);						\
+	[_shaderProgram use];																		\
+	[_shaderProgram setUniformsForBuiltins];									\
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 } while(0)
 
 
@@ -326,7 +377,11 @@ CGSizeMake( (__size_in_points__).width * CC_CONTENT_SCALE_FACTOR(), (__size_in_p
 #define CC_ARC_UNSAFE_RETAINED
 #endif
 
+<<<<<<< HEAD
 /** @def CC_INCREMENT_GL_DRAWS_BY_ONE
+=======
+/** @def CC_INCREMENT_GL_DRAWS
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  Increments the GL Draws counts by one.
  The number of calls per frame are displayed on the screen when the CCDirector's stats are enabled.
  */

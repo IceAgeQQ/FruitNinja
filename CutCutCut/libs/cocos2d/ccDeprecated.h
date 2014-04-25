@@ -26,6 +26,10 @@
 
 #if CC_ENABLE_DEPRECATED
 
+<<<<<<< HEAD
+=======
+#import "ccTypes.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import "ccMacros.h"
 #import "CCMenu.h"
 #import "CCDirector.h"
@@ -36,10 +40,21 @@
 #import "CCActionManager.h"
 #import "CCActionInterval.h"
 #import "CCRenderTexture.h"
+<<<<<<< HEAD
+=======
+#import "CCSpriteFrameCache.h"
+#import "CCLabelTTF.h"
+#import "CCTexture2D.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import "Support/CCFileUtils.h"
 #import "Platforms/Mac/CCDirectorMac.h"
 #import "Platforms/iOS/CCTouchDispatcher.h"
 #import "Platforms/iOS/CCDirectorIOS.h"
+<<<<<<< HEAD
+=======
+#import "CCActionTiledGrid.h"
+#import "CCActionGrid3D.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 /*
@@ -50,10 +65,25 @@
  *
  */
 
+<<<<<<< HEAD
 // ccTypes.h
 enum {
 	kCCResolutionStandard DEPRECATED_ATTRIBUTE	= kCCResolutioniPhone,
 	kCCResolutionRetinaDisplay DEPRECATED_ATTRIBUTE = kCCResolutioniPhoneRetinaDisplay,
+=======
+// CCLOGERROR is no longer supported.
+#define CCLOGERROR CCLOGWARN
+
+#define ccGridSize CGSize
+#define ccg CGSizeMake
+
+// ccTypes.h
+enum {
+#ifdef __CC_PLATFORM_IOS
+	kCCResolutionStandard DEPRECATED_ATTRIBUTE	= kCCResolutioniPhone,
+	kCCResolutionRetinaDisplay DEPRECATED_ATTRIBUTE = kCCResolutioniPhoneRetinaDisplay,
+#endif // __CC_PLATFORM_IOS
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	kCCMenuTouchPriority DEPRECATED_ATTRIBUTE	= kCCMenuHandlerPriority,
 };
 
@@ -63,6 +93,30 @@ enum {
 	kCCImageFormatRawData UNAVAILABLE_ATTRIBUTE,
 };
 
+<<<<<<< HEAD
+=======
+enum {
+	CCTextAlignmentLeft DEPRECATED_ATTRIBUTE = kCCTextAlignmentLeft,
+	CCTextAlignmentCenter DEPRECATED_ATTRIBUTE = kCCTextAlignmentCenter,
+	CCTextAlignmentRight DEPRECATED_ATTRIBUTE = kCCTextAlignmentRight,
+
+	CCVerticalTextAlignmentTop DEPRECATED_ATTRIBUTE = kCCVerticalTextAlignmentTop,
+	CCVerticalTextAlignmentMiddle DEPRECATED_ATTRIBUTE = kCCVerticalTextAlignmentCenter,
+	CCVerticalTextAlignmentBottom DEPRECATED_ATTRIBUTE = kCCVerticalTextAlignmentBottom,
+
+	CCLineBreakModeWordWrap DEPRECATED_ATTRIBUTE = kCCLineBreakModeWordWrap,
+	CCLineBreakModeCharacterWrap DEPRECATED_ATTRIBUTE = kCCLineBreakModeCharacterWrap,
+	CCLineBreakModeClip	DEPRECATED_ATTRIBUTE = kCCLineBreakModeClip,
+	CCLineBreakModeHeadTruncation DEPRECATED_ATTRIBUTE = kCCLineBreakModeHeadTruncation,
+	CCLineBreakModeTailTruncation DEPRECATED_ATTRIBUTE = kCCLineBreakModeTailTruncation,
+	CCLineBreakModeMiddleTruncation DEPRECATED_ATTRIBUTE = kCCLineBreakModeMiddleTruncation,
+};
+
+//DEPRECATED_ATTRIBUTE typedef  ccTextAlignment CCTextAlignment;
+//
+//DEPRECATED_ATTRIBUTE typedef  ccVerticalTextAlignment CCVerticalTextAlignment;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 // Free functions
 void ccGLUniformModelViewProjectionMatrix(CCGLProgram* program) DEPRECATED_ATTRIBUTE;
 
@@ -77,9 +131,24 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 #define GLProgram CCGLProgram
 
 // Extensions
+<<<<<<< HEAD
 @interface CCScheduler (Deprecated)
 // new: [director scheduler]
 +(CCScheduler*) sharedScheduler DEPRECATED_ATTRIBUTE;
+=======
+
+@interface CCScheduler (Deprecated)
+// new: [director scheduler]
++(CCScheduler*) sharedScheduler DEPRECATED_ATTRIBUTE;
+// new: -(void) scheduleSelector:(SEL)selector forTarget:(id)target interval:(ccTime)interval repeat: (uint) repeat delay: (ccTime) delay paused:(BOOL)paused;
+-(void) scheduleSelector:(SEL)selector forTarget:(id)target interval:(ccTime)interval paused:(BOOL)paused repeat:(uint)repeat delay:(ccTime)delay DEPRECATED_ATTRIBUTE;
+// new: unscheduleAllForTarget
+-(void) unscheduleAllSelectorsForTarget:(id)target DEPRECATED_ATTRIBUTE;
+// new: unscheduleAll
+-(void) unscheduleAllSelectors DEPRECATED_ATTRIBUTE;
+// new: unscheduleAllWithMinPriority:
+-(void) unscheduleAllSelectorsWithMinPriority:(NSInteger)minPriority DEPRECATED_ATTRIBUTE;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 @interface CCActionManager (Deprecated)
@@ -100,6 +169,11 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 #endif // __CC_PLATFORM_MAC
 
 @interface CCDirector (Deprecated)
+<<<<<<< HEAD
+=======
+// new: [director isPaused]
+-(BOOL) getIsPaused DEPRECATED_ATTRIBUTE;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 // new: setView:
 -(void) setOpenGLView:(CCGLView*)view DEPRECATED_ATTRIBUTE;
 // new: view
@@ -108,6 +182,33 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 -(void) setDisplayFPS:(BOOL)display DEPRECATED_ATTRIBUTE;
 @end
 
+<<<<<<< HEAD
+=======
+@interface CCNode (Deprecated)
+-(void) setIsRelativeAnchorPoint:(BOOL)value DEPRECATED_ATTRIBUTE;
+-(BOOL) isRelativeAnchorPoint DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCLayer (Deprecated)
+#if __CC_PLATFORM_IOS
+// new: setTouchEnabled:
+-(void) setIsTouchEnabled:(BOOL)enabled DEPRECATED_ATTRIBUTE;
+// new: setAccelerometerEnabled:
+-(void) setIsAccelerometerEnabled:(BOOL)enabled DEPRECATED_ATTRIBUTE;
+#elif __CC_PLATFORM_MAC
+-(void) setIsTouchEnabled:(BOOL)enabled DEPRECATED_ATTRIBUTE;
+-(void) setIsKeyboardEnabled:(BOOL)enabled DEPRECATED_ATTRIBUTE;
+-(void) setIsMouseEnabled:(BOOL)enabled DEPRECATED_ATTRIBUTE;
+// new: setMouseEnabled:priority:
+-(NSInteger) mouseDelegatePriority DEPRECATED_ATTRIBUTE;
+// new: setKeyboardEnabled:priority:
+-(NSInteger) keyboardDelegatePriority DEPRECATED_ATTRIBUTE;
+// new: setTouchEnabled:priority:
+-(NSInteger) touchDelegatePriority DEPRECATED_ATTRIBUTE;
+#endif // __CC_PLATFORM_MAC
+@end
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @interface CCSprite (Deprecated)
 // new: spriteWithTexture:rect:
@@ -118,6 +219,15 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 -(CCSpriteFrame*) displayedFrame DEPRECATED_ATTRIBUTE;
 @end
 
+<<<<<<< HEAD
+=======
+@interface CCMenuItem (Deprecated)
+// new: -(CGRect) activeArea;
+-(CGRect) rect DEPRECATED_ATTRIBUTE;
+-(void) setRect:(CGRect)rect DEPRECATED_ATTRIBUTE;
+@end
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @interface CCMenuItemAtlasFont (Deprecated)
 // new itemWithStirng:charmapFile:itemWidth:itemHeight:startCharMap
 +(id) itemFromString: (NSString*) value charMapFile:(NSString*) charMapFile itemWidth:(int)itemWidth itemHeight:(int)itemHeight startCharMap:(char)startCharMap DEPRECATED_ATTRIBUTE;
@@ -194,6 +304,20 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 -(id) initWithDuration:(ccTime)duration animation:(CCAnimation*)animation restoreOriginalFrame:(BOOL)restoreOriginalFrame DEPRECATED_ATTRIBUTE;
 @end
 
+<<<<<<< HEAD
+=======
+@interface CCSequence (Deprecated)
+// new: actionWithArray
++(id) actionsWithArray: (NSArray*) actions DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCSpawn (Deprecated)
+// new: actionWithArray
++(id) actionsWithArray: (NSArray*) actions DEPRECATED_ATTRIBUTE;
+@end
+
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @interface CCRenderTexture (Deprecated)
 // new: saveToFile:
 -(BOOL)saveBuffer:(NSString*)name DEPRECATED_ATTRIBUTE;
@@ -207,6 +331,7 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 #endif
 @end
 
+<<<<<<< HEAD
 #if __CC_PLATFORM_IOS
 @interface CCFileUtils (Deprecated)
 // new: setiPhoneRetinaDisplaySuffix
@@ -214,6 +339,140 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 @end
 #endif
 
+=======
+@interface CCFileUtils (Deprecated)
+
+// new: -(NSString*) fullPathFromRelativePath:  (instance method, not class method)
++(NSString*) fullPathFromRelativePath:(NSString*) relPath DEPRECATED_ATTRIBUTE;
+// new: -(NSString*) fullPathFromRelativePath:resolutionType  (instance method, not class method)
++(NSString*) fullPathFromRelativePath:(NSString*)relPath resolutionType:(ccResolutionType*)resolutionType DEPRECATED_ATTRIBUTE;
+
+#ifdef __CC_PLATFORM_IOS
+// new: -(NSString*) removeSuffixFromFile:  (instance method, not class method)
++(NSString *)removeSuffixFromFile:(NSString*) path DEPRECATED_ATTRIBUTE;
+// new: -(BOOL) iPhoneRetinaDisplayFileExistsAtPath: (instance method, not class method)
++(BOOL) iPhoneRetinaDisplayFileExistsAtPath:(NSString*)filename DEPRECATED_ATTRIBUTE;
+// new: -(BOOL) iPadFileExistsAtPath: (instance method, not class method)
++(BOOL) iPadFileExistsAtPath:(NSString*)filename DEPRECATED_ATTRIBUTE;
+// new: -(BOOL) iPadRetinaDisplayFileExistsAtPath: (instance method, not class method)
++(BOOL) iPadRetinaDisplayFileExistsAtPath:(NSString*)filename DEPRECATED_ATTRIBUTE;
+// new: -(void) setiPhoneRetinaDisplaySuffix: (instance method, not class method)
++(void) setRetinaDisplaySuffix:(NSString*)suffix DEPRECATED_ATTRIBUTE;
+#endif  //__CC_PLATFORM_IOS
+@end
+
+
+@interface CCSpriteFrameCache (Deprecated)
+-(void) addSpriteFramesWithDictionary:(NSDictionary*)dictionary textureFile:(NSString*)filename DEPRECATED_ATTRIBUTE;
+-(void) addSpriteFramesWithFile:(NSString*)plist textureFile:(NSString*)filename DEPRECATED_ATTRIBUTE;
+@end
+
+
+@interface CCLabelTTF (Deprecated)
+// new: + (id) labelWithString:(NSString*)string dimensions:hAlignment:fontName:fontSize:
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+// new: + (id) labelWithString:(NSString*)string dimensions:hAlignment:lineBreakMode:fontName:fontSize:
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment vAlignment:(CCVerticalTextAlignment)vertAlignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment vAlignment:(CCVerticalTextAlignment)vertAlignment fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+
+// new: + (id) initWithString:(NSString*)string dimensions:hAlignment:fontName:fontSize:
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+// new: + (id) initWithString:(NSString*)string dimensions:hAlignment:lineBreakMode:fontName:fontSize:
+- (id) initWithString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCTexture2D (Deprecated)
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size DEPRECATED_ATTRIBUTE;
+@end
+
+// Effects
+#pragma mark - Effects
+
+@interface CCGridAction (Deprecated)
++(id) actionWithSize:(CGSize)size duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id) initWithSize:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCWaves3D (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCLens3D (Deprecated)
++(id)actionWithPosition:(CGPoint)pos radius:(float)r grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithPosition:(CGPoint)pos radius:(float)r grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCRipple3D (Deprecated)
++(id)actionWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCShaky3D (Deprecated)
++(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCLiquid (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCWaves (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCTwirl (Deprecated)
++(id)actionWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCShakyTiles3D (Deprecated)
++(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCShatteredTiles3D  (Deprecated)
++(id)actionWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCShuffleTiles (Deprecated)
++(id)actionWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCTurnOffTiles (Deprecated)
++(id)actionWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCWavesTiles3D  (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCJumpTiles3D (Deprecated)
++(id)actionWithJumps:(int)j amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+-(id)initWithJumps:(int)j amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCSplitRows (Deprecated)
++(id)actionWithRows:(int)rows duration:(ccTime)duration DEPRECATED_ATTRIBUTE;
+-(id)initWithRows:(int)rows duration:(ccTime)duration DEPRECATED_ATTRIBUTE;
+@end
+
+@interface CCSplitCols  (Deprecated)
++(id)actionWithCols:(int)cols duration:(ccTime)duration DEPRECATED_ATTRIBUTE;
+-(id)initWithCols:(int)cols duration:(ccTime)duration DEPRECATED_ATTRIBUTE;
+@end
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #endif // CC_ENABLE_DEPRECATED
 

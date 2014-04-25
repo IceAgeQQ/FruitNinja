@@ -226,12 +226,20 @@ inline void CGPointSet(CGPoint *v, float x, float y){
     
     ccGLBlendFunc( CC_BLEND_SRC, CC_BLEND_DST );
     
+<<<<<<< HEAD
     ccGLBindTexture2D( [_texture name] );    
+=======
+    ccGLBindTexture2D( [_texture name] );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
     glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), vertices);
     glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(coordinates[0]), coordinates);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 2*[path count]-2);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 - (void) finish
 {
     _finish = YES;

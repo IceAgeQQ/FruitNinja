@@ -35,6 +35,11 @@
 	<true/>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+<<<<<<< HEAD
+=======
+	<key>UIStatusBarHidden</key>
+	<true/>
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
 		<key>accelerometer</key>
@@ -42,19 +47,27 @@
 		<key>opengles-2</key>
 		<true/>
 	</dict>
+<<<<<<< HEAD
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+=======
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
+<<<<<<< HEAD
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>

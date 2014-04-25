@@ -27,12 +27,20 @@
 // Should buffer factor be 1.5 instead of 2 ?
 #define BUFFER_INC_FACTOR (2)
 
+<<<<<<< HEAD
 static int inflateMemoryWithHint(unsigned char *in, unsigned int inLength, unsigned char **out, unsigned int *outLength, unsigned int outLenghtHint )
+=======
+static int inflateMemoryWithHint(unsigned char *in, unsigned int inLength, unsigned char **out, unsigned int *outLength, unsigned int outlengthHint )
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	/* ret value */
 	int err = Z_OK;
 
+<<<<<<< HEAD
 	int bufferSize = outLenghtHint;
+=======
+	int bufferSize = outlengthHint;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	*out = (unsigned char*) malloc(bufferSize);
 
     z_stream d_stream; /* decompression stream */

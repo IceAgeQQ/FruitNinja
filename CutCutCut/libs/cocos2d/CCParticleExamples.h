@@ -28,6 +28,7 @@
 #import "ccMacros.h"
 #import "CCParticleSystemQuad.h"
 
+<<<<<<< HEAD
 // build each architecture with the optimal particle system
 
 // ARMv7, Mac or Simulator use "Quad" particle
@@ -106,4 +107,92 @@
 @interface CCParticleRain : ARCH_OPTIMAL_PARTICLE_SYSTEM
 {
 }
+=======
+//! A fire particle system
+@interface CCParticleFire: CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! A fireworks particle system
+@interface CCParticleFireworks : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! A sun particle system
+@interface CCParticleSun : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! A galaxy particle system
+@interface CCParticleGalaxy : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! A flower particle system
+@interface CCParticleFlower : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! A meteor particle system
+@interface CCParticleMeteor : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! An spiral particle system
+@interface CCParticleSpiral : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! An explosion particle system
+@interface CCParticleExplosion : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! An smoke particle system
+@interface CCParticleSmoke : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! An snow particle system
+@interface CCParticleSnow : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+@end
+
+//! A rain particle system
+@interface CCParticleRain : CCParticleSystemQuad
+{
+}
+// needed for BridgeSupport
+-(id) init;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end

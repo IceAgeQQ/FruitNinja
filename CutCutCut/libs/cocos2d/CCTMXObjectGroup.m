@@ -41,10 +41,17 @@
 
 @implementation CCTMXObjectGroup
 
+<<<<<<< HEAD
 @synthesize groupName = groupName_;
 @synthesize objects = objects_;
 @synthesize positionOffset = positionOffset_;
 @synthesize properties = properties_;
+=======
+@synthesize groupName = _groupName;
+@synthesize objects = _objects;
+@synthesize positionOffset = _positionOffset;
+@synthesize properties = _properties;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 -(id) init
 {
@@ -61,15 +68,25 @@
 {
 	CCLOGINFO( @"cocos2d: deallocing %@", self );
 
+<<<<<<< HEAD
 	[groupName_ release];
 	[objects_ release];
 	[properties_ release];
+=======
+	[_groupName release];
+	[_objects release];
+	[_properties release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(NSMutableDictionary*) objectNamed:(NSString *)objectName
 {
+<<<<<<< HEAD
 	for( id object in objects_ ) {
+=======
+	for( id object in _objects ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if( [[object valueForKey:@"name"] isEqual:objectName] )
 			return object;
 		}
@@ -80,7 +97,11 @@
 
 -(id) propertyNamed:(NSString *)propertyName
 {
+<<<<<<< HEAD
 	return [properties_ valueForKey:propertyName];
+=======
+	return [_properties valueForKey:propertyName];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end

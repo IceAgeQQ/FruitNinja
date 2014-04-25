@@ -63,8 +63,15 @@ extern "C" {
  @return CGPoint
  @since v0.7.2
  */
+<<<<<<< HEAD
 #define ccp(__X__,__Y__) CGPointMake(__X__,__Y__)
 
+=======
+static inline CGPoint ccp( CGFloat x, CGFloat y )
+{
+	return CGPointMake(x, y);
+}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** Returns opposite of point.
  @return CGPoint

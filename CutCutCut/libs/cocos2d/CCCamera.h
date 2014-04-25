@@ -47,12 +47,17 @@
 
      - It doesn't work on batched nodes like CCSprite objects when they are parented to a CCSpriteBatchNode object.
 
+<<<<<<< HEAD
 	 - It is recommended to use it ONLY if you are going to create 3D effects. For 2D effecs, use the action CCFollow or position/scale/rotate.
+=======
+	 - It is recommended to use it ONLY if you are going to create 3D effects. For 2D effects, use the action CCFollow or position/scale/rotate.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 */
 
 @interface CCCamera : NSObject
 {
+<<<<<<< HEAD
     float eyeX_;
     float eyeY_;
     float eyeZ_;
@@ -68,6 +73,23 @@
 	BOOL dirty_;
 
 	kmMat4	lookupMatrix_;
+=======
+    float _eyeX;
+    float _eyeY;
+    float _eyeZ;
+
+    float _centerX;
+    float _centerY;
+    float _centerZ;
+
+    float _upX;
+    float _upY;
+    float _upZ;
+
+	BOOL _dirty;
+
+	kmMat4	_lookupMatrix;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** whether of not the camera is dirty */

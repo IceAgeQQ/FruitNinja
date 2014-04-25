@@ -24,6 +24,10 @@
  */
 
 #import "CCActionPageTurn3D.h"
+<<<<<<< HEAD
+=======
+#import "Support/CGPointExtension.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @implementation CCPageTurn3D
 
@@ -43,12 +47,21 @@
 	float sinTheta = sinf(theta);
 	float cosTheta = cosf(theta);
 
+<<<<<<< HEAD
 	for( int i = 0; i <=gridSize_.x; i++ )
 	{
 		for( int j = 0; j <= gridSize_.y; j++ )
 		{
 			// Get original vertex
 			ccVertex3F	p = [self originalVertex:ccg(i,j)];
+=======
+	for( int i = 0; i <=_gridSize.width; i++ )
+	{
+		for( int j = 0; j <= _gridSize.height; j++ )
+		{
+			// Get original vertex
+			ccVertex3F	p = [self originalVertex:ccp(i,j)];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			float R = sqrtf(p.x*p.x + (p.y - ay) * (p.y - ay));
 			float r = R * sinTheta;
@@ -79,7 +92,11 @@
 				p.z = 0.5f;
 
 			// Set new coords
+<<<<<<< HEAD
 			[self setVertex:ccg(i,j) vertex:p];
+=======
+			[self setVertex:ccp(i,j) vertex:p];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 	}
 }

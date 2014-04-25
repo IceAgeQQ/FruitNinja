@@ -47,7 +47,11 @@ enum {
 
 @implementation CCMenu
 
+<<<<<<< HEAD
 @synthesize opacity = opacity_, color = color_, enabled=enabled_;
+=======
+@synthesize enabled=_enabled;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id) menuWithArray:(NSArray *)arrayOfItems
 {
@@ -59,6 +63,7 @@ enum {
 	va_list args;
 	va_start(args,item);
 
+<<<<<<< HEAD
 	id s = [[[self alloc] initWithItems: item vaList:args] autorelease];
 
 	va_end(args);
@@ -71,6 +76,16 @@ enum {
 }
 
 -(id) initWithItems: (CCMenuItem*) item vaList: (va_list) args
+=======
+	id ret = [self menuWithItems:item vaList:args];
+
+	va_end(args);
+	
+	return ret;
+}
+
++(id) menuWithItems: (CCMenuItem*) item vaList: (va_list) args
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	NSMutableArray *array = nil;
 	if( item ) {
@@ -81,25 +96,56 @@ enum {
 			i = va_arg(args, CCMenuItem*);
 		}
 	}
+<<<<<<< HEAD
 
 	return [self initWithArray:array];
 }
 
+=======
+	
+	return [[[self alloc] initWithArray:array] autorelease];
+}
+
+-(id) init
+{
+	return [self initWithArray:nil];
+}
+
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 -(id) initWithArray:(NSArray *)arrayOfItems
 {
 	if( (self=[super init]) ) {
 #ifdef __CC_PLATFORM_IOS
+<<<<<<< HEAD
 		self.isTouchEnabled = YES;
 #elif defined(__CC_PLATFORM_MAC)
 		self.isMouseEnabled = YES;
 #endif
 		enabled_ = YES;
+=======
+		[self setTouchPriority:kCCMenuHandlerPriority];
+		[self setTouchMode:kCCTouchesOneByOne];
+		[self setTouchEnabled:YES];
+
+#elif defined(__CC_PLATFORM_MAC)
+		[self setMousePriority:kCCMenuHandlerPriority+1];
+		[self setMouseEnabled:YES];
+		
+#endif
+		_enabled = YES;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		
 		// by default, menu in the center of the screen
 		CGSize s = [[CCDirector sharedDirector] winSize];
 		
+<<<<<<< HEAD
 		self.isRelativeAnchorPoint = NO;
 		anchorPoint_ = ccp(0.5f, 0.5f);
+=======
+		self.ignoreAnchorPointForPosition = YES;
+		_anchorPoint = ccp(0.5f, 0.5f);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		[self setContentSize:s];
 		
 		// XXX: in v0.7, winSize should return the visible size
@@ -119,8 +165,17 @@ enum {
 
 //		[self alignItemsVertically];
 		
+<<<<<<< HEAD
 		selectedItem_ = nil;
 		state_ = kCCMenuStateWaiting;
+=======
+		_selectedItem = nil;
+		_state = kCCMenuStateWaiting;
+		
+		// enable cascade color and opacity on menus
+		self.cascadeColorEnabled = YES;
+		self.cascadeOpacityEnabled = YES;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	
 	return self;
@@ -142,11 +197,19 @@ enum {
 
 - (void) onExit
 {
+<<<<<<< HEAD
 	if(state_ == kCCMenuStateTrackingTouch)
 	{
 		[selectedItem_ unselected];
 		state_ = kCCMenuStateWaiting;
 		selectedItem_ = nil;
+=======
+	if(_state == kCCMenuStateTrackingTouch)
+	{
+		[_selectedItem unselected];
+		_state = kCCMenuStateWaiting;
+		_selectedItem = nil;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	[super onExit];
 }
@@ -169,11 +232,14 @@ enum {
 #pragma mark Menu - Events Touches
 
 #ifdef __CC_PLATFORM_IOS
+<<<<<<< HEAD
 -(void) registerWithTouchDispatcher
 {
 	CCDirector *director = [CCDirector sharedDirector];
 	[[director touchDispatcher] addTargetedDelegate:self priority:kCCMenuHandlerPriority swallowsTouches:YES];
 }
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 -(CCMenuItem *) itemForTouch: (UITouch *) touch
 {
@@ -181,13 +247,21 @@ enum {
 	touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
 
 	CCMenuItem* item;
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, item){
+=======
+	CCARRAY_FOREACH(_children, item){
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		// ignore invisible and disabled items: issue #779, #866
 		if ( [item visible] && [item isEnabled] ) {
 
 			CGPoint local = [item convertToNodeSpace:touchLocation];
+<<<<<<< HEAD
 			CGRect r = [item rect];
 			r.origin = CGPointZero;
+=======
+			CGRect r = [item activeArea];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			if( CGRectContainsPoint( r, local ) )
 				return item;
@@ -198,18 +272,30 @@ enum {
 
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	if( state_ != kCCMenuStateWaiting || !visible_ || ! enabled_)
+=======
+	if( _state != kCCMenuStateWaiting || !_visible || ! _enabled)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		return NO;
 
 	for( CCNode *c = self.parent; c != nil; c = c.parent )
 		if( c.visible == NO )
 			return NO;
 
+<<<<<<< HEAD
 	selectedItem_ = [self itemForTouch:touch];
 	[selectedItem_ selected];
 
 	if( selectedItem_ ) {
 		state_ = kCCMenuStateTrackingTouch;
+=======
+	_selectedItem = [self itemForTouch:touch];
+	[_selectedItem selected];
+
+	if( _selectedItem ) {
+		_state = kCCMenuStateTrackingTouch;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		return YES;
 	}
 	return NO;
@@ -217,25 +303,43 @@ enum {
 
 -(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
 
 	[selectedItem_ unselected];
 	[selectedItem_ activate];
 
 	state_ = kCCMenuStateWaiting;
+=======
+	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
+
+	[_selectedItem unselected];
+	[_selectedItem activate];
+
+	_state = kCCMenuStateWaiting;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
 
 	[selectedItem_ unselected];
 
 	state_ = kCCMenuStateWaiting;
+=======
+	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
+
+	[_selectedItem unselected];
+
+	_state = kCCMenuStateWaiting;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
 
 	CCMenuItem *currentItem = [self itemForTouch:touch];
@@ -244,6 +348,16 @@ enum {
 		[selectedItem_ unselected];
 		selectedItem_ = currentItem;
 		[selectedItem_ selected];
+=======
+	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
+
+	CCMenuItem *currentItem = [self itemForTouch:touch];
+
+	if (currentItem != _selectedItem) {
+		[_selectedItem unselected];
+		_selectedItem = currentItem;
+		[_selectedItem selected];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
@@ -251,24 +365,35 @@ enum {
 
 #elif defined(__CC_PLATFORM_MAC)
 
+<<<<<<< HEAD
 -(NSInteger) mouseDelegatePriority
 {
 	return kCCMenuHandlerPriority+1;
 }
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 -(CCMenuItem *) itemForMouseEvent: (NSEvent *) event
 {
 	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
 
 	CCMenuItem* item;
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, item){
+=======
+	CCARRAY_FOREACH(_children, item){
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		// ignore invisible and disabled items: issue #779, #866
 		if ( [item visible] && [item isEnabled] ) {
 
 			CGPoint local = [item convertToNodeSpace:location];
 
+<<<<<<< HEAD
 			CGRect r = [item rect];
 			r.origin = CGPointZero;
+=======
+			CGRect r = [item activeArea];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			if( CGRectContainsPoint( r, local ) )
 				return item;
@@ -279,6 +404,7 @@ enum {
 
 -(BOOL) ccMouseUp:(NSEvent *)event
 {
+<<<<<<< HEAD
 	if( ! visible_ || ! enabled_)
 		return NO;
 
@@ -288,6 +414,17 @@ enum {
 			[selectedItem_ activate];
 		}
 		state_ = kCCMenuStateWaiting;
+=======
+	if( ! _visible || ! _enabled)
+		return NO;
+
+	if(_state == kCCMenuStateTrackingTouch) {
+		if( _selectedItem ) {
+			[_selectedItem unselected];
+			[_selectedItem activate];
+		}
+		_state = kCCMenuStateWaiting;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		return YES;
 	}
@@ -296,6 +433,7 @@ enum {
 
 -(BOOL) ccMouseDown:(NSEvent *)event
 {
+<<<<<<< HEAD
 	if( ! visible_ || ! enabled_)
 		return NO;
 
@@ -304,6 +442,16 @@ enum {
 
 	if( selectedItem_ ) {
 		state_ = kCCMenuStateTrackingTouch;
+=======
+	if( ! _visible || ! _enabled)
+		return NO;
+
+	_selectedItem = [self itemForMouseEvent:event];
+	[_selectedItem selected];
+
+	if( _selectedItem ) {
+		_state = kCCMenuStateTrackingTouch;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		return YES;
 	}
 
@@ -312,6 +460,7 @@ enum {
 
 -(BOOL) ccMouseDragged:(NSEvent *)event
 {
+<<<<<<< HEAD
 	if( ! visible_ || ! enabled_)
 		return NO;
 
@@ -322,6 +471,18 @@ enum {
 			[selectedItem_ unselected];
 			selectedItem_ = currentItem;
 			[selectedItem_ selected];
+=======
+	if( ! _visible || ! _enabled)
+		return NO;
+
+	if(_state == kCCMenuStateTrackingTouch) {
+		CCMenuItem *currentItem = [self itemForMouseEvent:event];
+
+		if (currentItem != _selectedItem) {
+			[_selectedItem unselected];
+			_selectedItem = currentItem;
+			[_selectedItem selected];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		}
 
 		return YES;
@@ -341,12 +502,20 @@ enum {
 	float height = -padding;
 
 	CCMenuItem *item;
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, item)
+=======
+	CCARRAY_FOREACH(_children, item)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	    height += item.contentSize.height * item.scaleY + padding;
 
 	float y = height / 2.0f;
 
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, item) {
+=======
+	CCARRAY_FOREACH(_children, item) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		CGSize itemSize = item.contentSize;
 	    [item setPosition:ccp(0, y - itemSize.height * item.scaleY / 2.0f)];
 	    y -= itemSize.height * item.scaleY + padding;
@@ -363,12 +532,20 @@ enum {
 
 	float width = -padding;
 	CCMenuItem *item;
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, item)
+=======
+	CCARRAY_FOREACH(_children, item)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	    width += item.contentSize.width * item.scaleX + padding;
 
 	float x = -width / 2.0f;
 
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, item){
+=======
+	CCARRAY_FOREACH(_children, item){
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		CGSize itemSize = item.contentSize;
 		[item setPosition:ccp(x + itemSize.width * item.scaleX / 2.0f, 0)];
 		x += itemSize.width * item.scaleX + padding;
@@ -394,6 +571,7 @@ enum {
 		columns = va_arg(args, NSNumber*);
 	}
 
+<<<<<<< HEAD
 	int height = -5;
     NSUInteger row = 0, rowHeight = 0, columnsOccupied = 0, rowColumns;
 	CCMenuItem *item;
@@ -409,28 +587,66 @@ enum {
 		if(columnsOccupied >= rowColumns) {
 			height += rowHeight + 5;
 
+=======
+	[self alignItemsInColumnsWithArray:rows];
+	
+	[rows release];
+}
+
+-(void) alignItemsInColumnsWithArray:(NSArray*) rows
+{	
+	int height = -5;
+    NSUInteger row = 0, rowHeight = 0, columnsOccupied = 0, rowColumns;
+	CCMenuItem *item;
+	CCARRAY_FOREACH(_children, item){
+		NSAssert( row < [rows count], @"Too many menu items for the amount of rows/columns.");
+		
+		rowColumns = [(NSNumber *) [rows objectAtIndex:row] unsignedIntegerValue];
+		NSAssert( rowColumns, @"Can't have zero columns on a row");
+		
+		rowHeight = fmaxf(rowHeight, item.contentSize.height);
+		++columnsOccupied;
+		
+		if(columnsOccupied >= rowColumns) {
+			height += rowHeight + 5;
+			
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			columnsOccupied = 0;
 			rowHeight = 0;
 			++row;
 		}
 	}
 	NSAssert( !columnsOccupied, @"Too many rows/columns for available menu items." );
+<<<<<<< HEAD
 
 	CGSize winSize = [[CCDirector sharedDirector] winSize];
 
 	row = 0; rowHeight = 0; rowColumns = 0;
 	float w, x, y = height / 2;
 	CCARRAY_FOREACH(children_, item) {
+=======
+	
+	CGSize winSize = [[CCDirector sharedDirector] winSize];
+	
+	row = 0; rowHeight = 0; rowColumns = 0;
+	float w, x, y = height / 2;
+	CCARRAY_FOREACH(_children, item) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if(rowColumns == 0) {
 			rowColumns = [(NSNumber *) [rows objectAtIndex:row] unsignedIntegerValue];
 			w = winSize.width / (1 + rowColumns);
 			x = w;
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		CGSize itemSize = item.contentSize;
 		rowHeight = fmaxf(rowHeight, itemSize.height);
 		[item setPosition:ccp(x - winSize.width / 2,
 							  y - itemSize.height / 2)];
+<<<<<<< HEAD
 
 		x += w;
 		++columnsOccupied;
@@ -438,14 +654,26 @@ enum {
 		if(columnsOccupied >= rowColumns) {
 			y -= rowHeight + 5;
 
+=======
+		
+		x += w;
+		++columnsOccupied;
+		
+		if(columnsOccupied >= rowColumns) {
+			y -= rowHeight + 5;
+			
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			columnsOccupied = 0;
 			rowColumns = 0;
 			rowHeight = 0;
 			++row;
 		}
 	}
+<<<<<<< HEAD
 
 	[rows release];
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) alignItemsInRows: (NSNumber *) rows, ...
@@ -467,6 +695,7 @@ enum {
 		rows = va_arg(args, NSNumber*);
 	}
 
+<<<<<<< HEAD
 	NSMutableArray *columnWidths = [[NSMutableArray alloc] init];
 	NSMutableArray *columnHeights = [[NSMutableArray alloc] init];
 
@@ -479,16 +708,45 @@ enum {
 		columnRows = [(NSNumber *) [columns objectAtIndex:column] unsignedIntegerValue];
 		NSAssert( columnRows, @"Can't have zero rows on a column");
 
+=======
+	[self alignItemsInRowsWithArray:columns];
+	
+	[columns release];
+}
+
+-(void) alignItemsInRowsWithArray:(NSArray*) columns
+{
+	NSMutableArray *columnWidths = [[NSMutableArray alloc] init];
+	NSMutableArray *columnHeights = [[NSMutableArray alloc] init];
+	
+	int width = -10, columnHeight = -5;
+	NSUInteger column = 0, columnWidth = 0, rowsOccupied = 0, columnRows;
+	CCMenuItem *item;
+	CCARRAY_FOREACH(_children, item){
+		NSAssert( column < [columns count], @"Too many menu items for the amount of rows/columns.");
+		
+		columnRows = [(NSNumber *) [columns objectAtIndex:column] unsignedIntegerValue];
+		NSAssert( columnRows, @"Can't have zero rows on a column");
+		
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		CGSize itemSize = item.contentSize;
 		columnWidth = fmaxf(columnWidth, itemSize.width);
 		columnHeight += itemSize.height + 5;
 		++rowsOccupied;
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if(rowsOccupied >= columnRows) {
 			[columnWidths addObject:[NSNumber numberWithUnsignedInteger:columnWidth]];
 			[columnHeights addObject:[NSNumber numberWithUnsignedInteger:columnHeight]];
 			width += columnWidth + 10;
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			rowsOccupied = 0;
 			columnWidth = 0;
 			columnHeight = -5;
@@ -496,6 +754,7 @@ enum {
 		}
 	}
 	NSAssert( !rowsOccupied, @"Too many rows/columns for available menu items.");
+<<<<<<< HEAD
 
 	CGSize winSize = [[CCDirector sharedDirector] winSize];
 
@@ -503,15 +762,29 @@ enum {
 	float x = -width / 2, y;
 
 	CCARRAY_FOREACH(children_, item){
+=======
+	
+	CGSize winSize = [[CCDirector sharedDirector] winSize];
+	
+	column = 0; columnWidth = 0; columnRows = 0;
+	float x = -width / 2, y;
+	
+	CCARRAY_FOREACH(_children, item){
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if(columnRows == 0) {
 			columnRows = [(NSNumber *) [columns objectAtIndex:column] unsignedIntegerValue];
 			y = ([(NSNumber *) [columnHeights objectAtIndex:column] intValue] + winSize.height) / 2;
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		CGSize itemSize = item.contentSize;
 		columnWidth = fmaxf(columnWidth, itemSize.width);
 		[item setPosition:ccp(x + [(NSNumber *) [columnWidths objectAtIndex:column] unsignedIntegerValue] / 2,
 							  y - winSize.height / 2)];
+<<<<<<< HEAD
 
 		y -= itemSize.height + 10;
 		++rowsOccupied;
@@ -519,6 +792,15 @@ enum {
 		if(rowsOccupied >= columnRows) {
 			x += columnWidth + 5;
 
+=======
+		
+		y -= itemSize.height + 10;
+		++rowsOccupied;
+		
+		if(rowsOccupied >= columnRows) {
+			x += columnWidth + 5;
+			
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			rowsOccupied = 0;
 			columnRows = 0;
 			columnWidth = 0;
@@ -526,6 +808,7 @@ enum {
 		}
 	}
 
+<<<<<<< HEAD
 	[columns release];
 	[columnWidths release];
 	[columnHeights release];
@@ -551,4 +834,9 @@ enum {
 	CCARRAY_FOREACH(children_, item)
 		[item setColor:color_];
 }
+=======
+	[columnWidths release];
+	[columnHeights release];
+}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end

@@ -2,8 +2,13 @@
 //  Pineapple.m
 //  CutCutCut
 //
+<<<<<<< HEAD
 //  Created by Chao on 5/16/13.
 //  Copyright 2013 Chao. All rights reserved.
+=======
+//  Created by Allen Benson G Tan on 5/16/12.
+//  Copyright 2012 WhiteWidget Inc. All rights reserved.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 //
 
 #import "Pineapple.h"
@@ -13,6 +18,7 @@
 
 -(id)initWithWorld:(b2World *)world
 {
+<<<<<<< HEAD
     int32 count = 7;
     NSString *file = @"pineapple.png";
     b2Vec2 vertices[] = {
@@ -23,6 +29,18 @@
         b2Vec2(11.0/PTM_RATIO,0.0/PTM_RATIO),
         b2Vec2(29.0/PTM_RATIO,0.0/PTM_RATIO),
         b2Vec2(64.0/PTM_RATIO,39.0/PTM_RATIO)
+=======
+    int32 count = 6;
+    NSString *file = @"pineapple.png";
+    b2Vec2 vertices[] = {
+        b2Vec2(0.0/PTM_RATIO,0.0/PTM_RATIO),
+        b2Vec2(29.0/PTM_RATIO,0.0/PTM_RATIO),
+        b2Vec2(64.0/PTM_RATIO,38.0/PTM_RATIO),
+        b2Vec2(62.0/PTM_RATIO,63.0/PTM_RATIO),
+        b2Vec2(39.0/PTM_RATIO,64.0/PTM_RATIO),
+        b2Vec2(0.0/PTM_RATIO,27.0/PTM_RATIO)
+        
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
     };
     CGSize screen = [[CCDirector sharedDirector] winSize];
     

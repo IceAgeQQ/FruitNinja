@@ -67,13 +67,18 @@ typedef struct _hashSelectorEntry
 	BOOL			currentTimerSalvaged;
 	BOOL			paused;
 	UT_hash_handle  hh;
+<<<<<<< HEAD
 } tHashSelectorEntry;
+=======
+} tHashTimerEntry;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 
 //
 // CCTimer
 //
+<<<<<<< HEAD
 #pragma mark -
 #pragma mark - CCTimer
 
@@ -87,6 +92,103 @@ typedef struct _hashSelectorEntry
 	[self release];
 	return nil;
 }
+=======
+#pragma mark - CCTimer
+
+@interface CCTimer ()
+-(void) setupTimerWithInterval:(ccTime)seconds repeat:(uint)r delay:(ccTime)d;
+-(void) trigger;
+-(void) cancel;
+@end
+
+@implementation CCTimer
+
+@synthesize interval=_interval;
+
+-(void) setupTimerWithInterval:(ccTime)seconds repeat:(uint)r delay:(ccTime)d
+{
+	_elapsed = -1;
+	_interval = seconds;
+	_delay = d;
+	_useDelay = (_delay > 0) ? YES : NO;
+	_repeat = r;
+	_runForever = (_repeat == kCCRepeatForever) ? YES : NO;
+}
+
+-(void) dealloc
+{
+	CCLOGINFO(@"cocos2d: deallocing %@", self);
+
+	[super dealloc];
+}
+
+-(void) trigger
+{
+	// override me
+}
+
+-(void) cancel
+{
+	// override me
+}
+
+-(void) update: (ccTime) dt
+{
+	if( _elapsed == - 1)
+	{
+		_elapsed = 0;
+		_nTimesExecuted = 0;
+	}
+	else
+	{
+		if (_runForever && !_useDelay)
+		{//standard timer usage
+			_elapsed += dt;
+			if( _elapsed >= _interval ) {
+				[self trigger];
+				_elapsed = 0;
+
+			}
+		}
+		else
+		{//advanced usage
+			_elapsed += dt;
+			if (_useDelay)
+			{
+				if( _elapsed >= _delay )
+				{
+					[self trigger];
+					_elapsed = _elapsed - _delay;
+					_nTimesExecuted+=1;
+					_useDelay = NO;
+				}
+			}
+			else
+			{
+				if (_elapsed >= _interval)
+				{
+					[self trigger];
+					_elapsed = 0;
+					_nTimesExecuted += 1;
+
+				}
+			}
+
+			if (!_runForever && _nTimesExecuted > _repeat)
+			{	//unschedule timer
+				[self cancel];
+			}
+		}
+	}
+}
+@end
+
+#pragma mark CCTimerTargetSelector
+
+@implementation CCTimerTargetSelector
+
+@synthesize selector=_selector;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id) timerWithTarget:(id)t selector:(SEL)s
 {
@@ -112,6 +214,7 @@ typedef struct _hashSelectorEntry
 #endif
 
 		// target is not retained. It is retained in the hash structure
+<<<<<<< HEAD
 		target = t;
 		selector = s;
 		impMethod = (TICK_IMP) [t methodForSelector:s];
@@ -122,10 +225,18 @@ typedef struct _hashSelectorEntry
 		useDelay = (delay > 0) ? YES : NO;
 		repeat = r;
 		runForever = (repeat == kCCRepeatForever) ? YES : NO;
+=======
+		_target = t;
+		_selector = s;
+		_impMethod = (TICK_IMP) [t methodForSelector:s];
+		
+		[self setupTimerWithInterval:seconds repeat:r delay:d];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	return self;
 }
 
+<<<<<<< HEAD
 
 - (NSString*) description
 {
@@ -197,20 +308,111 @@ typedef struct _hashSelectorEntry
 
 @interface CCScheduler (Private)
 -(void) removeHashElement:(tHashSelectorEntry*)element;
+=======
+- (NSString*) description
+{
+	return [NSString stringWithFormat:@"<%@ = %p | target:%@ selector:(%@)>", [self class], self, [_target class], NSStringFromSelector(_selector)];
+}
+
+-(void) trigger
+{
+	_impMethod(_target, _selector, _elapsed);
+}
+
+-(void) cancel
+{
+	[[[CCDirector sharedDirector] scheduler] unscheduleSelector:_selector forTarget:_target];
+}
+
+@end
+
+#pragma mark CCTimerBlock
+
+@implementation CCTimerBlock
+
+@synthesize key=_key;
+@synthesize target=_target;
+
++(id) timerWithTarget:(id)owner interval:(ccTime)seconds key:(NSString*)key block:(void(^)(ccTime delta)) block
+{
+	return [[[self alloc] initWithTarget:(id)owner interval:seconds repeat:kCCRepeatForever delay:0 key:key block:block] autorelease];
+}
+
+-(id) initWithTarget:(id)owner interval:(ccTime) seconds repeat:(uint) r delay:(ccTime)d key:(NSString*)key block:(void(^)(ccTime delta))block
+{
+	if( (self=[super init]) ) {
+		_block = [block copy];
+		_key = [key copy];
+		_target = owner;
+		
+		[self setupTimerWithInterval:seconds repeat:r delay:d];
+	}
+	
+	return self;
+}
+
+- (NSString*) description
+{
+	return [NSString stringWithFormat:@"<%@ = %p | block>", [self class], self];
+}
+
+- (void)dealloc
+{
+	[_key release];
+    [_block release];
+
+    [super dealloc];
+}
+
+-(void) trigger
+{
+	_block( _elapsed);
+}
+
+-(void) cancel
+{
+	[[[CCDirector sharedDirector] scheduler] unscheduleBlockForKey:_key target:_target];
+}
+
+@end
+
+
+
+//
+// CCScheduler
+//
+#pragma mark - CCScheduler
+
+@interface CCScheduler (Private)
+-(void) removeHashElement:(tHashTimerEntry*)element;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 @implementation CCScheduler
 
+<<<<<<< HEAD
 @synthesize timeScale = timeScale_;
+=======
+@synthesize paused = _paused;
+@synthesize timeScale = _timeScale;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 - (id) init
 {
 	if( (self=[super init]) ) {
+<<<<<<< HEAD
 		timeScale_ = 1.0f;
 
 		// used to trigger CCTimer#update
 		updateSelector = @selector(update:);
 		impMethod = (TICK_IMP) [CCTimer instanceMethodForSelector:updateSelector];
+=======
+		_timeScale = 1.0f;
+
+		// used to trigger CCTimer#update
+		updateSelector = @selector(update:);
+		impMethod = (TICK_IMP) [CCTimerTargetSelector instanceMethodForSelector:updateSelector];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		// updates with priority
 		updates0 = NULL;
@@ -221,8 +423,14 @@ typedef struct _hashSelectorEntry
 		// selectors with interval
 		currentTarget = nil;
 		currentTargetSalvaged = NO;
+<<<<<<< HEAD
 		hashForSelectors = nil;
         updateHashLocked = NO;
+=======
+		hashForTimers = nil;
+        updateHashLocked = NO;
+		_paused = NO;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -230,19 +438,28 @@ typedef struct _hashSelectorEntry
 
 - (NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X | timeScale = %0.2f >", [self class], self, timeScale_];
+=======
+	return [NSString stringWithFormat:@"<%@ = %p | timeScale = %0.2f >", [self class], self, _timeScale];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (void) dealloc
 {
 	CCLOG(@"cocos2d: deallocing %@", self);
 
+<<<<<<< HEAD
 	[self unscheduleAllSelectors];
+=======
+	[self unscheduleAll];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	[super dealloc];
 }
 
 
+<<<<<<< HEAD
 #pragma mark CCScheduler - Custom Selectors
 
 -(void) removeHashElement:(tHashSelectorEntry*)element
@@ -250,26 +467,51 @@ typedef struct _hashSelectorEntry
 	ccArrayFree(element->timers);
 	[element->target release];
 	HASH_DEL(hashForSelectors, element);
+=======
+#pragma mark CCScheduler - Timers
+
+-(void) removeHashElement:(tHashTimerEntry*)element
+{
+	ccArrayFree(element->timers);
+	[element->target release];
+	HASH_DEL(hashForTimers, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	free(element);
 }
 
 -(void) scheduleSelector:(SEL)selector forTarget:(id)target interval:(ccTime)interval paused:(BOOL)paused
 {
+<<<<<<< HEAD
 	[self scheduleSelector:selector forTarget:target interval:interval paused:paused repeat:kCCRepeatForever delay:0.0f];
 }
 
 -(void) scheduleSelector:(SEL)selector forTarget:(id)target interval:(ccTime)interval paused:(BOOL)paused repeat:(uint) repeat delay:(ccTime) delay
+=======
+	[self scheduleSelector:selector forTarget:target interval:interval repeat:kCCRepeatForever delay:0.0f paused:paused];
+}
+
+-(void) scheduleSelector:(SEL)selector forTarget:(id)target interval:(ccTime)interval repeat:(uint)repeat delay:(ccTime)delay paused:(BOOL)paused 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	NSAssert( selector != nil, @"Argument selector must be non-nil");
 	NSAssert( target != nil, @"Argument target must be non-nil");
 
+<<<<<<< HEAD
 	tHashSelectorEntry *element = NULL;
 	HASH_FIND_INT(hashForSelectors, &target, element);
+=======
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	if( ! element ) {
 		element = calloc( sizeof( *element ), 1 );
 		element->target = [target retain];
+<<<<<<< HEAD
 		HASH_ADD_INT( hashForSelectors, target, element );
+=======
+		HASH_ADD_INT( hashForTimers, target, element );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		// Is this the 1st element ? Then set the pause level to all the selectors of this target
 		element->paused = paused;
@@ -284,16 +526,66 @@ typedef struct _hashSelectorEntry
 	{
 		for( unsigned int i=0; i< element->timers->num; i++ ) {
 			CCTimer *timer = element->timers->arr[i];
+<<<<<<< HEAD
 			if( selector == timer->selector ) {
 				CCLOG(@"CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.2f to %.2f", timer->interval, interval);
 				timer->interval = interval;
+=======
+			if( [timer isKindOfClass:[CCTimerTargetSelector class]] && selector == [(CCTimerTargetSelector*)timer selector] ) {
+				CCLOG(@"CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", [timer interval], interval);
+				[timer setInterval: interval];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 				return;
 			}
 		}
 		ccArrayEnsureExtraCapacity(element->timers, 1);
 	}
 
+<<<<<<< HEAD
 	CCTimer *timer = [[CCTimer alloc] initWithTarget:target selector:selector interval:interval repeat:repeat delay:delay];
+=======
+	CCTimerTargetSelector *timer = [[CCTimerTargetSelector alloc] initWithTarget:target selector:selector interval:interval repeat:repeat delay:delay];
+	ccArrayAppendObject(element->timers, timer);
+	[timer release];
+}
+
+-(void) scheduleBlockForKey:(NSString*)key target:(id)owner interval:(ccTime)interval repeat:(uint)repeat delay:(ccTime)delay paused:(BOOL)paused block:(void(^)(ccTime dt))block
+{
+	NSAssert( block != nil, @"Argument block must be non-nil");
+	NSAssert( owner != nil, @"Argument owner must be non-nil");
+	
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &owner, element);
+	
+	if( ! element ) {
+		element = calloc( sizeof( *element ), 1 );
+		element->target = [owner retain];
+		HASH_ADD_INT( hashForTimers, target, element );
+		
+		// Is this the 1st element ? Then set the pause level to all the selectors of this target
+		element->paused = paused;
+		
+	} else
+		NSAssert( element->paused == paused, @"CCScheduler. Trying to schedule a block with a pause value different than the target");
+	
+	
+	if( element->timers == nil )
+		element->timers = ccArrayNew(10);
+	else
+	{
+		for( unsigned int i=0; i< element->timers->num; i++ ) {
+			CCTimer *timer = element->timers->arr[i];
+			if( [timer isKindOfClass:[CCTimerBlock class]] && [key isEqualToString:[(CCTimerBlock*)timer key] ] ) {
+				CCLOG(@"CCScheduler#scheduleBlock. Block already scheduled. Updating interval from: %.4f to %.4f", [timer interval], interval);
+				[timer setInterval: interval];
+				return;
+			}
+		}
+		ccArrayEnsureExtraCapacity(element->timers, 1);
+	}
+	
+	CCTimerBlock *timer = [[CCTimerBlock alloc] initWithTarget:owner interval:interval repeat:repeat delay:delay key:key block:block];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	ccArrayAppendObject(element->timers, timer);
 	[timer release];
 }
@@ -303,12 +595,68 @@ typedef struct _hashSelectorEntry
 	// explicity handle nil arguments when removing an object
 	if( target==nil && selector==NULL)
 		return;
+<<<<<<< HEAD
 
 	NSAssert( target != nil, @"Target MUST not be nil");
 	NSAssert( selector != NULL, @"Selector MUST not be NULL");
 
 	tHashSelectorEntry *element = NULL;
 	HASH_FIND_INT(hashForSelectors, &target, element);
+=======
+	
+	NSAssert( target != nil, @"Target MUST not be nil");
+	NSAssert( selector != NULL, @"Selector MUST not be NULL");
+	
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+	
+	if( element ) {
+		
+		for( unsigned int i=0; i< element->timers->num; i++ ) {
+			CCTimer *timer = element->timers->arr[i];
+			
+			
+			if( [timer isKindOfClass:[CCTimerTargetSelector class]] && selector == [(CCTimerTargetSelector*)timer selector] ) {
+				
+				if( timer == element->currentTimer && !element->currentTimerSalvaged ) {
+					[element->currentTimer retain];
+					element->currentTimerSalvaged = YES;
+				}
+				
+				ccArrayRemoveObjectAtIndex(element->timers, i );
+				
+				// update timerIndex in case we are in tick:, looping over the actions
+				if( element->timerIndex >= i )
+					element->timerIndex--;
+				
+				if( element->timers->num == 0 ) {
+					if( currentTarget == element )
+						currentTargetSalvaged = YES;
+					else
+						[self removeHashElement: element];
+				}
+				return;
+			}
+		}
+	}
+	
+	// Not Found
+	//	NSLog(@"CCScheduler#unscheduleSelector:forTarget: selector not found: %@", selString);
+	
+}
+
+-(void) unscheduleBlockForKey:(NSString*)key target:(id)target
+{
+	// explicity handle nil arguments when removing an object
+	if( target==nil && key==NULL)
+		return;
+
+	NSAssert( target != nil, @"Target MUST not be nil");
+	NSAssert( key != NULL, @"key MUST not be NULL");
+
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	if( element ) {
 
@@ -316,7 +664,11 @@ typedef struct _hashSelectorEntry
 			CCTimer *timer = element->timers->arr[i];
 
 
+<<<<<<< HEAD
 			if( selector == timer->selector ) {
+=======
+			if( [timer isKindOfClass:[CCTimerBlock class]] &&  [key isEqualToString: [(CCTimerBlock*)timer key]] ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 				if( timer == element->currentTimer && !element->currentTimerSalvaged ) {
 					[element->currentTimer retain];
@@ -342,7 +694,10 @@ typedef struct _hashSelectorEntry
 
 	// Not Found
 //	NSLog(@"CCScheduler#unscheduleSelector:forTarget: selector not found: %@", selString);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark CCScheduler - Update Specific
@@ -445,6 +800,7 @@ typedef struct _hashSelectorEntry
 
 - (void) removeUpdateFromHash:(tListEntry*)entry
 {
+<<<<<<< HEAD
     tHashUpdateEntry * element = NULL;
 
     HASH_FIND_INT(hashForUpdates, &entry->target, element);
@@ -458,6 +814,25 @@ typedef struct _hashSelectorEntry
         HASH_DEL( hashForUpdates, element);
         free(element);
     }
+=======
+	tHashUpdateEntry * element = NULL;
+	
+	HASH_FIND_INT(hashForUpdates, &entry->target, element);
+	if( element ) {
+		// list entry
+		DL_DELETE( *element->list, element->entry );
+		free( element->entry );
+		
+		// hash entry
+		id target = element->target;
+		HASH_DEL( hashForUpdates, element);
+		free(element);
+		
+		// target#release should be the last one to prevent
+		// a possible double-free. eg: If the [target dealloc] might want to remove it itself from there
+		[target release];
+	}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) unscheduleUpdateForTarget:(id)target
@@ -486,6 +861,7 @@ typedef struct _hashSelectorEntry
 
 #pragma mark CCScheduler - Common for Update selector & Custom Selectors
 
+<<<<<<< HEAD
 -(void) unscheduleAllSelectors
 {
 	// Custom Selectors
@@ -493,10 +869,25 @@ typedef struct _hashSelectorEntry
 		id target = element->target;
 		element=element->hh.next;
 		[self unscheduleAllSelectorsForTarget:target];
+=======
+-(void) unscheduleAll
+{
+    [self unscheduleAllWithMinPriority:kCCPrioritySystem];
+}
+
+-(void) unscheduleAllWithMinPriority:(NSInteger)minPriority
+{
+	// Custom Selectors
+	for(tHashTimerEntry *element=hashForTimers; element != NULL; ) {
+		id target = element->target;
+		element=element->hh.next;
+		[self unscheduleAllForTarget:target];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	// Updates selectors
 	tListEntry *entry, *tmp;
+<<<<<<< HEAD
 	DL_FOREACH_SAFE( updates0, entry, tmp ) {
 		[self unscheduleUpdateForTarget:entry->target];
 	}
@@ -505,19 +896,46 @@ typedef struct _hashSelectorEntry
 	}
 	DL_FOREACH_SAFE( updatesPos, entry, tmp ) {
 		[self unscheduleUpdateForTarget:entry->target];
+=======
+    if(minPriority < 0) {
+        DL_FOREACH_SAFE( updatesNeg, entry, tmp ) {
+            if(entry->priority >= minPriority) {
+                [self unscheduleUpdateForTarget:entry->target];
+            }
+        }
+    }
+    if(minPriority <= 0) {
+        DL_FOREACH_SAFE( updates0, entry, tmp ) {
+            [self unscheduleUpdateForTarget:entry->target];
+        }
+    }
+	DL_FOREACH_SAFE( updatesPos, entry, tmp ) {
+        if(entry->priority >= minPriority) {
+            [self unscheduleUpdateForTarget:entry->target];
+        }
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 }
 
+<<<<<<< HEAD
 -(void) unscheduleAllSelectorsForTarget:(id)target
+=======
+-(void) unscheduleAllForTarget:(id)target
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	// explicit nil handling
 	if( target == nil )
 		return;
 
 	// Custom Selectors
+<<<<<<< HEAD
 	tHashSelectorEntry *element = NULL;
 	HASH_FIND_INT(hashForSelectors, &target, element);
+=======
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	if( element ) {
 		if( ccArrayContainsObject(element->timers, element->currentTimer) && !element->currentTimerSalvaged ) {
@@ -540,8 +958,13 @@ typedef struct _hashSelectorEntry
 	NSAssert( target != nil, @"target must be non nil" );
 
 	// Custom Selectors
+<<<<<<< HEAD
 	tHashSelectorEntry *element = NULL;
 	HASH_FIND_INT(hashForSelectors, &target, element);
+=======
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	if( element )
 		element->paused = NO;
 
@@ -559,8 +982,13 @@ typedef struct _hashSelectorEntry
 	NSAssert( target != nil, @"target must be non nil" );
 
 	// Custom selectors
+<<<<<<< HEAD
 	tHashSelectorEntry *element = NULL;
 	HASH_FIND_INT(hashForSelectors, &target, element);
+=======
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	if( element )
 		element->paused = YES;
 
@@ -579,6 +1007,7 @@ typedef struct _hashSelectorEntry
 	NSAssert( target != nil, @"target must be non nil" );
 
 	// Custom selectors
+<<<<<<< HEAD
 	tHashSelectorEntry *element = NULL;
 	HASH_FIND_INT(hashForSelectors, &target, element);
 	if( element )
@@ -587,16 +1016,89 @@ typedef struct _hashSelectorEntry
     }
     return NO;  // should never get here
 
+=======
+	tHashTimerEntry *element = NULL;
+	HASH_FIND_INT(hashForTimers, &target, element);
+	if( element )
+		return element->paused;
+	
+	// We should check update selectors if target does not have custom selectors
+	tHashUpdateEntry * elementUpdate = NULL;
+	HASH_FIND_INT(hashForUpdates, &target, elementUpdate);
+	if ( elementUpdate )
+		return elementUpdate->entry->paused;
+	
+	return NO;  // should never get here
+}
+
+-(NSSet*) pauseAllTargets
+{
+	return [self pauseAllTargetsWithMinPriority:kCCPrioritySystem];
+}
+
+-(NSSet*) pauseAllTargetsWithMinPriority:(NSInteger)minPriority
+{
+	NSMutableSet* idsWithSelectors = [NSMutableSet setWithCapacity:50];
+
+	// Custom Selectors
+	for(tHashTimerEntry *element=hashForTimers; element != NULL; element=element->hh.next) {
+		element->paused = YES;
+		[idsWithSelectors addObject:element->target];
+	}
+
+	// Updates selectors
+	tListEntry *entry, *tmp;
+	if(minPriority < 0) {
+		DL_FOREACH_SAFE( updatesNeg, entry, tmp ) {
+			if(entry->priority >= minPriority) {
+				entry->paused = YES;
+				[idsWithSelectors addObject:entry->target];
+			}
+		}
+	}
+	if(minPriority <= 0) {
+		DL_FOREACH_SAFE( updates0, entry, tmp ) {
+			entry->paused = YES;
+			[idsWithSelectors addObject:entry->target];
+		}
+	}
+	DL_FOREACH_SAFE( updatesPos, entry, tmp ) {
+		if(entry->priority >= minPriority) {
+			entry->paused = YES;
+			[idsWithSelectors addObject:entry->target];
+		}
+	}
+
+	return idsWithSelectors;
+}
+
+-(void) resumeTargets:(NSSet *)targetsToResume
+{
+    for(id target in targetsToResume) {
+        [self resumeTarget:target];
+    }
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark CCScheduler - Main Loop
 
 -(void) update: (ccTime) dt
 {
+<<<<<<< HEAD
     updateHashLocked = YES;
 
 	if( timeScale_ != 1.0f )
 		dt *= timeScale_;
+=======
+	// all "dt" are going to be ignored if paused
+	if( _paused )
+		return;
+
+    updateHashLocked = YES;
+
+	if( _timeScale != 1.0f )
+		dt *= _timeScale;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	// Iterate all over the Updates selectors
 	tListEntry *entry, *tmp;
@@ -621,8 +1123,13 @@ typedef struct _hashSelectorEntry
 			entry->impMethod( entry->target, updateSelector, dt );
 	}
 
+<<<<<<< HEAD
 	// Iterate all over the  custome selectors
 	for(tHashSelectorEntry *elt=hashForSelectors; elt != NULL; ) {
+=======
+	// Iterate all over the custom selectors (CCTimers)
+	for(tHashTimerEntry *elt=hashForTimers; elt != NULL; ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		currentTarget = elt;
 		currentTargetSalvaged = NO;

@@ -37,7 +37,11 @@
  */
 @interface CCShaderCache : NSObject {
 
+<<<<<<< HEAD
 	NSMutableDictionary	*programs_;
+=======
+	NSMutableDictionary	*_programs;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 }
 

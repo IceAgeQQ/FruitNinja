@@ -51,6 +51,7 @@
 
 @implementation CCGridBase
 
+<<<<<<< HEAD
 @synthesize reuseGrid = reuseGrid_;
 @synthesize texture = texture_;
 @synthesize grabber = grabber_;
@@ -59,15 +60,30 @@
 @synthesize shaderProgram = shaderProgram_;
 
 +(id) gridWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped
+=======
+@synthesize reuseGrid = _reuseGrid;
+@synthesize texture = _texture;
+@synthesize grabber = _grabber;
+@synthesize gridSize = _gridSize;
+@synthesize step = _step;
+@synthesize shaderProgram = _shaderProgram;
+
++(id) gridWithSize:(CGSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	return [[[self alloc] initWithSize:gridSize texture:texture flippedTexture:flipped] autorelease];
 }
 
+<<<<<<< HEAD
 +(id) gridWithSize:(ccGridSize)gridSize
+=======
++(id) gridWithSize:(CGSize)gridSize
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	return [[(CCGridBase*)[self alloc] initWithSize:gridSize] autorelease];
 }
 
+<<<<<<< HEAD
 -(id) initWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped
 {
 	if( (self=[super init]) ) {
@@ -85,6 +101,25 @@
 
 		grabber_ = [[CCGrabber alloc] init];
 		[grabber_ grab:texture_];
+=======
+-(id) initWithSize:(CGSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped
+{
+	if( (self=[super init]) ) {
+
+		_active = NO;
+		_reuseGrid = 0;
+		_gridSize = gridSize;
+
+		self.texture = texture;
+		_isTextureFlipped = flipped;
+
+		CGSize texSize = [_texture contentSize];
+		_step.x = texSize.width / _gridSize.width;
+		_step.y = texSize.height / _gridSize.height;
+
+		_grabber = [[CCGrabber alloc] init];
+		[_grabber grab:_texture];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTexture];
 
@@ -93,7 +128,11 @@
 	return self;
 }
 
+<<<<<<< HEAD
 -(id)initWithSize:(ccGridSize)gSize
+=======
+-(id)initWithSize:(CGSize)gSize
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	CCDirector *director = [CCDirector sharedDirector];
 	CGSize s = [director winSizeInPixels];
@@ -137,7 +176,11 @@
 }
 - (NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X | Dimensions = %ix%i>", [self class], self, gridSize_.x, gridSize_.y];
+=======
+	return [NSString stringWithFormat:@"<%@ = %p | Dimensions = %ldx%ld>", [self class], self, (long)_gridSize.width, (long)_gridSize.height];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (void) dealloc
@@ -146,20 +189,33 @@
 
 //	[self setActive: NO];
 
+<<<<<<< HEAD
 	[texture_ release];
 	[grabber_ release];
+=======
+	[_texture release];
+	[_grabber release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 // properties
 -(BOOL) active
 {
+<<<<<<< HEAD
 	return active_;
+=======
+	return _active;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) setActive:(BOOL)active
 {
+<<<<<<< HEAD
 	active_ = active;
+=======
+	_active = active;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	if( ! active ) {
 		CCDirector *director = [CCDirector sharedDirector];
 		ccDirectorProjection proj = [director projection];
@@ -169,13 +225,22 @@
 
 -(BOOL) isTextureFlipped
 {
+<<<<<<< HEAD
 	return isTextureFlipped_;
+=======
+	return _isTextureFlipped;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) setIsTextureFlipped:(BOOL)flipped
 {
+<<<<<<< HEAD
 	if( isTextureFlipped_ != flipped ) {
 		isTextureFlipped_ = flipped;
+=======
+	if( _isTextureFlipped != flipped ) {
+		_isTextureFlipped = flipped;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		[self calculateVertexPoints];
 	}
 }
@@ -186,12 +251,20 @@
 
 	CGSize	size = [director winSizeInPixels];
 	
+<<<<<<< HEAD
 	glViewport(0, 0, size.width * CC_CONTENT_SCALE_FACTOR(), size.height * CC_CONTENT_SCALE_FACTOR() );
+=======
+	glViewport(0, 0, size.width, size.height);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	kmGLMatrixMode(KM_GL_PROJECTION);
 	kmGLLoadIdentity();
 	
 	kmMat4 orthoMatrix;
+<<<<<<< HEAD
 	kmMat4OrthographicProjection(&orthoMatrix, 0, size.width * CC_CONTENT_SCALE_FACTOR(), 0, size.height * CC_CONTENT_SCALE_FACTOR(), -1, 1);
+=======
+	kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1, 1);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	kmGLMultMatrix( &orthoMatrix );
 	
 	kmGLMatrixMode(KM_GL_MODELVIEW);
@@ -205,24 +278,40 @@
 {
 	// save projection
 	CCDirector *director = [CCDirector sharedDirector];
+<<<<<<< HEAD
 	directorProjection_ = [director projection];
+=======
+	_directorProjection = [director projection];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	
 	// 2d projection
 //	[director setProjection:kCCDirectorProjection2D];
 	[self set2DProjection];
 
 	
+<<<<<<< HEAD
 	[grabber_ beforeRender:texture_];
+=======
+	[_grabber beforeRender:_texture];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 
 -(void)afterDraw:(CCNode *)target
 {
+<<<<<<< HEAD
 	[grabber_ afterRender:texture_];
 
 	// restore projection
 	CCDirector *director = [CCDirector sharedDirector];
 	[director setProjection: directorProjection_];
+=======
+	[_grabber afterRender:_texture];
+
+	// restore projection
+	CCDirector *director = [CCDirector sharedDirector];
+	[director setProjection: _directorProjection];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	if( target.camera.dirty ) {
 
@@ -236,7 +325,11 @@
 		kmGLTranslatef(-offset.x, -offset.y, 0);
 	}
 
+<<<<<<< HEAD
 	ccGLBindTexture2D( texture_.name );
+=======
+	ccGLBindTexture2D( _texture.name );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	[self blit];
 }
@@ -267,38 +360,63 @@
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	free(texCoordinates);
 	free(vertices);
 	free(indices);
 	free(originalVertices);
+=======
+	free(_texCoordinates);
+	free(_vertices);
+	free(_indices);
+	free(_originalVertices);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(void)blit
 {
+<<<<<<< HEAD
 	NSInteger n = gridSize_.x * gridSize_.y;
 
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
 	[shaderProgram_ use];
 	[shaderProgram_ setUniformForModelViewProjectionMatrix];
+=======
+	NSInteger n = _gridSize.width * _gridSize.height;
+
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
+	[_shaderProgram use];
+	[_shaderProgram setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	//
 	// Attributes
 	//
 
 	// position
+<<<<<<< HEAD
 	glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 
 	// texCoods
 	glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, texCoordinates);
 
 	glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, indices);
+=======
+	glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, _vertices);
+
+	// texCoods
+	glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, _texCoordinates);
+
+	glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, _indices);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
 -(void)calculateVertexPoints
 {
+<<<<<<< HEAD
 	float width = (float)texture_.pixelsWide;
 	float height = (float)texture_.pixelsHigh;
 	float imageH = texture_.contentSizeInPixels.height;
@@ -336,6 +454,45 @@
 			GLushort b = (x+1) * (gridSize_.y+1) + y;
 			GLushort c = (x+1) * (gridSize_.y+1) + (y+1);
 			GLushort d = x * (gridSize_.y+1) + (y+1);
+=======
+	float width = (float)_texture.pixelsWide;
+	float height = (float)_texture.pixelsHigh;
+	float imageH = _texture.contentSizeInPixels.height;
+
+	int x, y, i;
+
+	if (_vertices) free(_vertices);
+	if (_originalVertices) free(_originalVertices);
+	if (_texCoordinates) free(_texCoordinates);
+	if (_indices) free(_indices);
+	
+	NSUInteger numOfPoints = (_gridSize.width+1) * (_gridSize.height+1);
+	
+	_vertices = malloc(numOfPoints * sizeof(ccVertex3F));
+	_originalVertices = malloc(numOfPoints * sizeof(ccVertex3F));
+	_texCoordinates = malloc(numOfPoints * sizeof(ccVertex2F));
+	_indices = malloc( (_gridSize.width * _gridSize.height) * sizeof(GLushort)*6);
+
+	GLfloat *vertArray = (GLfloat*)_vertices;
+	GLfloat *texArray = (GLfloat*)_texCoordinates;
+	GLushort *idxArray = (GLushort *)_indices;
+
+	for( x = 0; x < _gridSize.width; x++ )
+	{
+		for( y = 0; y < _gridSize.height; y++ )
+		{
+			NSInteger idx = (y * _gridSize.width) + x;
+
+			GLfloat x1 = x * _step.x;
+			GLfloat x2 = x1 + _step.x;
+			GLfloat y1 = y * _step.y;
+			GLfloat y2 = y1 + _step.y;
+
+			GLushort a = x * (_gridSize.height+1) + y;
+			GLushort b = (x+1) * (_gridSize.height+1) + y;
+			GLushort c = (x+1) * (_gridSize.height+1) + (y+1);
+			GLushort d = x * (_gridSize.height+1) + (y+1);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			GLushort	tempidx[6] = { a, b, d, b, c, d };
 
@@ -359,7 +516,11 @@
 				vertArray[ l1[i] + 2 ] = l2[i].z;
 
 				texArray[ tex1[i] ] = tex2[i].x / width;
+<<<<<<< HEAD
 				if( isTextureFlipped_ )
+=======
+				if( _isTextureFlipped )
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 					texArray[ tex1[i] + 1 ] = (imageH - tex2[i].y) / height;
 				else
 					texArray[ tex1[i] + 1 ] = tex2[i].y / height;
@@ -367,6 +528,7 @@
 		}
 	}
 
+<<<<<<< HEAD
 	memcpy(originalVertices, vertices, (gridSize_.x+1)*(gridSize_.y+1)*sizeof(ccVertex3F));
 }
 
@@ -374,26 +536,55 @@
 {
 	NSInteger index = (pos.x * (gridSize_.y+1) + pos.y) * 3;
 	float *vertArray = (float *)vertices;
+=======
+	memcpy(_originalVertices, _vertices, (_gridSize.width+1)*(_gridSize.height+1)*sizeof(ccVertex3F));
+}
+
+-(ccVertex3F)vertex:(CGPoint)pos
+{
+	NSAssert( pos.x == (NSUInteger)pos.x && pos.y == (NSUInteger) pos.y , @"Numbers must be integers");
+
+	NSInteger index = (pos.x * (_gridSize.height+1) + pos.y) * 3;
+	float *vertArray = (float *)_vertices;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	ccVertex3F	vert = { vertArray[index], vertArray[index+1], vertArray[index+2] };
 
 	return vert;
 }
 
+<<<<<<< HEAD
 -(ccVertex3F)originalVertex:(ccGridSize)pos
 {
 	NSInteger index = (pos.x * (gridSize_.y+1) + pos.y) * 3;
 	float *vertArray = (float *)originalVertices;
+=======
+-(ccVertex3F)originalVertex:(CGPoint)pos
+{
+	NSAssert( pos.x == (NSUInteger)pos.x && pos.y == (NSUInteger) pos.y , @"Numbers must be integers");
+
+	NSInteger index = (pos.x * (_gridSize.height+1) + pos.y) * 3;
+	float *vertArray = (float *)_originalVertices;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	ccVertex3F	vert = { vertArray[index], vertArray[index+1], vertArray[index+2] };
 
 	return vert;
 }
 
+<<<<<<< HEAD
 -(void)setVertex:(ccGridSize)pos vertex:(ccVertex3F)vertex
 {
 	NSInteger index = (pos.x * (gridSize_.y+1) + pos.y) * 3;
 	float *vertArray = (float *)vertices;
+=======
+-(void)setVertex:(CGPoint)pos vertex:(ccVertex3F)vertex
+{
+	NSAssert( pos.x == (NSUInteger)pos.x && pos.y == (NSUInteger) pos.y , @"Numbers must be integers");
+
+	NSInteger index = (pos.x * (_gridSize.height+1) + pos.y) * 3;
+	float *vertArray = (float *)_vertices;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	vertArray[index] = vertex.x;
 	vertArray[index+1] = vertex.y;
 	vertArray[index+2] = vertex.z;
@@ -401,10 +592,17 @@
 
 -(void)reuse
 {
+<<<<<<< HEAD
 	if ( reuseGrid_ > 0 )
 	{
 		memcpy(originalVertices, vertices, (gridSize_.x+1)*(gridSize_.y+1)*sizeof(ccVertex3F));
 		reuseGrid_--;
+=======
+	if ( _reuseGrid > 0 )
+	{
+		memcpy(_originalVertices, _vertices, (_gridSize.width+1)*(_gridSize.height+1)*sizeof(ccVertex3F));
+		_reuseGrid--;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
@@ -419,19 +617,33 @@
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	free(texCoordinates);
 	free(vertices);
 	free(indices);
 	free(originalVertices);
+=======
+	free(_texCoordinates);
+	free(_vertices);
+	free(_indices);
+	free(_originalVertices);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(void)blit
 {
+<<<<<<< HEAD
 	NSInteger n = gridSize_.x * gridSize_.y;
 
 	[shaderProgram_ use];
 	[shaderProgram_ setUniformForModelViewProjectionMatrix];
+=======
+	NSInteger n = _gridSize.width * _gridSize.height;
+
+	[_shaderProgram use];
+	[_shaderProgram setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 	//
@@ -440,18 +652,28 @@
 	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
 
 	// position
+<<<<<<< HEAD
 	glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 
 	// texCoods
 	glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, texCoordinates);
 
 	glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, indices);
+=======
+	glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, _vertices);
+
+	// texCoods
+	glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, _texCoordinates);
+
+	glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, _indices);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	
 	CC_INCREMENT_GL_DRAWS(1);
 }
 
 -(void)calculateVertexPoints
 {
+<<<<<<< HEAD
 	float width = (float)texture_.pixelsWide;
 	float height = (float)texture_.pixelsHigh;
 	float imageH = texture_.contentSizeInPixels.height;
@@ -482,6 +704,38 @@
 			float x2 = x1 + step_.x;
 			float y1 = y * step_.y;
 			float y2 = y1 + step_.y;
+=======
+	float width = (float)_texture.pixelsWide;
+	float height = (float)_texture.pixelsHigh;
+	float imageH = _texture.contentSizeInPixels.height;
+
+	NSInteger numQuads = _gridSize.width * _gridSize.height;
+
+	if (_vertices) free(_vertices);
+	if (_originalVertices) free(_originalVertices);
+	if (_texCoordinates) free(_texCoordinates);
+	if (_indices) free(_indices);
+
+	_vertices = malloc(numQuads*4*sizeof(ccVertex3F));
+	_originalVertices = malloc(numQuads*4*sizeof(ccVertex3F));
+	_texCoordinates = malloc(numQuads*4*sizeof(ccVertex2F));
+	_indices = malloc(numQuads*6*sizeof(GLushort));
+
+	GLfloat *vertArray = (GLfloat*)_vertices;
+	GLfloat *texArray = (GLfloat*)_texCoordinates;
+	GLushort *idxArray = (GLushort *)_indices;
+
+	int x, y;
+
+	for( x = 0; x < _gridSize.width; x++ )
+	{
+		for( y = 0; y < _gridSize.height; y++ )
+		{
+			float x1 = x * _step.x;
+			float x2 = x1 + _step.x;
+			float y1 = y * _step.y;
+			float y2 = y1 + _step.y;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			*vertArray++ = x1;
 			*vertArray++ = y1;
@@ -499,7 +753,11 @@
 			float newY1 = y1;
 			float newY2 = y2;
 
+<<<<<<< HEAD
 			if( isTextureFlipped_ ) {
+=======
+			if( _isTextureFlipped ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 				newY1 = imageH - y1;
 				newY2 = imageH - y2;
 			}
@@ -526,6 +784,7 @@
 		idxArray[x*6+5] = x*4+3;
 	}
 
+<<<<<<< HEAD
 	memcpy(originalVertices, vertices, numQuads*12*sizeof(GLfloat));
 }
 
@@ -540,6 +799,26 @@
 {
 	NSInteger idx = (gridSize_.y * pos.x + pos.y) * 4 * 3;
 	float *vertArray = (float*)originalVertices;
+=======
+	memcpy(_originalVertices, _vertices, numQuads*12*sizeof(GLfloat));
+}
+
+-(void)setTile:(CGPoint)pos coords:(ccQuad3)coords
+{
+	NSAssert( pos.x == (NSUInteger)pos.x && pos.y == (NSUInteger) pos.y , @"Numbers must be integers");
+	
+	NSInteger idx = (_gridSize.height * pos.x + pos.y) * 4 * 3;
+	float *vertArray = (float*)_vertices;
+	memcpy(&vertArray[idx], &coords, sizeof(ccQuad3));
+}
+
+-(ccQuad3)originalTile:(CGPoint)pos
+{
+	NSAssert( pos.x == (NSUInteger)pos.x && pos.y == (NSUInteger) pos.y , @"Numbers must be integers");
+
+	NSInteger idx = (_gridSize.height * pos.x + pos.y) * 4 * 3;
+	float *vertArray = (float*)_originalVertices;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	ccQuad3 ret;
 	memcpy(&ret, &vertArray[idx], sizeof(ccQuad3));
@@ -547,10 +826,19 @@
 	return ret;
 }
 
+<<<<<<< HEAD
 -(ccQuad3)tile:(ccGridSize)pos
 {
 	NSInteger idx = (gridSize_.y * pos.x + pos.y) * 4 * 3;
 	float *vertArray = (float*)vertices;
+=======
+-(ccQuad3)tile:(CGPoint)pos
+{
+	NSAssert( pos.x == (NSUInteger)pos.x && pos.y == (NSUInteger) pos.y , @"Numbers must be integers");
+
+	NSInteger idx = (_gridSize.height * pos.x + pos.y) * 4 * 3;
+	float *vertArray = (float*)_vertices;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	ccQuad3 ret;
 	memcpy(&ret, &vertArray[idx], sizeof(ccQuad3));
@@ -560,12 +848,21 @@
 
 -(void)reuse
 {
+<<<<<<< HEAD
 	if ( reuseGrid_ > 0 )
 	{
 		NSInteger numQuads = gridSize_.x * gridSize_.y;
 
 		memcpy(originalVertices, vertices, numQuads*12*sizeof(GLfloat));
 		reuseGrid_--;
+=======
+	if ( _reuseGrid > 0 )
+	{
+		NSInteger numQuads = _gridSize.width * _gridSize.height;
+
+		memcpy(_originalVertices, _vertices, numQuads*12*sizeof(GLfloat));
+		_reuseGrid--;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 

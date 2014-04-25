@@ -63,8 +63,13 @@
 
 @implementation CCParticleBatchNode
 
+<<<<<<< HEAD
 @synthesize textureAtlas = textureAtlas_;
 @synthesize blendFunc = blendFunc_;
+=======
+@synthesize textureAtlas = _textureAtlas;
+@synthesize blendFunc = _blendFunc;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /*
  * creation with CCTexture2D
@@ -99,6 +104,7 @@
 {
 	if (self = [super init])
 	{
+<<<<<<< HEAD
 		textureAtlas_ = [[CCTextureAtlas alloc] initWithTexture:tex capacity:capacity];
 
 		// no lazy alloc in this node
@@ -106,6 +112,15 @@
 
 		blendFunc_.src = CC_BLEND_SRC;
 		blendFunc_.dst = CC_BLEND_DST;
+=======
+		_textureAtlas = [[CCTextureAtlas alloc] initWithTexture:tex capacity:capacity];
+
+		// no lazy alloc in this node
+		_children = [[CCArray alloc] initWithCapacity:capacity];
+
+		_blendFunc.src = CC_BLEND_SRC;
+		_blendFunc.dst = CC_BLEND_DST;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
 	}
@@ -124,12 +139,20 @@
 
 -(NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X | Tag = %i>", [self class], self, tag_ ];
+=======
+	return [NSString stringWithFormat:@"<%@ = %p | Tag = %ld>", [self class], self, (long)_tag ];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	[textureAtlas_ release];
+=======
+	[_textureAtlas release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
@@ -146,13 +169,22 @@
 	// The alternative is to have a void CCSprite#visit, but
 	// although this is less mantainable, is faster
 	//
+<<<<<<< HEAD
 	if (!visible_)
+=======
+	if (!_visible)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		return;
 
 	kmGLPushMatrix();
 
+<<<<<<< HEAD
 	if ( grid_ && grid_.active) {
 		[grid_ beforeDraw];
+=======
+	if ( _grid && _grid.active) {
+		[_grid beforeDraw];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		[self transformAncestors];
 	}
 
@@ -160,8 +192,13 @@
 
 	[self draw];
 
+<<<<<<< HEAD
 	if ( grid_ && grid_.active)
 		[grid_ afterDraw:self];
+=======
+	if ( _grid && _grid.active)
+		[_grid afterDraw:self];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	kmGLPopMatrix();
 }
@@ -171,6 +208,7 @@
 {
 	NSAssert( child != nil, @"Argument must be non-nil");
 	NSAssert( [child isKindOfClass:[CCParticleSystem class]], @"CCParticleBatchNode only supports CCQuadParticleSystems as children");
+<<<<<<< HEAD
 	NSAssert( child.texture.name == textureAtlas_.texture.name, @"CCParticleSystem is not using the same texture id");
 
 	// If this is the 1st children, then copy blending function
@@ -178,6 +216,15 @@
 		blendFunc_ = [child blendFunc];
 
 	NSAssert( blendFunc_.src  == child.blendFunc.src && blendFunc_.dst  == child.blendFunc.dst, @"Can't add a PaticleSystem that uses a differnt blending function");
+=======
+	NSAssert( child.texture.name == _textureAtlas.texture.name, @"CCParticleSystem is not using the same texture id");
+
+	// If this is the 1st children, then copy blending function
+	if( [_children count] == 0 )
+		_blendFunc = [child blendFunc];
+
+	NSAssert( _blendFunc.src  == child.blendFunc.src && _blendFunc.dst  == child.blendFunc.dst, @"Can't add a PaticleSystem that uses a differnt blending function");
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	//no lazy sorting, so don't call super addChild, call helper instead
 	NSUInteger pos = [self addChildHelper:child z:z tag:aTag];
@@ -186,7 +233,11 @@
 	NSUInteger atlasIndex;
 
 	if (pos != 0)
+<<<<<<< HEAD
 		atlasIndex = [[children_ objectAtIndex:pos-1] atlasIndex] + [[children_ objectAtIndex:pos-1] totalParticles];
+=======
+		atlasIndex = [[_children objectAtIndex:pos-1] atlasIndex] + [[_children objectAtIndex:pos-1] totalParticles];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	else
 		atlasIndex = 0;
 
@@ -205,20 +256,33 @@
 	NSAssert( child != nil, @"Argument must be non-nil");
 	NSAssert( child.parent == nil, @"child already added. It can't be added again");
 
+<<<<<<< HEAD
 	if( ! children_ )
 		children_ = [[CCArray alloc] initWithCapacity:4];
+=======
+	if( ! _children )
+		_children = [[CCArray alloc] initWithCapacity:4];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	//don't use a lazy insert
 	NSUInteger pos = [self searchNewPositionInChildrenForZ:z];
 
+<<<<<<< HEAD
 	[children_ insertObject:child atIndex:pos];
+=======
+	[_children insertObject:child atIndex:pos];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	child.tag = aTag;
 	[child _setZOrder:z];
 
 	[child setParent: self];
 
+<<<<<<< HEAD
 	if( isRunning_ ) {
+=======
+	if( _isRunning ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		[child onEnter];
 		[child onEnterTransitionDidFinish];
 	}
@@ -229,13 +293,21 @@
 -(void) reorderChild:(CCParticleSystem*)child z:(NSInteger)z
 {
 	NSAssert( child != nil, @"Child must be non-nil");
+<<<<<<< HEAD
 	NSAssert( [children_ containsObject:child], @"Child doesn't belong to batch" );
+=======
+	NSAssert( [_children containsObject:child], @"Child doesn't belong to batch" );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	if( z == child.zOrder )
 		return;
 
 	// no reordering if only 1 child
+<<<<<<< HEAD
 	if( [children_ count] > 1)
+=======
+	if( [_children count] > 1)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	{
 		NSUInteger newIndex, oldIndex;
 
@@ -243,10 +315,17 @@
 
 		if( oldIndex != newIndex ) {
 
+<<<<<<< HEAD
 			// reorder children_ array
 			[child retain];
 			[children_ removeObjectAtIndex:oldIndex];
 			[children_ insertObject:child atIndex:newIndex];
+=======
+			// reorder _children array
+			[child retain];
+			[_children removeObjectAtIndex:oldIndex];
+			[_children insertObject:child atIndex:newIndex];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			[child release];
 
 			// save old altasIndex
@@ -257,8 +336,13 @@
 
 			// Find new AtlasIndex
 			NSUInteger newAtlasIndex = 0;
+<<<<<<< HEAD
 			for( NSUInteger i=0;i < [children_ count];i++) {
 				CCParticleSystem *node = [children_ objectAtIndex:i];
+=======
+			for( NSUInteger i=0;i < [_children count];i++) {
+				CCParticleSystem *node = [_children objectAtIndex:i];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 				if( node == child ) {
 					newAtlasIndex = [child atlasIndex];
 					break;
@@ -266,7 +350,11 @@
 			}
 
 			// reorder textureAtlas quads
+<<<<<<< HEAD
 			[textureAtlas_ moveQuadsFromIndex:oldAtlasIndex  amount:child.totalParticles atIndex:newAtlasIndex];
+=======
+			[_textureAtlas moveQuadsFromIndex:oldAtlasIndex  amount:child.totalParticles atIndex:newAtlasIndex];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 			[child updateWithNoTime];
 		}
@@ -281,11 +369,19 @@
 	BOOL foundNewIdx = NO;
 
 	NSInteger  minusOne = 0;
+<<<<<<< HEAD
 	NSUInteger count = [children_ count];
 
 	for( NSUInteger i=0; i < count; i++ ) {
 
 		CCNode *node = [children_ objectAtIndex:i];
+=======
+	NSUInteger count = [_children count];
+
+	for( NSUInteger i=0; i < count; i++ ) {
+
+		CCNode *node = [_children objectAtIndex:i];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		// new index
 		if( node.zOrder > z &&  ! foundNewIdx ) {
@@ -319,10 +415,17 @@
 
 -(NSUInteger) searchNewPositionInChildrenForZ: (NSInteger) z
 {
+<<<<<<< HEAD
 	NSUInteger count = [children_ count];
 
 	for( NSUInteger i=0; i < count; i++ ) {
 		CCNode *child = [children_ objectAtIndex:i];
+=======
+	NSUInteger count = [_children count];
+
+	for( NSUInteger i=0; i < count; i++ ) {
+		CCNode *child = [_children objectAtIndex:i];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if (child.zOrder > z)
 			return i;
 	}
@@ -336,15 +439,26 @@
 	if (child == nil)
 		return;
 
+<<<<<<< HEAD
 	NSAssert([children_ containsObject:child], @"CCParticleBatchNode doesn't contain the sprite. Can't remove it");
+=======
+	NSAssert([_children containsObject:child], @"CCParticleBatchNode doesn't contain the sprite. Can't remove it");
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	[super removeChild:child cleanup:doCleanup];
 
 	// remove child helper
+<<<<<<< HEAD
 	[textureAtlas_ removeQuadsAtIndex:child.atlasIndex amount:child.totalParticles];
 
 	// after memmove of data, empty the quads at the end of array
 	[textureAtlas_ fillWithEmptyQuadsFromIndex:textureAtlas_.totalQuads amount:child.totalParticles];
+=======
+	[_textureAtlas removeQuadsAtIndex:child.atlasIndex amount:child.totalParticles];
+
+	// after memmove of data, empty the quads at the end of array
+	[_textureAtlas fillWithEmptyQuadsFromIndex:_textureAtlas.totalQuads amount:child.totalParticles];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	// paticle could be reused for self rendering
 	[child setBatchNode:nil];
@@ -354,16 +468,28 @@
 
 -(void)removeChildAtIndex:(NSUInteger)index cleanup:(BOOL) doCleanup
 {
+<<<<<<< HEAD
 	[self removeChild:(CCParticleSystem *)[children_ objectAtIndex:index] cleanup:doCleanup];
+=======
+	[self removeChild:(CCParticleSystem *)[_children objectAtIndex:index] cleanup:doCleanup];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void)removeAllChildrenWithCleanup:(BOOL)doCleanup
 {
+<<<<<<< HEAD
 	[children_ makeObjectsPerformSelector:@selector(useSelfRender)];
 
 	[super removeAllChildrenWithCleanup:doCleanup];
 
 	[textureAtlas_ removeAllQuads];
+=======
+	[_children makeObjectsPerformSelector:@selector(setBatchNode:) withObject:nil];
+
+	[super removeAllChildrenWithCleanup:doCleanup];
+
+	[_textureAtlas removeAllQuads];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark CCParticleBatchNode - Node overrides
@@ -371,14 +497,24 @@
 {
 	CC_PROFILER_STOP(@"CCParticleBatchNode - draw");
 
+<<<<<<< HEAD
 	if( textureAtlas_.totalQuads == 0 )
+=======
+	if( _textureAtlas.totalQuads == 0 )
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		return;
 
 	CC_NODE_DRAW_SETUP();
 
+<<<<<<< HEAD
 	ccGLBlendFunc( blendFunc_.src, blendFunc_.dst );
 
 	[textureAtlas_ drawQuads];
+=======
+	ccGLBlendFunc( _blendFunc.src, _blendFunc.dst );
+
+	[_textureAtlas drawQuads];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	CC_PROFILER_STOP(@"CCParticleBatchNode - draw");
 }
@@ -388,12 +524,21 @@
 -(void) increaseAtlasCapacityTo:(NSUInteger) quantity
 {
 	CCLOG(@"cocos2d: CCParticleBatchNode: resizing TextureAtlas capacity from [%lu] to [%lu].",
+<<<<<<< HEAD
 		  (long)textureAtlas_.capacity,
 		  (long)quantity);
 
 	if( ! [textureAtlas_ resizeCapacity:quantity] ) {
 		// serious problems
 		CCLOG(@"cocos2d: WARNING: Not enough memory to resize the atlas");
+=======
+		  (long)_textureAtlas.capacity,
+		  (long)quantity);
+
+	if( ! [_textureAtlas resizeCapacity:quantity] ) {
+		// serious problems
+		CCLOGWARN(@"cocos2d: WARNING: Not enough memory to resize the atlas");
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		NSAssert(NO,@"XXX: CCParticleBatchNode #increaseAtlasCapacity SHALL handle this assert");
 	}
 }
@@ -401,7 +546,11 @@
 //sets a 0'd quad into the quads array
 -(void) disableParticle:(NSUInteger)particleIndex
 {
+<<<<<<< HEAD
 	ccV3F_C4B_T2F_Quad* quad = &((textureAtlas_.quads)[particleIndex]);
+=======
+	ccV3F_C4B_T2F_Quad* quad = &((_textureAtlas.quads)[particleIndex]);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	quad->br.vertices.x = quad->br.vertices.y = quad->tr.vertices.x = quad->tr.vertices.y = quad->tl.vertices.x = quad->tl.vertices.y = quad->bl.vertices.x = quad->bl.vertices.y = 0.0f;
 }
 
@@ -412,6 +561,7 @@
 {
 	pSystem.atlasIndex = index;
 
+<<<<<<< HEAD
 	if(textureAtlas_.totalQuads + pSystem.totalParticles > textureAtlas_.capacity)
 	{
 		[self increaseAtlasCapacityTo:textureAtlas_.totalQuads + pSystem.totalParticles];
@@ -426,6 +576,22 @@
 
 	// increase totalParticles here for new particles, update method of particlesystem will fill the quads
 	[textureAtlas_ increaseTotalQuadsWith:pSystem.totalParticles];
+=======
+	if(_textureAtlas.totalQuads + pSystem.totalParticles > _textureAtlas.capacity)
+	{
+		[self increaseAtlasCapacityTo:_textureAtlas.totalQuads + pSystem.totalParticles];
+
+		// after a realloc empty quads of textureAtlas can be filled with gibberish (realloc doesn't perform calloc), insert empty quads to prevent it
+		[_textureAtlas fillWithEmptyQuadsFromIndex:_textureAtlas.capacity - pSystem.totalParticles amount:pSystem.totalParticles];
+	}
+
+	// make room for quads, not necessary for last child
+	if (pSystem.atlasIndex + pSystem.totalParticles != _textureAtlas.totalQuads)
+		[_textureAtlas moveQuadsFromIndex:index to:index+pSystem.totalParticles];
+
+	// increase totalParticles here for new particles, update method of particlesystem will fill the quads
+	[_textureAtlas increaseTotalQuadsWith:pSystem.totalParticles];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	[self updateAllAtlasIndexes];
 }
@@ -436,7 +602,11 @@
 	CCParticleSystem *child;
 	NSUInteger index = 0;
 
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_,child)
+=======
+	CCARRAY_FOREACH(_children,child)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	{
 		child.atlasIndex = index;
 		index += child.totalParticles;
@@ -447,14 +617,21 @@
 
 -(void) updateBlendFunc
 {
+<<<<<<< HEAD
 	if( ! [textureAtlas_.texture hasPremultipliedAlpha] ) {
 		blendFunc_.src = GL_SRC_ALPHA;
 		blendFunc_.dst = GL_ONE_MINUS_SRC_ALPHA;
+=======
+	if( ! [_textureAtlas.texture hasPremultipliedAlpha] ) {
+		_blendFunc.src = GL_SRC_ALPHA;
+		_blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
 -(void) setTexture:(CCTexture2D*)texture
 {
+<<<<<<< HEAD
 	textureAtlas_.texture = texture;
 
 	// If the new texture has No premultiplied alpha, AND the blendFunc hasn't been changed, then update it
@@ -462,12 +639,25 @@
 	{
 			blendFunc_.src = GL_SRC_ALPHA;
 			blendFunc_.dst = GL_ONE_MINUS_SRC_ALPHA;
+=======
+	_textureAtlas.texture = texture;
+
+	// If the new texture has No premultiplied alpha, AND the blendFunc hasn't been changed, then update it
+	if( texture && ! [texture hasPremultipliedAlpha] && ( _blendFunc.src == CC_BLEND_SRC && _blendFunc.dst == CC_BLEND_DST ) )
+	{
+			_blendFunc.src = GL_SRC_ALPHA;
+			_blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
 -(CCTexture2D*) texture
 {
+<<<<<<< HEAD
 	return textureAtlas_.texture;
+=======
+	return _textureAtlas.texture;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end

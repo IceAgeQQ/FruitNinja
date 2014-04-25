@@ -43,8 +43,13 @@
 #pragma mark TouchHandler
 @implementation CCTouchHandler
 
+<<<<<<< HEAD
 @synthesize delegate, priority;
 @synthesize enabledSelectors=enabledSelectors_;
+=======
+@synthesize delegate=_delegate, priority=_priority;
+@synthesize enabledSelectors=_enabledSelectors;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 + (id)handlerWithDelegate:(id) aDelegate priority:(int)aPriority
 {
@@ -57,8 +62,13 @@
 
 	if ((self = [super init])) {
 		self.delegate = aDelegate;
+<<<<<<< HEAD
 		priority = aPriority;
 		enabledSelectors_ = 0;
+=======
+		_priority = aPriority;
+		_enabledSelectors = 0;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -66,7 +76,11 @@
 
 - (void)dealloc {
 	CCLOGINFO(@"cocos2d: deallocing %@", self);
+<<<<<<< HEAD
 	[delegate release];
+=======
+	[_delegate release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 @end
@@ -78,6 +92,7 @@
 {
 	if( (self=[super initWithDelegate:del priority:pri]) ) {
 		if( [del respondsToSelector:@selector(ccTouchesBegan:withEvent:)] )
+<<<<<<< HEAD
 			enabledSelectors_ |= kCCTouchSelectorBeganBit;
 		if( [del respondsToSelector:@selector(ccTouchesMoved:withEvent:)] )
 			enabledSelectors_ |= kCCTouchSelectorMovedBit;
@@ -85,6 +100,15 @@
 			enabledSelectors_ |= kCCTouchSelectorEndedBit;
 		if( [del respondsToSelector:@selector(ccTouchesCancelled:withEvent:)] )
 			enabledSelectors_ |= kCCTouchSelectorCancelledBit;
+=======
+			_enabledSelectors |= kCCTouchSelectorBeganBit;
+		if( [del respondsToSelector:@selector(ccTouchesMoved:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorMovedBit;
+		if( [del respondsToSelector:@selector(ccTouchesEnded:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorEndedBit;
+		if( [del respondsToSelector:@selector(ccTouchesCancelled:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorCancelledBit;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	return self;
 }
@@ -99,7 +123,11 @@
 
 @implementation CCTargetedTouchHandler
 
+<<<<<<< HEAD
 @synthesize swallowsTouches, claimedTouches;
+=======
+@synthesize swallowsTouches=_swallowsTouches, claimedTouches=_claimedTouches;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 + (id)handlerWithDelegate:(id)aDelegate priority:(int)priority swallowsTouches:(BOOL)swallow
 {
@@ -109,6 +137,7 @@
 - (id)initWithDelegate:(id)aDelegate priority:(int)aPriority swallowsTouches:(BOOL)swallow
 {
 	if ((self = [super initWithDelegate:aDelegate priority:aPriority])) {
+<<<<<<< HEAD
 		claimedTouches = [[NSMutableSet alloc] initWithCapacity:2];
 		swallowsTouches = swallow;
 
@@ -120,13 +149,30 @@
 			enabledSelectors_ |= kCCTouchSelectorEndedBit;
 		if( [aDelegate respondsToSelector:@selector(ccTouchCancelled:withEvent:)] )
 			enabledSelectors_ |= kCCTouchSelectorCancelledBit;
+=======
+		_claimedTouches = [[NSMutableSet alloc] initWithCapacity:2];
+		_swallowsTouches = swallow;
+
+		if( [aDelegate respondsToSelector:@selector(ccTouchBegan:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorBeganBit;
+		if( [aDelegate respondsToSelector:@selector(ccTouchMoved:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorMovedBit;
+		if( [aDelegate respondsToSelector:@selector(ccTouchEnded:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorEndedBit;
+		if( [aDelegate respondsToSelector:@selector(ccTouchCancelled:withEvent:)] )
+			_enabledSelectors |= kCCTouchSelectorCancelledBit;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
 }
 
 - (void)dealloc {
+<<<<<<< HEAD
 	[claimedTouches release];
+=======
+	[_claimedTouches release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 @end

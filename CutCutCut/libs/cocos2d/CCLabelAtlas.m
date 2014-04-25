@@ -32,9 +32,17 @@
 #import "CCShaderCache.h"
 #import "CCGLProgram.h"
 #import "ccGLStateCache.h"
+<<<<<<< HEAD
 #import "CCDirector.h"
 #import "Support/CGPointExtension.h"
 #import "Support/TransformUtils.h"
+=======
+#import "CCTextureCache.h"
+#import "CCDirector.h"
+#import "Support/CGPointExtension.h"
+#import "Support/TransformUtils.h"
+#import "Support/CCFileUtils.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 // external
 #import "kazmath/GL/matrix.h"
@@ -42,11 +50,16 @@
 @implementation CCLabelAtlas
 
 #pragma mark CCLabelAtlas - Creation & Init
+<<<<<<< HEAD
 +(id) labelWithString:(NSString*)string charMapFile:(NSString*)charmapfile itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(unsigned char)c
+=======
++(id) labelWithString:(NSString*)string charMapFile:(NSString*)charmapfile itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(NSUInteger)c
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	return [[[self alloc] initWithString:string charMapFile:charmapfile itemWidth:w itemHeight:h startCharMap:c] autorelease];
 }
 
+<<<<<<< HEAD
 -(id) initWithString:(NSString*) theString charMapFile: (NSString*) charmapfile itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(unsigned char)c
 {
 
@@ -56,12 +69,58 @@
 		[self setString: theString];
 	}
 
+=======
++(id) labelWithString:(NSString*)string fntFile:(NSString*)fntFile
+{
+	return [[[self alloc] initWithString:string fntFile:fntFile] autorelease];
+}
+
+-(id) initWithString:(NSString*) theString fntFile:(NSString*)fntFile
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[[CCFileUtils sharedFileUtils] fullPathForFilename:fntFile]];
+	
+	NSAssert( [[dict objectForKey:@"version"] intValue] == 1, @"Unsupported version. Upgrade cocos2d version");
+
+	// obtain the path, and prepend it
+	NSString *path = [fntFile stringByDeletingLastPathComponent];
+	NSString *textureFilename = [path stringByAppendingPathComponent:[dict objectForKey:@"textureFilename"]];
+	
+	NSUInteger width = [[dict objectForKey:@"itemWidth"] unsignedIntValue]  / CC_CONTENT_SCALE_FACTOR();
+	NSUInteger height = [[dict objectForKey:@"itemHeight"] unsignedIntValue] / CC_CONTENT_SCALE_FACTOR();
+	NSUInteger startChar = [[dict objectForKey:@"firstChar"] unsignedIntValue];
+	
+	return [self initWithString:theString
+					charMapFile:textureFilename
+					  itemWidth:width
+					 itemHeight:height
+				   startCharMap:startChar];
+}
+
+-(id) initWithString:(NSString*)string charMapFile: (NSString*)filename itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(NSUInteger)c
+{
+	CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:filename];
+	return [self initWithString:string texture:texture itemWidth:w itemHeight:h startCharMap:c];
+}
+
+-(id) initWithString:(NSString*) theString texture:(CCTexture2D*)texture itemWidth:(NSUInteger)w itemHeight:(NSUInteger)h startCharMap:(NSUInteger)c
+{
+	if ((self=[super initWithTexture:texture tileWidth:w tileHeight:h itemsToRender:[theString length] ]) ) {
+		
+		_mapStartChar = c;
+		[self setString: theString];
+	}
+	
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return self;
 }
 
 -(void) dealloc
 {
+<<<<<<< HEAD
 	[string_ release];
+=======
+	[_string release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	[super dealloc];
 }
@@ -70,6 +129,7 @@
 
 -(void) updateAtlasValues
 {
+<<<<<<< HEAD
 	NSUInteger n = [string_ length];
 
 	ccV3F_C4B_T2F_Quad quad;
@@ -81,13 +141,32 @@
 	float textureHigh = [texture pixelsHigh];
     float itemWidthInPixels = itemWidth_ * CC_CONTENT_SCALE_FACTOR();
     float itemHeightInPixels = itemHeight_ * CC_CONTENT_SCALE_FACTOR();
+=======
+	NSUInteger n = [_string length];
+
+	ccV3F_C4B_T2F_Quad quad;
+
+	const unsigned char *s = (unsigned char*) [_string UTF8String];
+
+	CCTexture2D *texture = [_textureAtlas texture];
+	float textureWide = [texture pixelsWide];
+	float textureHigh = [texture pixelsHigh];
+    float itemWidthInPixels = _itemWidth * CC_CONTENT_SCALE_FACTOR();
+    float itemHeightInPixels = _itemHeight * CC_CONTENT_SCALE_FACTOR();
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 	for( NSUInteger i=0; i<n; i++)
 	{
+<<<<<<< HEAD
 		unsigned char a = s[i] - mapStartChar_;
 		float row = (a % itemsPerRow_);
 		float col = (a / itemsPerRow_);
+=======
+		unsigned char a = s[i] - _mapStartChar;
+		float row = (a % _itemsPerRow);
+		float col = (a / _itemsPerRow);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #if CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
 		// Issue #938. Don't use texStepX & texStepY
@@ -111,6 +190,7 @@
 		quad.br.texCoords.u = right;
 		quad.br.texCoords.v = bottom;
 
+<<<<<<< HEAD
 		quad.bl.vertices.x = (int) (i * itemWidth_);
 		quad.bl.vertices.y = 0;
 		quad.bl.vertices.z = 0.0f;
@@ -125,11 +205,31 @@
 		quad.tr.vertices.z = 0.0f;
 
 		ccColor4B c = { color_.r, color_.g, color_.b, opacity_ };
+=======
+		quad.bl.vertices.x = (int) (i * _itemWidth);
+		quad.bl.vertices.y = 0;
+		quad.bl.vertices.z = 0.0f;
+		quad.br.vertices.x = (int)(i * _itemWidth + _itemWidth);
+		quad.br.vertices.y = 0;
+		quad.br.vertices.z = 0.0f;
+		quad.tl.vertices.x = (int)(i * _itemWidth);
+		quad.tl.vertices.y = (int)(_itemHeight);
+		quad.tl.vertices.z = 0.0f;
+		quad.tr.vertices.x = (int)(i * _itemWidth + _itemWidth);
+		quad.tr.vertices.y = (int)(_itemHeight);
+		quad.tr.vertices.z = 0.0f;
+
+		ccColor4B c = { _displayedColor.r, _displayedColor.g, _displayedColor.b, _displayedOpacity };
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		quad.tl.colors = c;
 		quad.tr.colors = c;
 		quad.bl.colors = c;
 		quad.br.colors = c;
+<<<<<<< HEAD
 		[textureAtlas_ updateQuad:&quad atIndex:i];
+=======
+		[_textureAtlas updateQuad:&quad atIndex:i];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
@@ -137,6 +237,7 @@
 
 - (void) setString:(NSString*) newString
 {
+<<<<<<< HEAD
 	if( newString == string_ )
 		return;
 
@@ -151,6 +252,22 @@
 		[self updateAtlasValues];
 
 		CGSize s = CGSizeMake(len * itemWidth_, itemHeight_);
+=======
+	if( newString == _string )
+		return;
+
+	if( [newString hash] != [_string hash] ) {
+
+		NSUInteger len = [newString length];
+		if( len > _textureAtlas.capacity )
+			[_textureAtlas resizeCapacity:len];
+
+		[_string release];
+		_string = [newString copy];
+		[self updateAtlasValues];
+
+		CGSize s = CGSizeMake(len * _itemWidth, _itemHeight);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		[self setContentSize:s];
 
 		self.quadsToDraw = len;
@@ -159,7 +276,11 @@
 
 -(NSString*) string
 {
+<<<<<<< HEAD
 	return string_;
+=======
+	return _string;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark CCLabelAtlas - DebugDraw

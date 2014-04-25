@@ -58,8 +58,13 @@
 
 @interface CCParticleBatchNode : CCNode <CCTextureProtocol> {
 
+<<<<<<< HEAD
 	CCTextureAtlas	*textureAtlas_;
 	ccBlendFunc		blendFunc_;
+=======
+	CCTextureAtlas	*_textureAtlas;
+	ccBlendFunc		_blendFunc;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** the texture atlas used for drawing the quads */

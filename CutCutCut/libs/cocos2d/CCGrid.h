@@ -40,6 +40,7 @@
  */
 @interface CCGridBase : NSObject
 {
+<<<<<<< HEAD
 	BOOL		active_;
 	int			reuseGrid_;
 	ccGridSize	gridSize_;
@@ -54,11 +55,31 @@
 }
 
 /** wheter or not the grid is active */
+=======
+	BOOL		_active;
+	int			_reuseGrid;
+	CGSize		_gridSize;
+	CCTexture2D *_texture;
+	CGPoint		_step;
+	CCGrabber	*_grabber;
+	BOOL		_isTextureFlipped;
+
+	CCGLProgram	*_shaderProgram;
+
+	ccDirectorProjection	_directorProjection;
+}
+
+/** whether or not the grid is active */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @property (nonatomic,readwrite) BOOL active;
 /** number of times that the grid will be reused */
 @property (nonatomic,readwrite) int reuseGrid;
 /** size of the grid */
+<<<<<<< HEAD
 @property (nonatomic,readonly) ccGridSize gridSize;
+=======
+@property (nonatomic,readonly) CGSize gridSize;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** pixels between the grids */
 @property (nonatomic,readwrite) CGPoint step;
 /** texture used */
@@ -70,11 +91,19 @@
 /** shader program */
 @property (nonatomic, readwrite, assign) CCGLProgram *shaderProgram;
 
+<<<<<<< HEAD
 +(id) gridWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
 +(id) gridWithSize:(ccGridSize)gridSize;
 
 -(id) initWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
 -(id)initWithSize:(ccGridSize)gridSize;
+=======
++(id) gridWithSize:(CGSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
++(id) gridWithSize:(CGSize)gridSize;
+
+-(id) initWithSize:(CGSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
+-(id)initWithSize:(CGSize)gridSize;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 -(void)beforeDraw;
 -(void)afterDraw:(CCNode*)target;
 -(void)blit;
@@ -91,6 +120,7 @@
  */
 @interface CCGrid3D : CCGridBase
 {
+<<<<<<< HEAD
 	GLvoid		*texCoordinates;
 	GLvoid		*vertices;
 	GLvoid		*originalVertices;
@@ -103,6 +133,20 @@
 -(ccVertex3F)originalVertex:(ccGridSize)pos;
 /** sets a new vertex at a given position */
 -(void)setVertex:(ccGridSize)pos vertex:(ccVertex3F)vertex;
+=======
+	GLvoid		*_texCoordinates;
+	GLvoid		*_vertices;
+	GLvoid		*_originalVertices;
+	GLushort	*_indices;
+}
+
+/** returns the vertex at a given position */
+-(ccVertex3F)vertex:(CGPoint)pos;
+/** returns the original (non-transformed) vertex at a given position */
+-(ccVertex3F)originalVertex:(CGPoint)pos;
+/** sets a new vertex at a given position */
+-(void)setVertex:(CGPoint)pos vertex:(ccVertex3F)vertex;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @end
 
@@ -114,6 +158,7 @@
 */
 @interface CCTiledGrid3D : CCGridBase
 {
+<<<<<<< HEAD
 	GLvoid		*texCoordinates;
 	GLvoid		*vertices;
 	GLvoid		*originalVertices;
@@ -126,5 +171,19 @@
 -(ccQuad3)originalTile:(ccGridSize)pos;
 /** sets a new tile */
 -(void)setTile:(ccGridSize)pos coords:(ccQuad3)coords;
+=======
+	GLvoid		*_texCoordinates;
+	GLvoid		*_vertices;
+	GLvoid		*_originalVertices;
+	GLushort	*_indices;
+}
+
+/** returns the tile at the given position */
+-(ccQuad3)tile:(CGPoint)pos;
+/** returns the original tile (untransformed) at the given position */
+-(ccQuad3)originalTile:(CGPoint)pos;
+/** sets a new tile */
+-(void)setTile:(CGPoint)pos coords:(ccQuad3)coords;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @end

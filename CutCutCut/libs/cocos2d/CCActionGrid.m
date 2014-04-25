@@ -32,6 +32,7 @@
 
 @implementation CCGridAction
 
+<<<<<<< HEAD
 @synthesize gridSize = gridSize_;
 
 +(id) actionWithSize:(ccGridSize)size duration:(ccTime)d
@@ -44,6 +45,20 @@
 	if ( (self = [super initWithDuration:d]) )
 	{
 		gridSize_ = gSize;
+=======
+@synthesize gridSize = _gridSize;
+
++(id) actionWithDuration:(ccTime)duration size:(CGSize)gridSize;
+{
+	return [[[self alloc] initWithDuration:duration size:gridSize] autorelease];
+}
+
+-(id) initWithDuration:(ccTime)duration size:(CGSize)gridSize;
+{
+	if ( (self = [super initWithDuration:duration]) )
+	{
+		_gridSize = gridSize;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -60,7 +75,11 @@
 
 	if ( targetGrid && targetGrid.reuseGrid > 0 )
 	{
+<<<<<<< HEAD
 		if ( targetGrid.active && targetGrid.gridSize.x == gridSize_.x && targetGrid.gridSize.y == gridSize_.y && [targetGrid isKindOfClass:[newgrid class]] )
+=======
+		if ( targetGrid.active && targetGrid.gridSize.width == _gridSize.width && targetGrid.gridSize.height == _gridSize.height && [targetGrid isKindOfClass:[newgrid class]] )
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			[targetGrid reuse];
 		else
 			[NSException raise:@"GridBase" format:@"Cannot reuse grid"];
@@ -88,7 +107,11 @@
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithSize:gridSize_ duration:duration_];
+=======
+	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithDuration:_duration size:_gridSize];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return copy;
 }
 @end
@@ -102,6 +125,7 @@
 
 -(CCGridBase *)grid
 {
+<<<<<<< HEAD
 	return [CCGrid3D gridWithSize:gridSize_];
 }
 
@@ -120,6 +144,26 @@
 -(void)setVertex:(ccGridSize)pos vertex:(ccVertex3F)vertex
 {
 	CCGrid3D *g = (CCGrid3D *)[target_ grid];
+=======
+	return [CCGrid3D gridWithSize:_gridSize];
+}
+
+-(ccVertex3F)vertex:(CGPoint)pos
+{
+	CCGrid3D *g = (CCGrid3D *)[_target grid];
+	return [g vertex:pos];
+}
+
+-(ccVertex3F)originalVertex:(CGPoint)pos
+{
+	CCGrid3D *g = (CCGrid3D *)[_target grid];
+	return [g originalVertex:pos];
+}
+
+-(void)setVertex:(CGPoint)pos vertex:(ccVertex3F)vertex
+{
+	CCGrid3D *g = (CCGrid3D *)[_target grid];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[g setVertex:pos vertex:vertex];
 }
 @end
@@ -133,6 +177,7 @@
 
 -(CCGridBase *)grid
 {
+<<<<<<< HEAD
 	return [CCTiledGrid3D gridWithSize:gridSize_];
 }
 
@@ -151,6 +196,26 @@
 -(void)setTile:(ccGridSize)pos coords:(ccQuad3)coords
 {
 	CCTiledGrid3D *g = (CCTiledGrid3D *)[target_ grid];
+=======
+	return [CCTiledGrid3D gridWithSize:_gridSize];
+}
+
+-(ccQuad3)tile:(CGPoint)pos
+{
+	CCTiledGrid3D *g = (CCTiledGrid3D *)[_target grid];
+	return [g tile:pos];
+}
+
+-(ccQuad3)originalTile:(CGPoint)pos
+{
+	CCTiledGrid3D *g = (CCTiledGrid3D *)[_target grid];
+	return [g originalTile:pos];
+}
+
+-(void)setTile:(CGPoint)pos coords:(ccQuad3)coords
+{
+	CCTiledGrid3D *g = (CCTiledGrid3D *)[_target grid];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[g setTile:pos coords:coords];
 }
 
@@ -183,7 +248,11 @@
 
 @implementation CCAccelDeccelAmplitude
 
+<<<<<<< HEAD
 @synthesize rate=rate_;
+=======
+@synthesize rate=_rate;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
@@ -194,8 +263,13 @@
 {
 	if ( (self = [super initWithDuration:d]) )
 	{
+<<<<<<< HEAD
 		rate_ = 1.0f;
 		other_ = (CCActionInterval*)[action retain];
+=======
+		_rate = 1.0f;
+		_other = (CCActionInterval*)[action retain];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -203,14 +277,22 @@
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	[other_ release];
+=======
+	[_other release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(void)startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	[other_ startWithTarget:target_];
+=======
+	[_other startWithTarget:_target];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) update: (ccTime) time
@@ -223,13 +305,22 @@
 		f = 1 - f;
 	}
 
+<<<<<<< HEAD
 	[other_ setAmplitudeRate:powf(f, rate_)];
 	[other_ update:time];
+=======
+	[_other setAmplitudeRate:powf(f, _rate)];
+	[_other update:time];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (CCActionInterval*) reverse
 {
+<<<<<<< HEAD
 	return [CCAccelDeccelAmplitude actionWithAction:[other_ reverse] duration:duration_];
+=======
+	return [CCAccelDeccelAmplitude actionWithAction:[_other reverse] duration:_duration];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end
@@ -241,7 +332,11 @@
 
 @implementation CCAccelAmplitude
 
+<<<<<<< HEAD
 @synthesize rate=rate_;
+=======
+@synthesize rate=_rate;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
@@ -252,8 +347,13 @@
 {
 	if ( (self = [super initWithDuration:d]) )
 	{
+<<<<<<< HEAD
 		rate_ = 1.0f;
 		other_ = (CCActionInterval*)[action retain];
+=======
+		_rate = 1.0f;
+		_other = (CCActionInterval*)[action retain];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -261,25 +361,42 @@
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	[other_ release];
+=======
+	[_other release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(void)startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	[other_ startWithTarget:target_];
+=======
+	[_other startWithTarget:_target];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) update: (ccTime) time
 {
+<<<<<<< HEAD
 	[other_ setAmplitudeRate:powf(time, rate_)];
 	[other_ update:time];
+=======
+	[_other setAmplitudeRate:powf(time, _rate)];
+	[_other update:time];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (CCActionInterval*) reverse
 {
+<<<<<<< HEAD
 	return [CCAccelAmplitude actionWithAction:[other_ reverse] duration:self.duration];
+=======
+	return [CCAccelAmplitude actionWithAction:[_other reverse] duration:self.duration];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end
@@ -291,7 +408,11 @@
 
 @implementation CCDeccelAmplitude
 
+<<<<<<< HEAD
 @synthesize rate=rate_;
+=======
+@synthesize rate=_rate;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
@@ -302,8 +423,13 @@
 {
 	if ( (self = [super initWithDuration:d]) )
 	{
+<<<<<<< HEAD
 		rate_ = 1.0f;
 		other_ = (CCActionInterval*)[action retain];
+=======
+		_rate = 1.0f;
+		_other = (CCActionInterval*)[action retain];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -311,25 +437,42 @@
 
 -(void)dealloc
 {
+<<<<<<< HEAD
 	[other_ release];
+=======
+	[_other release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 -(void)startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	[other_ startWithTarget:target_];
+=======
+	[_other startWithTarget:_target];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) update: (ccTime) time
 {
+<<<<<<< HEAD
 	[other_ setAmplitudeRate:powf((1-time), rate_)];
 	[other_ update:time];
+=======
+	[_other setAmplitudeRate:powf((1-time), _rate)];
+	[_other update:time];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (CCActionInterval*) reverse
 {
+<<<<<<< HEAD
 	return [CCDeccelAmplitude actionWithAction:[other_ reverse] duration:self.duration];
+=======
+	return [CCDeccelAmplitude actionWithAction:[_other reverse] duration:self.duration];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end
@@ -369,7 +512,11 @@
 -(id)initWithTimes:(int)times
 {
 	if ( (self = [super init]) )
+<<<<<<< HEAD
 		t_ = times;
+=======
+		_times = times;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	return self;
 }
@@ -380,7 +527,11 @@
 
 	CCNode *myTarget = (CCNode*) [self target];
 	if ( myTarget.grid && myTarget.grid.active )
+<<<<<<< HEAD
 		myTarget.grid.reuseGrid += t_;
+=======
+		myTarget.grid.reuseGrid += _times;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end

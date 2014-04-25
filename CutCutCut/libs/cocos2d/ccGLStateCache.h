@@ -25,23 +25,35 @@
 
 #import <TargetConditionals.h>
 #import "ccMacros.h"
+<<<<<<< HEAD
 #if __CC_PLATFORM_IOS
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #elif __CC_PLATFORM_MAC
 #import <OpenGL/gl.h>
 #endif //
+=======
+#import "Platforms/CCGL.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @class CCGLProgram;
 
 /** vertex attrib flags */
 enum {
 	kCCVertexAttribFlag_None		= 0,
+<<<<<<< HEAD
 
 	kCCVertexAttribFlag_Position	= 1 << 0,
 	kCCVertexAttribFlag_Color		= 1 << 1,
 	kCCVertexAttribFlag_TexCoords	= 1 << 2,
 
+=======
+	
+	kCCVertexAttribFlag_Position	= 1 << 0,
+	kCCVertexAttribFlag_Color		= 1 << 1,
+	kCCVertexAttribFlag_TexCoords	= 1 << 2,
+	
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	kCCVertexAttribFlag_PosColorTex = ( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_Color | kCCVertexAttribFlag_TexCoords ),
 };
 
@@ -50,20 +62,36 @@ typedef enum {
 //	CC_GL_SCISSOR_TEST = 1 << 0,
 //	CC_GL_STENCIL_TEST = 1 << 1,
 //	CC_GL_DEPTH_TEST = 1 << 2,
+<<<<<<< HEAD
 	CC_GL_BLEND = 1 << 3,
 //	CC_GL_DITHER = 1 << 4,
 
 //	CC_GL_ALL = ( CC_GL_SCISSOR_TEST | CC_GL_STENCIL_TEST | CC_GL_DEPTH_TEST | CC_GL_BLEND | CC_GL_DITHER ),
 	CC_GL_ALL = ( CC_GL_BLEND ),
 
+=======
+//	CC_GL_BLEND = 1 << 3,
+//	CC_GL_DITHER = 1 << 4,
+
+//	CC_GL_ALL = ( CC_GL_SCISSOR_TEST | CC_GL_STENCIL_TEST | CC_GL_DEPTH_TEST | CC_GL_BLEND | CC_GL_DITHER ),
+//	CC_GL_ALL = ( CC_GL_BLEND ),
+	CC_GL_ALL = 0,
+	
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 } ccGLServerState;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+<<<<<<< HEAD
 
 /** @file ccGLStateCache.h
 */
+=======
+	
+/** @file ccGLStateCache.h
+ */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** Invalidates the GL state cache.
  If CC_ENABLE_GL_STATE_CACHE it will reset the GL state cache.
@@ -89,6 +117,15 @@ void ccGLDeleteProgram( GLuint program );
  */
 void ccGLBlendFunc(GLenum sfactor, GLenum dfactor);
 
+<<<<<<< HEAD
+=======
+/** Resets the blending mode back to the cached state in case you used glBlendFuncSeparate() or glBlendEquation().
+ If CC_ENABLE_GL_STATE_CACHE is disabled, it will just set the default blending mode using GL_FUNC_ADD.
+ @since v2.0.0
+ */
+void ccGLBlendResetToCache(void);
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** sets the projection matrix as dirty
  @since v2.0.0
  */
@@ -96,6 +133,7 @@ void ccSetProjectionMatrixDirty( void );
 
 /** Will enable the vertex attribs that are passed as flags.
  Possible flags:
+<<<<<<< HEAD
 
 	* kCCVertexAttribFlag_Position
 	* kCCVertexAttribFlag_Color
@@ -103,10 +141,20 @@ void ccSetProjectionMatrixDirty( void );
 
  These flags can be ORed. The flags that are not present, will be disabled.
 
+=======
+ 
+ * kCCVertexAttribFlag_Position
+ * kCCVertexAttribFlag_Color
+ * kCCVertexAttribFlag_TexCoords
+ 
+ These flags can be ORed. The flags that are not present, will be disabled.
+ 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  @since v2.0.0
  */
 void ccGLEnableVertexAttribs( unsigned int flags );
 
+<<<<<<< HEAD
 /** If the active texture is not textureEnum, then it will active it.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glActiveTexture() directly.
  @since v2.0.0
@@ -127,17 +175,57 @@ GLenum ccGLGetActiveTexture( void );
 void ccGLBindTexture2D(GLuint textureId );
 
 /** It will delete a given texture. If the texture was bound, it will invalidate the cached.
+=======
+/** If the texture is not already bound to texture unit 0 and if target is GL_TEXTURE_2D, it binds it.
+ If CC_ENABLE_GL_STATE_CACHE is disabled or if target != GL_TEXTURE_2D it will call glBindTexture() directly.
+ @since v2.1
+ */
+void ccGLBindTexture( GLenum target, GLuint textureId );
+
+/** If the texture is not already bound to texture unit 0, it binds it.
+ If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glBindTexture() directly.
+ @since v2.0.0
+ */
+void ccGLBindTexture2D( GLuint textureId );
+
+/** If the texture is not already bound to a given unit, it binds it.
+ If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glBindTexture() directly.
+ @since v2.1.0
+ */
+void ccGLBindTexture2DN( GLuint textureUnit, GLuint textureId );
+
+/** It will delete a given texture. If the texture was bound, it will invalidate the cached for texture unit 0.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glDeleteTextures() directly.
  @since v2.0.0
  */
 void ccGLDeleteTexture(GLuint textureId);
 
+<<<<<<< HEAD
+=======
+/** It will delete a given texture. If the texture was bound, it will invalidate the cached for the given texture unit.
+ If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glDeleteTextures() directly.
+ @since v2.1.0
+ */
+void ccGLDeleteTextureN( GLuint textureUnit, GLuint textureId );
+
+/** If the vertex array is not already bound, it binds it.
+ If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glBindVertexArray() directly.
+ @since v2.0.0
+ */
+void ccGLBindVAO(GLuint vaoId);
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** It will enable / disable the server side GL states.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glEnable() directly.
  @since v2.0.0
  */
 void ccGLEnable( ccGLServerState flags );
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #ifdef __cplusplus
 }
 #endif

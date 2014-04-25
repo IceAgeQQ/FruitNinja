@@ -49,11 +49,35 @@
 #define glDeleteVertexArrays		glDeleteVertexArraysOES
 #define glGenVertexArrays			glGenVertexArraysOES
 #define glBindVertexArray			glBindVertexArrayOES
+<<<<<<< HEAD
 
 // Mac
 #elif __CC_PLATFORM_MAC
+=======
+#define glMapBuffer					glMapBufferOES
+#define glUnmapBuffer				glUnmapBufferOES
+
+#define GL_DEPTH24_STENCIL8			GL_DEPTH24_STENCIL8_OES
+#define GL_WRITE_ONLY				GL_WRITE_ONLY_OES
+
+// Mac
+#elif __CC_PLATFORM_MAC
+
+
+#if 1
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #define glDeleteVertexArrays		glDeleteVertexArraysAPPLE
 #define glGenVertexArrays			glGenVertexArraysAPPLE
 #define glBindVertexArray			glBindVertexArrayAPPLE
 
+<<<<<<< HEAD
+=======
+#else // OpenGL 3.2 Core Profile
+
+#define glDeleteVertexArrays		glDeleteVertexArrays
+#define glGenVertexArrays			glGenVertexArrays
+#define glBindVertexArray			glBindVertexArray
+#endif
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #endif

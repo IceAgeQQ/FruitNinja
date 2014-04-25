@@ -54,6 +54,7 @@ enum  {
  */
 @interface CCDirectorMac : CCDirector
 {
+<<<<<<< HEAD
 	BOOL			isFullScreen_;
 	int				resizeMode_;
 	CGPoint			winOffset_;
@@ -68,6 +69,22 @@ enum  {
 	NSWindow		*windowGLView_;
     NSView          *superViewGLView_;
     NSRect          originalWinRect_; // Original size and position
+=======
+	BOOL			_isFullScreen;
+	int				_resizeMode;
+	CGPoint			_winOffset;
+    CGSize			_originalWinSize;
+
+	NSWindow		*_fullScreenWindow;
+
+	// Event Dispatcher
+	CCEventDispatcher	*_eventDispatcher;
+
+	// cache
+	NSWindow		*_windowGLView;
+    NSView          *_superViewGLView;
+    NSRect          _originalWinRect; // Original size and position
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 // whether or not the view is in fullscreen mode
@@ -81,7 +98,11 @@ enum  {
 /** Sets the view in fullscreen or window mode */
 - (void) setFullScreen:(BOOL)fullscreen;
 
+<<<<<<< HEAD
 /** Converts window size coordiantes to logical coordinates.
+=======
+/** Converts window size coordinates to logical coordinates.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  Useful only if resizeMode is kCCDirectorResize_Scale.
  If resizeMode is kCCDirectorResize_NoScale, then no conversion will be done.
 */

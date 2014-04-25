@@ -62,6 +62,17 @@
 - (void)touchesEndedWithEvent:(NSEvent *)event;
 - (void)touchesCancelledWithEvent:(NSEvent *)event;
 
+<<<<<<< HEAD
+=======
+// Gestures
+- (void)beginGestureWithEvent:(NSEvent *)event;
+- (void)magnifyWithEvent:(NSEvent *)event;
+- (void)smartMagnifyWithEvent:(NSEvent *)event;
+- (void)rotateWithEvent:(NSEvent *)event;
+- (void)swipeWithEvent:(NSEvent *)event;
+- (void)endGestureWithEvent:(NSEvent *)event;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /** CCGLView
@@ -69,7 +80,11 @@
  Only available for Mac OS X
  */
 @interface CCGLView : NSOpenGLView {
+<<<<<<< HEAD
 	id<CCEventDelegate> eventDelegate_;
+=======
+	id<CCEventDelegate> _eventDelegate;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** Event delegate */
@@ -84,6 +99,12 @@
 /** unlocks the openGL context */
 -(void) unlockOpenGLContext;
 
+<<<<<<< HEAD
+=======
+/** returns the depth format of the view in BPP */
+- (NSUInteger) depthFormat;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 // private
 +(void) load_;
 @end

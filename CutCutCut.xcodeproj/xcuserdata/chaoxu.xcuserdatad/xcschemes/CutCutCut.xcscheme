@@ -14,7 +14,11 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+<<<<<<< HEAD
                BlueprintIdentifier = "2543C4351567F71600CFC0A9"
+=======
+               BlueprintIdentifier = "BC1E3C6218185B2100517C07"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
                BuildableName = "CutCutCut.app"
                BlueprintName = "CutCutCut"
                ReferencedContainer = "container:CutCutCut.xcodeproj">
@@ -32,7 +36,11 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD
             BlueprintIdentifier = "2543C4351567F71600CFC0A9"
+=======
+            BlueprintIdentifier = "BC1E3C6218185B2100517C07"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
             BuildableName = "CutCutCut.app"
             BlueprintName = "CutCutCut"
             ReferencedContainer = "container:CutCutCut.xcodeproj">
@@ -51,7 +59,11 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD
             BlueprintIdentifier = "2543C4351567F71600CFC0A9"
+=======
+            BlueprintIdentifier = "BC1E3C6218185B2100517C07"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
             BuildableName = "CutCutCut.app"
             BlueprintName = "CutCutCut"
             ReferencedContainer = "container:CutCutCut.xcodeproj">
@@ -69,7 +81,11 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD
             BlueprintIdentifier = "2543C4351567F71600CFC0A9"
+=======
+            BlueprintIdentifier = "BC1E3C6218185B2100517C07"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
             BuildableName = "CutCutCut.app"
             BlueprintName = "CutCutCut"
             ReferencedContainer = "container:CutCutCut.xcodeproj">

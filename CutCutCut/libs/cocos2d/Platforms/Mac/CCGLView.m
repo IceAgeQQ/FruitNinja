@@ -32,8 +32,12 @@
 #import "../../ccMacros.h"
 #ifdef __CC_PLATFORM_MAC
 
+<<<<<<< HEAD
 #import <OpenGL/gl.h>
 
+=======
+#import "../../Platforms/CCGL.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import "CCGLView.h"
 #import "CCDirectorMac.h"
 #import "CCEventDispatcher.h"
@@ -43,7 +47,11 @@
 
 @implementation CCGLView
 
+<<<<<<< HEAD
 @synthesize eventDelegate = eventDelegate_;
+=======
+@synthesize eventDelegate = _eventDelegate;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(void) load_
 {
@@ -65,8 +73,13 @@
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFADepthSize, 24,
 
+<<<<<<< HEAD
 		// Must specify the 3.2 Core Profile to use OpenGL 3.2
 #if 0 
+=======
+#if 0
+		// Must specify the 3.2 Core Profile to use OpenGL 3.2
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		NSOpenGLPFAOpenGLProfile,
 		NSOpenGLProfileVersion3_2Core,
 #endif
@@ -85,7 +98,11 @@
 			[self setOpenGLContext:context];
 
 		// event delegate
+<<<<<<< HEAD
 		eventDelegate_ = nil;
+=======
+		_eventDelegate = nil;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 
 	return self;
@@ -115,6 +132,14 @@
 //	[[self openGLContext] setValues:&order forParameter:NSOpenGLCPSurfaceOrder];
 }
 
+<<<<<<< HEAD
+=======
+- (NSUInteger) depthFormat
+{
+	return 24;
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 - (void) reshape
 {
 	// We draw on a secondary thread through the display link
@@ -129,7 +154,14 @@
 	[director reshapeProjection: NSSizeToCGSize(rect.size) ];
 
 	// avoid flicker
+<<<<<<< HEAD
 	[director drawScene];
+=======
+  // Only draw if there is something to draw, otherwise it actually creates a flicker of the current glClearColor
+	if(director.runningScene){
+    [director drawScene];
+  }
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 //	[self setNeedsDisplay:YES];
 	
 	[self unlockOpenGLContext];
@@ -161,7 +193,11 @@
 }
 
 #define DISPATCH_EVENT(__event__, __selector__)												\
+<<<<<<< HEAD
 	id obj = eventDelegate_;																\
+=======
+	id obj = _eventDelegate;																\
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	CCEventObject *event = [[CCEventObject alloc] init];									\
 	event->event = [__event__ retain];														\
 	event->selector = __selector__;															\
@@ -282,6 +318,40 @@
 	DISPATCH_EVENT(theEvent, _cmd);
 }
 
+<<<<<<< HEAD
+=======
+#pragma mark CCGLView - Gesture events
+- (void)beginGestureWithEvent:(NSEvent *)theEvent
+{
+	DISPATCH_EVENT(theEvent, _cmd);
+}
+
+- (void)magnifyWithEvent:(NSEvent *)theEvent
+{
+	DISPATCH_EVENT(theEvent, _cmd);
+}
+
+- (void)smartMagnifyWithEvent:(NSEvent *)theEvent
+{
+	DISPATCH_EVENT(theEvent, _cmd);
+}
+
+- (void)rotateWithEvent:(NSEvent *)theEvent
+{
+	DISPATCH_EVENT(theEvent, _cmd);
+}
+
+- (void)swipeWithEvent:(NSEvent *)theEvent
+{
+	DISPATCH_EVENT(theEvent, _cmd);
+}
+
+- (void)endGestureWithEvent:(NSEvent *)theEvent
+{
+	DISPATCH_EVENT(theEvent, _cmd);
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 #endif // __CC_PLATFORM_MAC

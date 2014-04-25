@@ -169,6 +169,7 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
 @interface CCParticleSystem : CCNode <CCTextureProtocol>
 {
 	// is the particle system active ?
+<<<<<<< HEAD
 	BOOL active;
 	// duration in seconds of the system. -1 is infinity
 	float duration;
@@ -188,6 +189,27 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
 	// Different modes
 
 	NSInteger emitterMode_;
+=======
+	BOOL _active;
+	// duration in seconds of the system. -1 is infinity
+	float _duration;
+	// time elapsed since the start of the system (in seconds)
+	float _elapsed;
+
+	// position is from "superclass" CocosNode
+	CGPoint _sourcePosition;
+	// Position variance
+	CGPoint _posVar;
+
+	// The angle (direction) of the particles measured in degrees
+	float _angle;
+	// Angle variance measured in degrees;
+	float _angleVar;
+
+	// Different modes
+
+	NSInteger _emitterMode;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	union {
 		// Mode A:Gravity + Tangential Accel + Radial Accel
 		struct {
@@ -226,6 +248,7 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
 			// Variance in degrees for rotatePerSecond
 			float rotatePerSecondVar;
 		} B;
+<<<<<<< HEAD
 	} mode;
 
 	// start ize of the particles
@@ -299,6 +322,83 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
 
 	//YES if scaled or rotated
 	BOOL transformSystemDirty_;
+=======
+	} _mode;
+
+	// start ize of the particles
+	float _startSize;
+	// start Size variance
+	float _startSizeVar;
+	// End size of the particle
+	float _endSize;
+	// end size of variance
+	float _endSizeVar;
+
+	// How many seconds will the particle live
+	float _life;
+	// Life variance
+	float _lifeVar;
+
+	// Start color of the particles
+	ccColor4F _startColor;
+	// Start color variance
+	ccColor4F _startColorVar;
+	// End color of the particles
+	ccColor4F _endColor;
+	// End color variance
+	ccColor4F _endColorVar;
+
+	// start angle of the particles
+	float _startSpin;
+	// start angle variance
+	float _startSpinVar;
+	// End angle of the particle
+	float _endSpin;
+	// end angle ariance
+	float _endSpinVar;
+
+	// Array of particles
+	tCCParticle *_particles;
+	// Maximum particles
+	NSUInteger _totalParticles;
+	// Count of active particles
+	NSUInteger _particleCount;
+    // Number of allocated particles
+    NSUInteger _allocatedParticles;
+
+	// How many particles can be emitted per second
+	float _emissionRate;
+	float _emitCounter;
+
+	// Texture of the particles
+	CCTexture2D *_texture;
+	// blend function
+	ccBlendFunc	_blendFunc;
+	// Texture alpha behavior
+	BOOL _opacityModifyRGB;
+
+	// movment type: free or grouped
+	tCCPositionType	_positionType;
+
+	// Whether or not the node will be auto-removed when there are not particles
+	BOOL	_autoRemoveOnFinish;
+
+	//  particle idx
+	NSUInteger _particleIdx;
+
+	// Optimization
+	CC_UPDATE_PARTICLE_IMP	_updateParticleImp;
+	SEL						_updateParticleSel;
+
+	// for batching. If nil, then it won't be batched
+	CCParticleBatchNode *_batchNode;
+
+	// index of system in batch node array
+	NSUInteger _atlasIndex;
+
+	//YES if scaled or rotated
+	BOOL _transformSystemDirty;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** Is the emitter active */
@@ -380,6 +480,11 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
 @property (nonatomic,readwrite, retain) CCTexture2D * texture;
 /** conforms to CocosNodeTexture protocol */
 @property (nonatomic,readwrite) ccBlendFunc blendFunc;
+<<<<<<< HEAD
+=======
+/** does the alpha value modify color */
+@property (nonatomic, readwrite, getter=doesOpacityModifyRGB, assign) BOOL opacityModifyRGB;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** whether or not the particles are using blend additive.
  If enabled, the following blending function will be used.
  @code
@@ -415,6 +520,15 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
  */
 +(id) particleWithFile:(NSString*)plistFile;
 
+<<<<<<< HEAD
+=======
+/* creates an void particle emitter with a maximun number of particles.
+ @since v2.1
+*/
++(id) particleWithTotalParticles:(NSUInteger) numberOfParticles;
+
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** initializes a CCParticleSystem from a plist file.
  This plist files can be creted manually or with Particle Designer:
 	http://particledesigner.71squared.com/
@@ -427,6 +541,14 @@ typedef void (*CC_UPDATE_PARTICLE_IMP)(id, SEL, tCCParticle*, CGPoint);
  */
 -(id) initWithDictionary:(NSDictionary*)dictionary;
 
+<<<<<<< HEAD
+=======
+/** initializes a particle system from a NSDictionary and the path from where to load the png
+ @since v2.1
+ */
+-(id) initWithDictionary:(NSDictionary *)dictionary path:(NSString*)dirname;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 //! Initializes a system with a fixed number of particles
 -(id) initWithTotalParticles:(NSUInteger) numberOfParticles;
 //! stop emitting particles. Running particles will continue to run until they die

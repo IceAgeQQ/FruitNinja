@@ -37,31 +37,52 @@
 -(id) initWithDuration: (ccTime) t percent: (float) v
 {
 	if( (self=[super initWithDuration: t] ) )
+<<<<<<< HEAD
 		to_ = v;
+=======
+		_to = v;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration:duration_ percent:to_];
+=======
+	CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration:_duration percent:_to];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return copy;
 }
 
 -(void) startWithTarget:(id) aTarget;
 {
 	[super startWithTarget:aTarget];
+<<<<<<< HEAD
 	from_ = [(kProgressTimerCast)target_ percentage];
 
 	// XXX: Is this correct ?
 	// Adding it to support CCRepeat
 	if( from_ == 100)
 		from_ = 0;
+=======
+	_from = [(kProgressTimerCast)_target percentage];
+
+	// XXX: Is this correct ?
+	// Adding it to support CCRepeat
+	if( _from == 100)
+		_from = 0;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) update: (ccTime) t
 {
+<<<<<<< HEAD
 	[(kProgressTimerCast)target_ setPercentage: from_ + ( to_ - from_ ) * t];
+=======
+	[(kProgressTimerCast)_target setPercentage: _from + ( _to - _from ) * t];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 @end
 
@@ -74,21 +95,34 @@
 -(id) initWithDuration: (ccTime) t from:(float)fromPercentage to:(float) toPercentage
 {
 	if( (self=[super initWithDuration: t] ) ){
+<<<<<<< HEAD
 		to_ = toPercentage;
 		from_ = fromPercentage;
+=======
+		_to = toPercentage;
+		_from = fromPercentage;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
+<<<<<<< HEAD
 	CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration:duration_ from:from_ to:to_];
+=======
+	CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration:_duration from:_from to:_to];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	return copy;
 }
 
 - (CCActionInterval *) reverse
 {
+<<<<<<< HEAD
 	return [[self class] actionWithDuration:duration_ from:to_ to:from_];
+=======
+	return [[self class] actionWithDuration:_duration from:_to to:_from];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) startWithTarget:(id) aTarget;
@@ -98,6 +132,10 @@
 
 -(void) update: (ccTime) t
 {
+<<<<<<< HEAD
 	[(kProgressTimerCast)target_ setPercentage: from_ + ( to_ - from_ ) * t];
+=======
+	[(kProgressTimerCast)_target setPercentage: _from + ( _to - _from ) * t];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 @end

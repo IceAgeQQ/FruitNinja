@@ -98,12 +98,20 @@ struct ccTouchHandlerHelperData {
  See StandardTouchDelegate description.
  IMPORTANT: The delegate will be retained.
  */
+<<<<<<< HEAD
 -(void) addStandardDelegate:(id<CCStandardTouchDelegate>) delegate priority:(int)priority;
+=======
+-(void) addStandardDelegate:(id<CCTouchAllAtOnceDelegate>) delegate priority:(int)priority;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** Adds a targeted touch delegate to the dispatcher's list.
  See TargetedTouchDelegate description.
  IMPORTANT: The delegate will be retained.
  */
+<<<<<<< HEAD
 -(void) addTargetedDelegate:(id<CCTargetedTouchDelegate>) delegate priority:(int)priority swallowsTouches:(BOOL)swallowsTouches;
+=======
+-(void) addTargetedDelegate:(id<CCTouchOneByOneDelegate>) delegate priority:(int)priority swallowsTouches:(BOOL)swallowsTouches;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** Removes a touch delegate.
  The delegate will be released
  */

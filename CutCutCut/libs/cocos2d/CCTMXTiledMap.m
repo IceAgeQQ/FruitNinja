@@ -47,11 +47,19 @@
 @end
 
 @implementation CCTMXTiledMap
+<<<<<<< HEAD
 @synthesize mapSize = mapSize_;
 @synthesize tileSize = tileSize_;
 @synthesize mapOrientation = mapOrientation_;
 @synthesize objectGroups = objectGroups_;
 @synthesize properties = properties_;
+=======
+@synthesize mapSize = _mapSize;
+@synthesize tileSize = _tileSize;
+@synthesize mapOrientation = _mapOrientation;
+@synthesize objectGroups = _objectGroups;
+@synthesize properties = _properties;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
@@ -65,12 +73,21 @@
 
 -(void) buildWithMapInfo:(CCTMXMapInfo*)mapInfo
 {
+<<<<<<< HEAD
 	mapSize_ = mapInfo.mapSize;
 	tileSize_ = mapInfo.tileSize;
 	mapOrientation_ = mapInfo.orientation;
 	objectGroups_ = [mapInfo.objectGroups retain];
 	properties_ = [mapInfo.properties retain];
 	tileProperties_ = [mapInfo.tileProperties retain];
+=======
+	_mapSize = mapInfo.mapSize;
+	_tileSize = mapInfo.tileSize;
+	_mapOrientation = mapInfo.orientation;
+	_objectGroups = [mapInfo.objectGroups retain];
+	_properties = [mapInfo.properties retain];
+	_tileProperties = [mapInfo.tileProperties retain];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	int idx=0;
 
@@ -126,9 +143,15 @@
 
 -(void) dealloc
 {
+<<<<<<< HEAD
 	[objectGroups_ release];
 	[properties_ release];
 	[tileProperties_ release];
+=======
+	[_objectGroups release];
+	[_properties release];
+	[_tileProperties release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
@@ -185,7 +208,11 @@
 -(CCTMXLayer*) layerNamed:(NSString *)layerName
 {
 	CCTMXLayer *layer;
+<<<<<<< HEAD
 	CCARRAY_FOREACH(children_, layer) {
+=======
+	CCARRAY_FOREACH(_children, layer) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if([layer isKindOfClass:[CCTMXLayer class]])
 			if([layer.layerName isEqual:layerName])
 				return layer;
@@ -197,7 +224,11 @@
 
 -(CCTMXObjectGroup*) objectGroupNamed:(NSString *)groupName
 {
+<<<<<<< HEAD
 	for( CCTMXObjectGroup *objectGroup in objectGroups_ ) {
+=======
+	for( CCTMXObjectGroup *objectGroup in _objectGroups ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if( [objectGroup.groupName isEqual:groupName] )
 			return objectGroup;
 	}
@@ -208,10 +239,17 @@
 
 -(id) propertyNamed:(NSString *)propertyName
 {
+<<<<<<< HEAD
 	return [properties_ valueForKey:propertyName];
 }
 -(NSDictionary*)propertiesForGID:(unsigned int)GID{
 	return [tileProperties_ objectForKey:[NSNumber numberWithInt:GID]];
+=======
+	return [_properties valueForKey:propertyName];
+}
+-(NSDictionary*)propertiesForGID:(unsigned int)GID{
+	return [_tileProperties objectForKey:[NSNumber numberWithInt:GID]];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 @end
 

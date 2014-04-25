@@ -127,7 +127,11 @@ static CCProfiler* g_sharedProfiler;
 
 - (NSString*)description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"%@ ::\tavg: %fms,\tmin: %fms,\tmax: %fms,\ttotal: %.2fs,\tnr calls: %d", name, averageTime, minTime, maxTime, totalTime / 1000.0, numberOfCalls];
+=======
+	return [NSString stringWithFormat:@"%@ ::\tavg: %fms,\tmin: %fms,\tmax: %fms,\ttotal: %.2fs,\tnr calls: %ld", name, averageTime, minTime, maxTime, totalTime / 1000.0, (unsigned long)numberOfCalls];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 -(void) reset

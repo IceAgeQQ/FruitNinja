@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+http://box2d.org/
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 Copyright (c) 2006-2007 Erin Catto http://www.gphysics.com
 
 This software is provided 'as-is', without any express or implied

@@ -43,18 +43,39 @@ enum {
 	kCCiOSVersion_4_3_5 = 0x04030500,
 	kCCiOSVersion_5_0   = 0x05000000,
 	kCCiOSVersion_5_0_1 = 0x05000100,
+<<<<<<< HEAD
+=======
+	kCCiOSVersion_5_1_0 = 0x05010000,
+	kCCiOSVersion_6_0_0 = 0x06000000,
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	
 	kCCMacVersion_10_6  = 0x0a060000,
 	kCCMacVersion_10_7  = 0x0a070000,
 	kCCMacVersion_10_8  = 0x0a080000,
 };
 
+<<<<<<< HEAD
+=======
+enum {
+	kCCDeviceiPhone,
+	kCCDeviceiPhoneRetinaDisplay,
+	kCCDeviceiPhone5,
+	kCCDeviceiPhone5RetinaDisplay,
+	kCCDeviceiPad,
+	kCCDeviceiPadRetinaDisplay,
+
+	kCCDeviceMac,
+	kCCDeviceMacRetinaDisplay,
+};
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /**
  CCConfiguration contains some openGL variables
  @since v0.99.0
  */
 @interface CCConfiguration : NSObject {
 
+<<<<<<< HEAD
 	GLint			maxTextureSize_;
 	GLint			maxModelviewStackDepth_;
 	BOOL			supportsPVRTC_;
@@ -64,14 +85,31 @@ enum {
 	unsigned int	OSVersion_;
 	GLint			maxSamplesAllowed_;
 	GLint			maxTextureUnits_;
+=======
+	BOOL			_openGLInitialized;
+	
+	GLint			_maxTextureSize;
+	BOOL			_supportsPVRTC;
+	BOOL			_supportsNPOT;
+	BOOL			_supportsBGRA8888;
+	BOOL			_supportsDiscardFramebuffer;
+	BOOL			_supportsShareableVAO;
+	GLint			_maxSamplesAllowed;
+	GLint			_maxTextureUnits;
+
+	unsigned int	_OSVersion;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** OpenGL Max texture size. */
 @property (nonatomic, readonly) GLint maxTextureSize;
 
+<<<<<<< HEAD
 /** OpenGL Max Modelview Stack Depth. */
 @property (nonatomic, readonly) GLint maxModelviewStackDepth;
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** returns the maximum texture units
  @since v2.0.0
  */
@@ -99,6 +137,14 @@ enum {
  */
 @property (nonatomic, readonly) BOOL supportsDiscardFramebuffer;
 
+<<<<<<< HEAD
+=======
+/** Whether or not shareable VAOs are supported.
+ @since v2.0.0
+ */
+@property (nonatomic, readonly) BOOL supportsShareableVAO;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** returns the OS version.
 	- On iOS devices it returns the firmware version.
 	- On Mac returns the OS version
@@ -107,12 +153,26 @@ enum {
  */
 @property (nonatomic, readonly) unsigned int OSVersion;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** returns a shared instance of the CCConfiguration */
 +(CCConfiguration *) sharedConfiguration;
 
 /** returns whether or not an OpenGL is supported */
 - (BOOL) checkForGLExtension:(NSString *)searchName;
 
+<<<<<<< HEAD
 
+=======
+/** returns the current device */
+-(NSInteger) runningDevice;
+
+/** dumps in the console the CCConfiguration information.
+ @since v2.1
+ */
+-(void) dumpInfo;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @end

@@ -28,7 +28,10 @@
 
 
 #import "CCActionManager.h"
+<<<<<<< HEAD
 #import "CCScheduler.h"
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #import "ccMacros.h"
 
 @interface CCActionManager (Private)
@@ -51,7 +54,11 @@
 
 - (NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X>", [self class], self];
+=======
+	return [NSString stringWithFormat:@"<%@ = %p>", [self class], self];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (void) dealloc
@@ -128,6 +135,29 @@
 //		CCLOG(@"cocos2d: resumeAllActions: Target not found");
 }
 
+<<<<<<< HEAD
+=======
+-(NSSet *) pauseAllRunningActions
+{
+    NSMutableSet* idsWithActions = [NSMutableSet setWithCapacity:50];
+    
+    for(tHashElement *element=targets; element != NULL; element=element->hh.next) {
+        if( !element->paused ) {
+            element->paused = YES;
+            [idsWithActions addObject:element->target];
+        }
+    }
+    return idsWithActions;
+}
+
+-(void) resumeTargets:(NSSet *)targetsToResume
+{
+    for(id target in targetsToResume) {
+        [self resumeTarget:target];
+    }
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #pragma mark ActionManager - run
 
 -(void) addAction:(CCAction*)action target:(id)target paused:(BOOL)paused

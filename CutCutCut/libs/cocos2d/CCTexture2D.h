@@ -64,6 +64,10 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 #import "ccTypes.h"
 #import "ccMacros.h"
+<<<<<<< HEAD
+=======
+#import "CCFontDefinition.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #import "Platforms/CCGL.h" // OpenGL stuff
 #import "Platforms/CCNS.h" // Next-Step stuff
@@ -74,6 +78,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
  Possible texture pixel formats
  */
 typedef enum {
+<<<<<<< HEAD
 	kCCTexture2DPixelFormat_Automatic = 0,
 	//! 32-bit texture: RGBA8888
 	kCCTexture2DPixelFormat_RGBA8888,
@@ -81,6 +86,14 @@ typedef enum {
 	kCCTexture2DPixelFormat_RGB565,
 	//! 24-bit texture without Alpha channel
 	kCCTexture2DPixelFormat_RGB888,
+=======
+	//! 32-bit texture: RGBA8888
+	kCCTexture2DPixelFormat_RGBA8888,
+	//! 32-bit texture without Alpha channel. Don't use it.
+	kCCTexture2DPixelFormat_RGB888,
+	//! 16-bit texture without Alpha channel
+	kCCTexture2DPixelFormat_RGB565,
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	//! 8-bit textures used as masks
 	kCCTexture2DPixelFormat_A8,
 	//! 8-bit intensity texture
@@ -112,6 +125,7 @@ typedef enum {
  */
 @interface CCTexture2D : NSObject
 {
+<<<<<<< HEAD
 	GLuint						name_;
 	CGSize						size_;
 	NSUInteger					width_,
@@ -130,6 +144,25 @@ typedef enum {
 
 }
 /** Intializes with a texture2d with data */
+=======
+	GLuint						_name;
+	CGSize						_size;
+	NSUInteger					_width,
+								_height;
+	CCTexture2DPixelFormat		_format;
+	GLfloat						_maxS,
+								_maxT;
+	BOOL						_hasPremultipliedAlpha;
+	BOOL						_hasMipmaps;
+
+	ccResolutionType			_resolutionType;
+
+	// needed for drawAtRect, drawInPoint
+	CCGLProgram					*_shaderProgram;
+
+}
+/** Initializes with a texture2d with data */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 - (id) initWithData:(const void*)data pixelFormat:(CCTexture2DPixelFormat)pixelFormat pixelsWide:(NSUInteger)width pixelsHigh:(NSUInteger)height contentSize:(CGSize)size;
 
 /** These functions are needed to create mutable textures */
@@ -159,17 +192,26 @@ typedef enum {
 /** shader program used by drawAtPoint and drawInRect */
 @property(nonatomic,readwrite,retain) CCGLProgram *shaderProgram;
 
+<<<<<<< HEAD
 #ifdef __CC_PLATFORM_IOS
 /** Returns the resolution type of the texture.
  Is it a RetinaDisplay texture, an iPad texture or an standard texture ?
  Only valid on iOS. Not valid on OS X.
+=======
+/** Returns the resolution type of the texture.
+ Is it a RetinaDisplay texture, an iPad texture, a Mac, a Mac RetinaDisplay or an standard texture ?
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
  Should be a readonly property. It is readwrite as a hack.
 
  @since v1.1
  */
 @property (nonatomic, readwrite) ccResolutionType resolutionType;
+<<<<<<< HEAD
 #endif
+=======
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** returns the content size of the texture in points */
 -(CGSize) contentSize;
@@ -194,11 +236,15 @@ Note that RGBA type textures will have their alpha premultiplied - use the blend
 */
 @interface CCTexture2D (Image)
 /** Initializes a texture from a CGImage object */
+<<<<<<< HEAD
 #ifdef __CC_PLATFORM_IOS
 - (id) initWithCGImage:(CGImageRef)cgImage resolutionType:(ccResolutionType)resolution;
 #elif defined(__CC_PLATFORM_MAC)
 - (id) initWithCGImage:(CGImageRef)cgImage;
 #endif
+=======
+- (id) initWithCGImage:(CGImageRef)cgImage resolutionType:(ccResolutionType)resolution;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /**
@@ -212,11 +258,22 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
 	- Mac: Only NSLineBreakByWordWrapping is supported.
  @since v1.0
  */
+<<<<<<< HEAD
 - (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size;
 /** Initializes a texture from a string with dimensions, alignment, font name and font size */
 - (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size;
 /** Initializes a texture from a string with font name and font size */
 - (id) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size;
+=======
+- (id) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment vAlignment:(CCVerticalTextAlignment) vertAlignment lineBreakMode:(CCLineBreakMode)lineBreakMode ;
+/** Initializes a texture from a string with dimensions, alignment, font name and font size */
+- (id) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment vAlignment:(CCVerticalTextAlignment) vertAlignment;
+/** Initializes a texture from a string with font name and font size */
+- (id) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size;
+/** Initializes a texture from a string with font definition */
+- (id) initWithString:(NSString*)string fontDef:(CCFontDefinition *)definition;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 
@@ -271,6 +328,12 @@ typedef struct _ccTexParams {
 @interface CCTexture2D (GLFilter)
 /** sets the min filter, mag filter, wrap s and wrap t texture parameters.
  If the texture size is NPOT (non power of 2), then in can only use GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}.
+<<<<<<< HEAD
+=======
+ 
+ @warning Calling this method could allocate additional texture memory.
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  @since v0.8
  */
 -(void) setTexParameters: (ccTexParams*) texParams;
@@ -278,6 +341,11 @@ typedef struct _ccTexParams {
 /** sets antialias texture parameters:
   - GL_TEXTURE_MIN_FILTER = GL_LINEAR
   - GL_TEXTURE_MAG_FILTER = GL_LINEAR
+<<<<<<< HEAD
+=======
+ 
+ @warning Calling this method could allocate additional texture memory.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
  @since v0.8
  */
@@ -287,6 +355,11 @@ typedef struct _ccTexParams {
   - GL_TEXTURE_MIN_FILTER = GL_NEAREST
   - GL_TEXTURE_MAG_FILTER = GL_NEAREST
 
+<<<<<<< HEAD
+=======
+ @warning Calling this method could allocate additional texture memory.
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  @since v0.8
  */
 - (void) setAliasTexParameters;
@@ -313,9 +386,15 @@ typedef struct _ccTexParams {
 
  How does it work ?
    - If the image is an RGBA (with Alpha) then the default pixel format will be used (it can be a 8-bit, 16-bit or 32-bit texture)
+<<<<<<< HEAD
    - If the image is an RGB (without Alpha) then RGB888 (24-bit) or RGB565 texture will be used (16-bit texture) depending on the bpp of the orignal image
 
  This parameter is not valid for PVR images.
+=======
+   - If the image is an RGB (without Alpha) then: If the default pixel format is RGBA8888 then a RGBA8888 (32-bit) will be used. Otherwise a RGB565 (16-bit texture) will be used.
+
+ This parameter is not valid for PVR / PVR.CCZ images.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
  @since v0.8
  */
@@ -330,6 +409,21 @@ typedef struct _ccTexParams {
  @since v1.0
  */
 -(NSUInteger) bitsPerPixelForFormat;
+<<<<<<< HEAD
+=======
+
+/** returns the pixel format in a NSString.
+ @since v2.0
+ */
+-(NSString*) stringForFormat;
+
+
+/** Helper functions that returns bits per pixels for a given format.
+ @since v2.0
+ */
++(NSUInteger) bitsPerPixelForFormat:(CCTexture2DPixelFormat)format;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 

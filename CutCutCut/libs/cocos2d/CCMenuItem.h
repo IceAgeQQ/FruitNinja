@@ -38,6 +38,7 @@
  *
  *  Subclass CCMenuItem (or any subclass) to create your custom CCMenuItem objects.
  */
+<<<<<<< HEAD
 @interface CCMenuItem : CCNode
 {
 	// used for menu items using a block
@@ -45,6 +46,18 @@
 
 	BOOL isEnabled_;
 	BOOL isSelected_;
+=======
+@interface CCMenuItem : CCNodeRGBA
+{
+	// used for menu items using a block
+	void (^_block)(id sender);
+
+	BOOL _isEnabled;
+	BOOL _isSelected;
+	
+	BOOL _releaseBlockAtCleanup;
+	CGRect _activeArea;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** returns whether or not the item is selected
@@ -52,6 +65,17 @@
 */
 @property (nonatomic,readonly) BOOL isSelected;
 
+<<<<<<< HEAD
+=======
+/** If enabled, it releases the block at cleanup time.
+ @since v2.1
+ */
+@property (nonatomic) BOOL releaseBlockAtCleanup;
+
+/** the active area (relative to the current position) */
+@property (nonatomic,assign) CGRect activeArea;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** Creates a CCMenuItem with a target/selector.
  target/selector will be implemented using blocks.
  "target" won't be retained.
@@ -71,9 +95,12 @@
 */
 -(id) initWithBlock:(void(^)(id sender))block;
 
+<<<<<<< HEAD
 /** Returns the outside box in points */
 -(CGRect) rect;
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** Activate the item */
 -(void) activate;
 
@@ -115,12 +142,21 @@
    - CCLabelAtlas
    - CCLabelTTF
  */
+<<<<<<< HEAD
 @interface CCMenuItemLabel : CCMenuItem  <CCRGBAProtocol>
 {
 	CCNode<CCLabelProtocol, CCRGBAProtocol> *label_;
 	ccColor3B	colorBackup;
 	ccColor3B	disabledColor_;
 	float		originalScale_;
+=======
+@interface CCMenuItemLabel : CCMenuItem
+{
+	CCNode<CCLabelProtocol, CCRGBAProtocol> *_label;
+	ccColor3B	_colorBackup;
+	ccColor3B	_disabledColor;
+	float		_originalScale;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** the color that will be used to disable the item */
@@ -129,7 +165,11 @@
 /** Label that is rendered. It can be any CCNode that implements the CCLabelProtocol */
 @property (nonatomic,readwrite,assign) CCNode<CCLabelProtocol, CCRGBAProtocol>* label;
 
+<<<<<<< HEAD
 /** creates a CCMenuItemLabel with a Label. Block will benil */
+=======
+/** creates a CCMenuItemLabel with a Label. */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 +(id) itemWithLabel:(CCNode<CCLabelProtocol,CCRGBAProtocol>*)label;
 
 /** creates a CCMenuItemLabel with a Label, target and selector.
@@ -206,8 +246,13 @@
  */
 @interface CCMenuItemFont : CCMenuItemLabel
 {
+<<<<<<< HEAD
 	NSUInteger fontSize_;
 	NSString *fontName_;
+=======
+	NSUInteger _fontSize;
+	NSString *_fontName;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** set default font size */
 +(void) setFontSize: (NSUInteger) s;
@@ -271,7 +316,11 @@
  */
 @interface CCMenuItemSprite : CCMenuItem <CCRGBAProtocol>
 {
+<<<<<<< HEAD
 	CCNode<CCRGBAProtocol> *normalImage_, *selectedImage_, *disabledImage_;
+=======
+	CCNode<CCRGBAProtocol> *_normalImage, *_selectedImage, *_disabledImage;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 // weak references
@@ -290,7 +339,11 @@
  */
 +(id) itemWithNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite target:(id)target selector:(SEL)selector;
 
+<<<<<<< HEAD
 /** creates a menu item with a normal,selected  and disabled image with target/selector.
+=======
+/** creates a menu item with a normal, selected and disabled image with target/selector.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  The "target" won't be retained.
  */
 +(id) itemWithNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite disabledSprite:(CCNode<CCRGBAProtocol>*)disabledSprite target:(id)target selector:(SEL)selector;
@@ -300,7 +353,11 @@
  */
 +(id) itemWithNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite block:(void(^)(id sender))block;
 
+<<<<<<< HEAD
 /** creates a menu item with a normal,selected  and disabled image with a block.
+=======
+/** creates a menu item with a normal, selected and disabled image with a block.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  The block will be "copied".
  */
 +(id) itemWithNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite disabledSprite:(CCNode<CCRGBAProtocol>*)disabledSprite block:(void(^)(id sender))block;
@@ -335,10 +392,20 @@
 /** creates a menu item with a normal and selected image*/
 +(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2;
 
+<<<<<<< HEAD
 /** creates a menu item with a normal and selected image with target/selector */
 +(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2 target:(id) r selector:(SEL) s;
 
 /** creates a menu item with a normal,selected  and disabled image with target/selector.
+=======
+/** creates a menu item with a normal, selected and disabled image */
++(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2 disabledImage: (NSString*) value3;
+
+/** creates a menu item with a normal and selected image with target/selector */
++(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2 target:(id) r selector:(SEL) s;
+
+/** creates a menu item with a normal, selected and disabled image with target/selector.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  The "target" won't be retained.
  */
 +(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2 disabledImage:(NSString*) value3 target:(id) r selector:(SEL) s;
@@ -348,7 +415,11 @@
  */
 +(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2 block:(void(^)(id sender))block;
 
+<<<<<<< HEAD
 /** creates a menu item with a normal,selected  and disabled image with a block.
+=======
+/** creates a menu item with a normal, selected and disabled image with a block.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  The block will be "copied".
 */
 +(id) itemWithNormalImage: (NSString*)value selectedImage:(NSString*) value2 disabledImage:(NSString*) value3 block:(void(^)(id sender))block;
@@ -383,6 +454,7 @@
  */
 @interface CCMenuItemToggle : CCMenuItem <CCRGBAProtocol>
 {
+<<<<<<< HEAD
 	NSUInteger selectedIndex_;
 	NSMutableArray* subItems_;
 	GLubyte		opacity_;
@@ -394,6 +466,13 @@
 /** conforms with CCRGBAProtocol protocol */
 @property (nonatomic,readonly) ccColor3B color;
 
+=======
+	NSUInteger	_selectedIndex;
+	NSMutableArray* _subItems;
+    CCMenuItem*	_currentItem;
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** returns the selected item */
 @property (nonatomic,readwrite) NSUInteger selectedIndex;
 /** NSMutableArray that contains the subitems. You can add/remove items in runtime, and you can replace the array with a new one.
@@ -403,15 +482,25 @@
 
 /** creates a menu item from a list of items with a target/selector */
 +(id) itemWithTarget:(id)target selector:(SEL)selector items:(CCMenuItem*) item, ... NS_REQUIRES_NIL_TERMINATION;
+<<<<<<< HEAD
+=======
++(id) itemWithTarget:(id)target selector:(SEL)selector items:(CCMenuItem*) item vaList:(va_list)args;
+
+/** creates a menu item from a list of items. */
++(id) itemWithItems:(NSArray*)arrayOfItems;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** creates a menu item from a list of items and executes the given block when the item is selected.
  The block will be "copied".
  */
 +(id) itemWithItems:(NSArray*)arrayOfItems block:(void(^)(id sender))block;
 
+<<<<<<< HEAD
 /** initializes a menu item from a list of items with a target selector */
 -(id) initWithTarget:(id)target selector:(SEL)selector items:(CCMenuItem*) item vaList:(va_list) args;
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** initializes a menu item from a list of items with a block.
  The block will be "copied".
  */

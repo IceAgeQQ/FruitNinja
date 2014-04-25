@@ -30,8 +30,13 @@
 
 /** A class that implements a Texture Atlas.
  Supported features:
+<<<<<<< HEAD
    * The atlas file can be a PVRTC, PNG or any other fomrat supported by Texture2D
    * Quads can be udpated in runtime
+=======
+   * The atlas file can be a PVRTC, PNG or any other format supported by Texture2D
+   * Quads can be updated in runtime
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
    * Quads can be added in runtime
    * Quads can be removed in runtime
    * Quads can be re-ordered in runtime
@@ -42,6 +47,7 @@
  */
 @interface CCTextureAtlas : NSObject
 {
+<<<<<<< HEAD
 	NSUInteger			totalQuads_;
 	NSUInteger			capacity_;
 	ccV3F_C4B_T2F_Quad	*quads_;	// quads to be rendered
@@ -53,6 +59,19 @@
 
 #if CC_TEXTURE_ATLAS_USE_VAO
 	GLuint				VAOname_;
+=======
+	NSUInteger			_totalQuads;
+	NSUInteger			_capacity;
+	ccV3F_C4B_T2F_Quad	*_quads;	// quads to be rendered
+	GLushort			*_indices;
+	CCTexture2D			*_texture;
+	
+	GLuint				_buffersVBO[2]; //0: vertex  1: indices
+	BOOL				_dirty;			//indicates whether or not the array buffer of the VBO needs to be updated
+
+#if CC_TEXTURE_ATLAS_USE_VAO
+	GLuint				_VAOname;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #endif
 }
 

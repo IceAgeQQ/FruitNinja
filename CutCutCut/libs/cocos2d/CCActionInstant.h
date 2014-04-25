@@ -33,6 +33,11 @@
 @interface CCActionInstant : CCFiniteTimeAction <NSCopying>
 {
 }
+<<<<<<< HEAD
+=======
+// XXX Needed for BridgeSupport
+-(id) init;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /** Show the node
@@ -40,6 +45,11 @@
  @interface CCShow : CCActionInstant
 {
 }
+<<<<<<< HEAD
+=======
+// XXX Needed for BridgeSupport
+-(void) update:(ccTime)time;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /** Hide the node
@@ -47,6 +57,10 @@
 @interface CCHide : CCActionInstant
 {
 }
+<<<<<<< HEAD
+=======
+-(void) update:(ccTime)time;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /** Toggles the visibility of a node
@@ -54,6 +68,10 @@
 @interface CCToggleVisibility : CCActionInstant
 {
 }
+<<<<<<< HEAD
+=======
+-(void) update:(ccTime)time;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /** Flips the sprite horizontally
@@ -61,7 +79,11 @@
  */
 @interface CCFlipX : CCActionInstant
 {
+<<<<<<< HEAD
 	BOOL	flipX;
+=======
+	BOOL	_flipX;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 +(id) actionWithFlipX:(BOOL)x;
 -(id) initWithFlipX:(BOOL)x;
@@ -72,7 +94,11 @@
  */
 @interface CCFlipY : CCActionInstant
 {
+<<<<<<< HEAD
 	BOOL	flipY;
+=======
+	BOOL	_flipY;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 +(id) actionWithFlipY:(BOOL)y;
 -(id) initWithFlipY:(BOOL)y;
@@ -82,7 +108,11 @@
  */
 @interface CCPlace : CCActionInstant <NSCopying>
 {
+<<<<<<< HEAD
 	CGPoint position;
+=======
+	CGPoint _position;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** creates a Place action with a position */
 +(id) actionWithPosition: (CGPoint) pos;
@@ -94,8 +124,13 @@
  */
 @interface CCCallFunc : CCActionInstant <NSCopying>
 {
+<<<<<<< HEAD
 	id targetCallback_;
 	SEL selector_;
+=======
+	id _targetCallback;
+	SEL _selector;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** Target that will be called */
@@ -105,7 +140,11 @@
 +(id) actionWithTarget: (id) t selector:(SEL) s;
 /** initializes the action with the callback */
 -(id) initWithTarget: (id) t selector:(SEL) s;
+<<<<<<< HEAD
 /** exeuctes the callback */
+=======
+/** executes the callback */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 -(void) execute;
 @end
 
@@ -115,6 +154,11 @@
 @interface CCCallFuncN : CCCallFunc
 {
 }
+<<<<<<< HEAD
+=======
+// XXX: Needed for BridgeSupport
+-(void) execute;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 typedef void (*CC_CALLBACK_ND)(id, SEL, id, void *);
@@ -123,8 +167,13 @@ typedef void (*CC_CALLBACK_ND)(id, SEL, id, void *);
  */
 @interface CCCallFuncND : CCCallFuncN
 {
+<<<<<<< HEAD
 	void			*data_;
 	CC_CALLBACK_ND	callbackMethod_;
+=======
+	void			*_data;
+	CC_CALLBACK_ND	_callbackMethod;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** Invocation object that has the target#selector and the parameters */
@@ -142,7 +191,11 @@ typedef void (*CC_CALLBACK_ND)(id, SEL, id, void *);
  */
 @interface CCCallFuncO : CCCallFunc
 {
+<<<<<<< HEAD
 	id	object_;
+=======
+	id	_object;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** object to be passed as argument */
 @property (nonatomic, readwrite, retain) id object;
@@ -160,7 +213,11 @@ typedef void (*CC_CALLBACK_ND)(id, SEL, id, void *);
  */
 @interface CCCallBlock : CCActionInstant<NSCopying>
 {
+<<<<<<< HEAD
 	void (^block_)();
+=======
+	void (^_block)();
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** creates the action with the specified block, to be used as a callback.
@@ -183,7 +240,11 @@ typedef void (*CC_CALLBACK_ND)(id, SEL, id, void *);
  */
 @interface CCCallBlockN : CCActionInstant<NSCopying>
 {
+<<<<<<< HEAD
 	void (^block_)(CCNode *);
+=======
+	void (^_block)(CCNode *);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** creates the action with the specified block, to be used as a callback.
@@ -205,8 +266,13 @@ typedef void (*CC_CALLBACK_ND)(id, SEL, id, void *);
  */
 @interface CCCallBlockO : CCActionInstant<NSCopying>
 {
+<<<<<<< HEAD
 	void (^block_)(id object);
 	id object_;
+=======
+	void (^_block)(id object);
+	id _object;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** object to be passed to the block */

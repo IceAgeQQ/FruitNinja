@@ -33,6 +33,11 @@
 #import "Support/uthash.h"
 #import "Support/OpenGL_Internal.h"
 
+<<<<<<< HEAD
+=======
+#import "CCDirector.h"
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 // extern
 #import "kazmath/GL/matrix.h"
 #import "kazmath/kazmath.h"
@@ -66,10 +71,27 @@ typedef void (*GLLogFunction) (GLuint program,
 #pragma mark -
 
 @implementation CCGLProgram
+<<<<<<< HEAD
+=======
+
+@synthesize program = _program;
+
++ (id)programWithVertexShaderByteArray:(const GLchar*)vShaderByteArray fragmentShaderByteArray:(const GLchar*)fShaderByteArray
+{
+	return [[[self alloc] initWithVertexShaderByteArray:vShaderByteArray fragmentShaderByteArray:fShaderByteArray] autorelease];
+}
+
++ (id)programWithVertexShaderFilename:(NSString *)vShaderFilename fragmentShaderFilename:(NSString *)fShaderFilename
+{
+	return [[[self alloc] initWithVertexShaderFilename:vShaderFilename fragmentShaderFilename:fShaderFilename] autorelease];
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 - (id)initWithVertexShaderByteArray:(const GLchar *)vShaderByteArray fragmentShaderByteArray:(const GLchar *)fShaderByteArray
 {
     if ((self = [super init]) )
     {
+<<<<<<< HEAD
         program_ = glCreateProgram();
 		
 		vertShader_ = fragShader_ = 0;
@@ -77,6 +99,15 @@ typedef void (*GLLogFunction) (GLuint program,
 		if( vShaderByteArray ) {
 			
 			if (![self compileShader:&vertShader_
+=======
+        _program = glCreateProgram();
+		
+		_vertShader = _fragShader = 0;
+		
+		if( vShaderByteArray ) {
+			
+			if (![self compileShader:&_vertShader
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 								type:GL_VERTEX_SHADER
 						   byteArray:vShaderByteArray] )
 				CCLOG(@"cocos2d: ERROR: Failed to compile vertex shader");
@@ -84,13 +115,18 @@ typedef void (*GLLogFunction) (GLuint program,
 		
         // Create and compile fragment shader
 		if( fShaderByteArray ) {
+<<<<<<< HEAD
 			if (![self compileShader:&fragShader_
+=======
+			if (![self compileShader:&_fragShader
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 								type:GL_FRAGMENT_SHADER
 						   byteArray:fShaderByteArray] )
 
 				CCLOG(@"cocos2d: ERROR: Failed to compile fragment shader");
 		}
 		
+<<<<<<< HEAD
 		if( vertShader_ )
 			glAttachShader(program_, vertShader_);
 		
@@ -98,6 +134,15 @@ typedef void (*GLLogFunction) (GLuint program,
 			glAttachShader(program_, fragShader_);
 		
 		hashForUniforms_ = NULL;
+=======
+		if( _vertShader )
+			glAttachShader(_program, _vertShader);
+		
+		if( _fragShader )
+			glAttachShader(_program, _fragShader);
+		
+		_hashForUniforms = NULL;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
     }
 	
     return self;
@@ -105,16 +150,34 @@ typedef void (*GLLogFunction) (GLuint program,
 
 - (id)initWithVertexShaderFilename:(NSString *)vShaderFilename fragmentShaderFilename:(NSString *)fShaderFilename
 {
+<<<<<<< HEAD
 	
 	const GLchar * vertexSource = (GLchar*) [[NSString stringWithContentsOfFile:[CCFileUtils fullPathFromRelativePath:vShaderFilename] encoding:NSUTF8StringEncoding error:nil] UTF8String];
 	const GLchar * fragmentSource = (GLchar*) [[NSString stringWithContentsOfFile:[CCFileUtils fullPathFromRelativePath:fShaderFilename] encoding:NSUTF8StringEncoding error:nil] UTF8String];
+=======
+	NSString *v = [[CCFileUtils sharedFileUtils] fullPathForFilenameIgnoringResolutions:vShaderFilename];
+	NSString *f = [[CCFileUtils sharedFileUtils] fullPathForFilenameIgnoringResolutions:fShaderFilename];
+	if( !(v || f) ) {
+		if(!v)
+			CCLOGWARN(@"Could not open vertex shader: %@", vShaderFilename);
+		if(!f)
+			CCLOGWARN(@"Could not open fragment shader: %@", fShaderFilename);
+		return nil;
+	}
+	const GLchar * vertexSource = (GLchar*) [[NSString stringWithContentsOfFile:v encoding:NSUTF8StringEncoding error:nil] UTF8String];
+	const GLchar * fragmentSource = (GLchar*) [[NSString stringWithContentsOfFile:f encoding:NSUTF8StringEncoding error:nil] UTF8String];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	return [self initWithVertexShaderByteArray:vertexSource fragmentShaderByteArray:fragmentSource];
 }
 
 - (NSString*) description
 {
+<<<<<<< HEAD
 	return [NSString stringWithFormat:@"<%@ = %08X | Program = %i, VertexShader = %i, FragmentShader = %i>", [self class], self, program_, vertShader_, fragShader_];
+=======
+	return [NSString stringWithFormat:@"<%@ = %p | Program = %i, VertexShader = %i, FragmentShader = %i>", [self class], self, _program, _vertShader, _fragShader];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 
@@ -124,19 +187,54 @@ typedef void (*GLLogFunction) (GLuint program,
 
     if (!source)
         return NO;
+<<<<<<< HEAD
 	
     *shader = glCreateShader(type);
     glShaderSource(*shader, 1, &source, NULL);
+=======
+		
+		const GLchar *sources[] = {
+#ifdef __CC_PLATFORM_IOS
+			(type == GL_VERTEX_SHADER ? "precision highp float;\n" : "precision mediump float;\n"),
+#endif
+			"uniform mat4 CC_PMatrix;\n"
+			"uniform mat4 CC_MVMatrix;\n"
+			"uniform mat4 CC_MVPMatrix;\n"
+			"uniform vec4 CC_Time;\n"
+			"uniform vec4 CC_SinTime;\n"
+			"uniform vec4 CC_CosTime;\n"
+			"uniform vec4 CC_Random01;\n"
+			"//CC INCLUDES END\n\n",
+			source,
+		};
+		
+    *shader = glCreateShader(type);
+    glShaderSource(*shader, sizeof(sources)/sizeof(*sources), sources, NULL);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
     glCompileShader(*shader);
 	
     glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
 	
 	if( ! status ) {
+<<<<<<< HEAD
+=======
+		GLsizei length;
+		glGetShaderiv(*shader, GL_SHADER_SOURCE_LENGTH, &length);
+		GLchar src[length];
+		
+		glGetShaderSource(*shader, length, NULL, src);
+		CCLOG(@"cocos2d: ERROR: Failed to compile shader:\n%s", src);
+		
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		if( type == GL_VERTEX_SHADER )
 			CCLOG(@"cocos2d: %@", [self vertexShaderLog] );
 		else
 			CCLOG(@"cocos2d: %@", [self fragmentShaderLog] );
 		
+<<<<<<< HEAD
+=======
+		abort();
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
     return ( status == GL_TRUE );
 }
@@ -145,13 +243,18 @@ typedef void (*GLLogFunction) (GLuint program,
 
 - (void)addAttribute:(NSString *)attributeName index:(GLuint)index
 {
+<<<<<<< HEAD
 	glBindAttribLocation(program_,
+=======
+	glBindAttribLocation(_program,
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 						 index,
 						 [attributeName UTF8String]);
 }
 
 -(void) updateUniforms
 {
+<<<<<<< HEAD
 	// Since sample most probably won't change, set it to 0 now.
 
 	uniforms_[kCCUniformMVPMatrix] = glGetUniformLocation(program_, kCCUniformMVPMatrix_s);
@@ -161,10 +264,39 @@ typedef void (*GLLogFunction) (GLuint program,
 	[self use];
 	
 	[self setUniformLocation:uniforms_[kCCUniformSampler] withI1:0];
+=======
+	_uniforms[  kCCUniformPMatrix] = glGetUniformLocation(_program, kCCUniformPMatrix_s);
+	_uniforms[ kCCUniformMVMatrix] = glGetUniformLocation(_program, kCCUniformMVMatrix_s);
+	_uniforms[kCCUniformMVPMatrix] = glGetUniformLocation(_program, kCCUniformMVPMatrix_s);
+	
+	_uniforms[kCCUniformTime] = glGetUniformLocation(_program, kCCUniformTime_s);
+	_uniforms[kCCUniformSinTime] = glGetUniformLocation(_program, kCCUniformSinTime_s);
+	_uniforms[kCCUniformCosTime] = glGetUniformLocation(_program, kCCUniformCosTime_s);
+
+	_uniforms[kCCUniformRandom01] = glGetUniformLocation(_program, kCCUniformRandom01_s);
+
+	_uniforms[kCCUniformSampler] = glGetUniformLocation(_program, kCCUniformSampler_s);
+
+	_flags.usesMVP = _uniforms[kCCUniformMVPMatrix] != -1;
+	_flags.usesMV = (_uniforms[kCCUniformMVMatrix] != -1 && _uniforms[kCCUniformPMatrix] != -1 );
+	_flags.usesTime = (
+		_uniforms[kCCUniformTime] != -1 ||
+		_uniforms[kCCUniformSinTime] != -1 ||
+		_uniforms[kCCUniformCosTime] != -1
+	);
+	_flags.usesRandom = _uniforms[kCCUniformRandom01] != -1;
+
+
+	[self use];
+	
+	// Since sample most probably won't change, set it to 0 now.
+	[self setUniformLocation:_uniforms[kCCUniformSampler] withI1:0];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark -
 
+<<<<<<< HEAD
 - (BOOL)link
 {
     glLinkProgram(program_);
@@ -199,10 +331,45 @@ typedef void (*GLLogFunction) (GLuint program,
 - (void)use
 {
     ccGLUseProgram(program_);
+=======
+-(BOOL) link
+{
+    NSAssert(_program != 0, @"Cannot link invalid program");
+	
+    GLint status = GL_TRUE;
+    glLinkProgram(_program);
+	
+    if (_vertShader)
+        glDeleteShader(_vertShader);
+
+    if (_fragShader)
+        glDeleteShader(_fragShader);
+
+    _vertShader = _fragShader = 0;
+	
+#if DEBUG
+    glGetProgramiv(_program, GL_LINK_STATUS, &status);
+    NSString* log = self.programLog;
+	
+    if (status == GL_FALSE) {
+        NSLog(@"cocos2d: ERROR: Failed to link program: %i - %@", _program, log);
+        ccGLDeleteProgram( _program );
+        _program = 0;
+    }
+#endif
+	
+    return (status == GL_TRUE);
+}
+
+-(void) use
+{
+	ccGLUseProgram(_program);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark -
 
+<<<<<<< HEAD
 - (NSString *)logForOpenGLObject:(GLuint)object
                     infoCallback:(GLInfoFunction)infoFunc
                          logFunc:(GLLogFunction)logFunc
@@ -221,38 +388,86 @@ typedef void (*GLLogFunction) (GLuint program,
                       autorelease];
     free(logBytes);
     return log;
+=======
+-(NSString *) logForOpenGLObject:(GLuint)object
+					infoCallback:(GLInfoFunction)infoFunc
+						 logFunc:(GLLogFunction)logFunc
+{
+	GLint logLength = 0, charsWritten = 0;
+
+	infoFunc(object, GL_INFO_LOG_LENGTH, &logLength);
+	if (logLength < 1)
+		return nil;
+
+	char *logBytes = malloc(logLength);
+	logFunc(object, logLength, &charsWritten, logBytes);
+	NSString *log = [[[NSString alloc] initWithBytes:logBytes
+											  length:logLength
+											encoding:NSUTF8StringEncoding]
+					  autorelease];
+	free(logBytes);
+	return log;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (NSString *)vertexShaderLog
 {
+<<<<<<< HEAD
     return [self logForOpenGLObject:vertShader_
                        infoCallback:(GLInfoFunction)&glGetShaderiv
                             logFunc:(GLLogFunction)&glGetShaderInfoLog];
 
+=======
+	return [self logForOpenGLObject:_vertShader
+					   infoCallback:(GLInfoFunction)&glGetShaderiv
+							logFunc:(GLLogFunction)&glGetShaderInfoLog];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (NSString *)fragmentShaderLog
 {
+<<<<<<< HEAD
 	return [self logForOpenGLObject:fragShader_
+=======
+	return [self logForOpenGLObject:_fragShader
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 					   infoCallback:(GLInfoFunction)&glGetShaderiv
 							logFunc:(GLLogFunction)&glGetShaderInfoLog];
 }
 
 - (NSString *)programLog
 {
+<<<<<<< HEAD
     return [self logForOpenGLObject:program_
                        infoCallback:(GLInfoFunction)&glGetProgramiv
                             logFunc:(GLLogFunction)&glGetProgramInfoLog];
+=======
+	return [self logForOpenGLObject:_program
+					   infoCallback:(GLInfoFunction)&glGetProgramiv
+							logFunc:(GLLogFunction)&glGetProgramInfoLog];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 #pragma mark - Uniform cache
 
+<<<<<<< HEAD
 -(BOOL) updateUniformLocation:(NSUInteger)location withData:(GLvoid*)data sizeOfData:(NSUInteger)bytes
 {
 	BOOL updated = YES;
 	tHashUniformEntry *element = NULL;
 	HASH_FIND_INT(hashForUniforms_, &location, element);
 	
+=======
+-(BOOL) updateUniformLocation:(GLint)location withData:(GLvoid*)data sizeOfData:(NSUInteger)bytes
+{
+	if(location < 0)
+		return FALSE;
+
+	BOOL updated = YES;
+	tHashUniformEntry *element = NULL;
+	HASH_FIND_INT(_hashForUniforms, &location, element);
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	if( ! element ) {
 
 		element = malloc( sizeof(*element) );
@@ -264,7 +479,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		element->value = malloc( bytes );
 		memcpy(element->value, data, bytes );
 		
+<<<<<<< HEAD
 		HASH_ADD_INT(hashForUniforms_, location, element);
+=======
+		HASH_ADD_INT(_hashForUniforms, location, element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 	else
 	{
@@ -273,11 +492,27 @@ typedef void (*GLLogFunction) (GLuint program,
 		else
 			memcpy( element->value, data, bytes );
 	}
+<<<<<<< HEAD
 	
 	return updated;
 }
 
 -(void) setUniformLocation:(NSUInteger)location withI1:(GLint)i1
+=======
+
+	return updated;
+}
+
+- (GLint)uniformLocationForName:(NSString*)name
+{
+    NSAssert(name != nil, @"Invalid uniform name" );
+    NSAssert(_program != 0, @"Invalid operation. Cannot get uniform location when program is not initialized");
+    
+    return glGetUniformLocation(_program, [name UTF8String]);
+}
+
+-(void) setUniformLocation:(GLint)location withI1:(GLint)i1
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	BOOL updated =  [self updateUniformLocation:location withData:&i1 sizeOfData:sizeof(i1)*1];
 	
@@ -285,7 +520,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform1i( (GLint)location, i1);
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location withF1:(GLfloat)f1
+=======
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	BOOL updated =  [self updateUniformLocation:location withData:&f1 sizeOfData:sizeof(f1)*1];
 	
@@ -293,7 +532,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform1f( (GLint)location, f1);
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location withF1:(GLfloat)f1 f2:(GLfloat)f2
+=======
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1 f2:(GLfloat)f2
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	GLfloat floats[2] = {f1,f2};
 	BOOL updated =  [self updateUniformLocation:location withData:floats sizeOfData:sizeof(floats)];
@@ -302,7 +545,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform2f( (GLint)location, f1, f2);
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location withF1:(GLfloat)f1 f2:(GLfloat)f2 f3:(GLfloat)f3
+=======
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1 f2:(GLfloat)f2 f3:(GLfloat)f3
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	GLfloat floats[3] = {f1,f2,f3};
 	BOOL updated =  [self updateUniformLocation:location withData:floats sizeOfData:sizeof(floats)];
@@ -311,7 +558,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform3f( (GLint)location, f1, f2, f3);
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location withF1:(GLfloat)f1 f2:(GLfloat)f2 f3:(GLfloat)f3 f4:(GLfloat)f4
+=======
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1 f2:(GLfloat)f2 f3:(GLfloat)f3 f4:(GLfloat)f4
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	GLfloat floats[4] = {f1,f2,f3,f4};
 	BOOL updated =  [self updateUniformLocation:location withData:floats sizeOfData:sizeof(floats)];
@@ -320,7 +571,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform4f( (GLint)location, f1, f2, f3,f4);
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location with2fv:(GLfloat*)floats count:(NSUInteger)numberOfArrays
+=======
+-(void) setUniformLocation:(GLint)location with2fv:(GLfloat*)floats count:(NSUInteger)numberOfArrays
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	BOOL updated =  [self updateUniformLocation:location withData:floats sizeOfData:sizeof(float)*2*numberOfArrays];
 	
@@ -328,7 +583,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform2fv( (GLint)location, (GLsizei)numberOfArrays, floats );
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location with3fv:(GLfloat*)floats count:(NSUInteger)numberOfArrays
+=======
+-(void) setUniformLocation:(GLint)location with3fv:(GLfloat*)floats count:(NSUInteger)numberOfArrays
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	BOOL updated =  [self updateUniformLocation:location withData:floats sizeOfData:sizeof(float)*3*numberOfArrays];
 	
@@ -336,7 +595,11 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniform3fv( (GLint)location, (GLsizei)numberOfArrays, floats );
 }
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location with4fv:(GLvoid*)floats count:(NSUInteger)numberOfArrays
+=======
+-(void) setUniformLocation:(GLint)location with4fv:(GLvoid*)floats count:(NSUInteger)numberOfArrays
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	BOOL updated =  [self updateUniformLocation:location withData:floats sizeOfData:sizeof(float)*4*numberOfArrays];
 	
@@ -345,7 +608,11 @@ typedef void (*GLLogFunction) (GLuint program,
 }
 
 
+<<<<<<< HEAD
 -(void) setUniformLocation:(NSUInteger)location withMatrix4fv:(GLvoid*)matrixArray count:(NSUInteger)numberOfMatrices
+=======
+-(void) setUniformLocation:(GLint)location withMatrix4fv:(GLvoid*)matrixArray count:(NSUInteger)numberOfMatrices
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
 	BOOL updated =  [self updateUniformLocation:location withData:matrixArray sizeOfData:sizeof(float)*16*numberOfMatrices];
 	
@@ -353,6 +620,7 @@ typedef void (*GLLogFunction) (GLuint program,
 		glUniformMatrix4fv( (GLint)location, (GLsizei)numberOfMatrices, GL_FALSE, matrixArray);
 }
 
+<<<<<<< HEAD
 -(void) setUniformForModelViewProjectionMatrix
 {
 	kmMat4 matrixP;
@@ -365,6 +633,46 @@ typedef void (*GLLogFunction) (GLuint program,
 	kmMat4Multiply(&matrixMVP, &matrixP, &matrixMV);
 	
 	[self setUniformLocation:uniforms_[kCCUniformMVPMatrix] withMatrix4fv:matrixMVP.mat count:1];
+=======
+-(void) setUniformsForBuiltins
+{
+	kmMat4 matrixP;
+	kmMat4 matrixMV;
+
+	kmGLGetMatrix(KM_GL_PROJECTION, &matrixP );
+	kmGLGetMatrix(KM_GL_MODELVIEW, &matrixMV );
+	
+	if( _flags.usesMVP) {
+		kmMat4 matrixMVP;
+		kmMat4Multiply(&matrixMVP, &matrixP, &matrixMV);
+		[self setUniformLocation:_uniforms[kCCUniformMVPMatrix] withMatrix4fv:matrixMVP.mat count:1];
+	}
+
+	if( _flags.usesMV) {
+		[self setUniformLocation:_uniforms[  kCCUniformPMatrix] withMatrix4fv:  matrixP.mat count:1];
+		[self setUniformLocation:_uniforms[ kCCUniformMVMatrix] withMatrix4fv: matrixMV.mat count:1];
+	}
+
+	if(_flags.usesTime){
+		CCDirector *director = [CCDirector sharedDirector];
+		// This doesn't give the most accurate global time value.
+		// Cocos2D doesn't store a high precision time value, so this will have to do.
+		// Getting Mach time per frame per shader using time could be extremely expensive.
+		ccTime time = director.totalFrames*director.animationInterval;
+		
+		[self setUniformLocation:_uniforms[kCCUniformTime] withF1:time/10.0 f2:time f3:time*2 f4:time*4];
+		[self setUniformLocation:_uniforms[kCCUniformSinTime] withF1:sinf(time/8.0) f2:sinf(time/4.0) f3:sinf(time/2.0) f4:sinf(time)];
+		[self setUniformLocation:_uniforms[kCCUniformCosTime] withF1:cosf(time/8.0) f2:cosf(time/4.0) f3:cosf(time/2.0) f4:cosf(time)];
+	}
+	
+	if(_flags.usesRandom)
+		[self setUniformLocation:_uniforms[kCCUniformRandom01] withF1:CCRANDOM_0_1() f2:CCRANDOM_0_1() f3:CCRANDOM_0_1() f4:CCRANDOM_0_1()];
+}
+
+-(void)setUniformForModelViewProjectionMatrix;
+{
+	[self setUniformsForBuiltins];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 
@@ -375,6 +683,7 @@ typedef void (*GLLogFunction) (GLuint program,
 	CCLOGINFO( @"cocos2d: deallocing %@", self);
 
 	// there is no need to delete the shaders. They should have been already deleted.
+<<<<<<< HEAD
 	NSAssert( vertShader_ == 0, @"Vertex Shaders should have been already deleted");
 	NSAssert( fragShader_ == 0, @"Vertex Shaders should have been already deleted");
 
@@ -386,10 +695,27 @@ typedef void (*GLLogFunction) (GLuint program,
 	// Purge uniform hash
 	HASH_ITER(hh, hashForUniforms_, current_element, tmp) {
 		HASH_DEL(hashForUniforms_, current_element);
+=======
+	NSAssert( _vertShader == 0, @"Vertex Shaders should have been already deleted");
+	NSAssert( _fragShader == 0, @"Fragment Shaders should have been already deleted");
+
+	if (_program)
+		ccGLDeleteProgram(_program);
+
+	tHashUniformEntry *current_element, *tmp;
+
+	// Purge uniform hash
+	HASH_ITER(hh, _hashForUniforms, current_element, tmp) {
+		HASH_DEL(_hashForUniforms, current_element);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		free(current_element->value);
 		free(current_element);
 	}
 
+<<<<<<< HEAD
     [super dealloc];
+=======
+	[super dealloc];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 @end

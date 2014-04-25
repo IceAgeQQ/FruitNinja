@@ -43,9 +43,15 @@
  Object than contains the delegate and priority of the event handler.
 */
 @interface CCTouchHandler : NSObject {
+<<<<<<< HEAD
 	id				delegate;
 	int				priority;
 	ccTouchSelectorFlag		enabledSelectors_;
+=======
+	id				_delegate;
+	int				_priority;
+	ccTouchSelectorFlag		_enabledSelectors;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** delegate */
@@ -62,7 +68,11 @@
 @end
 
 /** CCStandardTouchHandler
+<<<<<<< HEAD
  It forwardes each event to the delegate.
+=======
+ It forwards each event to the delegate.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  */
 @interface CCStandardTouchHandler : CCTouchHandler
 {
@@ -71,12 +81,21 @@
 
 /**
  CCTargetedTouchHandler
+<<<<<<< HEAD
  Object than contains the claimed touches and if it swallos touches.
  Used internally by TouchDispatcher
  */
 @interface CCTargetedTouchHandler : CCTouchHandler {
 	BOOL swallowsTouches;
 	NSMutableSet *claimedTouches;
+=======
+ Object than contains the claimed touches and if it swallows touches.
+ Used internally by TouchDispatcher
+ */
+@interface CCTargetedTouchHandler : CCTouchHandler {
+	BOOL _swallowsTouches;
+	NSMutableSet *_claimedTouches;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** whether or not the touches are swallowed */
 @property(nonatomic, readwrite) BOOL swallowsTouches; // default NO

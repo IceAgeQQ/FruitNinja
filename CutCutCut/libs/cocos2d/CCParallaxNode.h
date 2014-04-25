@@ -34,8 +34,13 @@
  */
 @interface CCParallaxNode : CCNode
 {
+<<<<<<< HEAD
 	ccArray				*parallaxArray_;
 	CGPoint				lastPosition;
+=======
+	ccArray				*_parallaxArray;
+	CGPoint				_lastPosition;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** array that holds the offset / ratio of the children */

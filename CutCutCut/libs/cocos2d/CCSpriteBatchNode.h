@@ -53,11 +53,19 @@
  */
 @interface CCSpriteBatchNode : CCNode <CCTextureProtocol>
 {
+<<<<<<< HEAD
 	CCTextureAtlas	*textureAtlas_;
 	ccBlendFunc		blendFunc_;
 
 	// all descendants: chlidren, gran children, etc...
 	CCArray	*descendants_;
+=======
+	CCTextureAtlas	*_textureAtlas;
+	ccBlendFunc		_blendFunc;
+
+	// all descendants: children, grandchildren, etc...
+	CCArray	*_descendants;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** returns the TextureAtlas that is used */
@@ -66,7 +74,11 @@
 /** conforms to CCTextureProtocol protocol */
 @property (nonatomic,readwrite) ccBlendFunc blendFunc;
 
+<<<<<<< HEAD
 /** descendants (children, gran children, etc) */
+=======
+/** descendants (children, grandchildren, etc) */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @property (nonatomic,readonly) CCArray *descendants;
 
 /** creates a CCSpriteBatchNode with a texture2d and a default capacity of 29 children.
@@ -125,14 +137,33 @@
 @end
 
 @interface CCSpriteBatchNode (QuadExtensions)
+<<<<<<< HEAD
 /** Adds a quad into the texture atlas but it won't be added into the children array.
  This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
  For example: a tile map (CCTMXMap) or a label with lots of characgers (CCLabelBMFont)
  */
 -(id) addSpriteWithoutQuad:(CCSprite*)child z:(NSUInteger)z tag:(NSInteger)aTag;
+=======
+/** Inserts a quad at a certain index into the texture atlas. The CCSprite won't be added into the children array.
+ This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
+ For example: a tile map (CCTMXMap) or a label with lots of characters (CCLabelBMFont)
+ */
+-(void) insertQuadFromSprite:(CCSprite*)sprite quadIndex:(NSUInteger)index;
+
+/** Updates a quad at a certain index into the texture atlas. The CCSprite won't be added into the children array.
+ This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
+ For example: a tile map (CCTMXMap) or a label with lots of characters (CCLabelBMFont)
+ */
+-(void) updateQuadFromSprite:(CCSprite*)sprite quadIndex:(NSUInteger)index;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /* This is the opposite of "addQuadFromSprite".
  It adds the sprite to the children and descendants array, but it doesn't add it to the texture atlas.
  */
+<<<<<<< HEAD
 -(void) addQuadFromSprite:(CCSprite*)sprite quadIndex:(NSUInteger)index;
+=======
+-(id) addSpriteWithoutQuad:(CCSprite*)child z:(NSUInteger)z tag:(NSInteger)aTag;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end

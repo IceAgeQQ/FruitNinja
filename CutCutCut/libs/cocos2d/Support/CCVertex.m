@@ -26,7 +26,11 @@
 #import "CGPointExtension.h"
 #import "../ccMacros.h"
 
+<<<<<<< HEAD
 void ccVertexLineToPolygon(CGPoint *points, float stroke, ccVertex2F *vertices, ccTex2F *texCoords, NSUInteger offset, NSUInteger nuPoints)
+=======
+void ccVertexLineToPolygon(CGPoint *points, float stroke, ccVertex2F *vertices, NSUInteger offset, NSUInteger nuPoints)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 {
     nuPoints += offset;
     if(nuPoints<=1) return;
@@ -35,7 +39,10 @@ void ccVertexLineToPolygon(CGPoint *points, float stroke, ccVertex2F *vertices, 
 
     NSUInteger idx;
     NSUInteger nuPointsMinus = nuPoints-1;
+<<<<<<< HEAD
     float texDelta = 1.0f/(float)nuPointsMinus;
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
     for(NSUInteger i = offset; i<nuPoints; i++)
     {
@@ -69,9 +76,12 @@ void ccVertexLineToPolygon(CGPoint *points, float stroke, ccVertex2F *vertices, 
 
         vertices[idx] = (ccVertex2F) {p1.x+perpVector.x, p1.y+perpVector.y};
         vertices[idx+1] = (ccVertex2F) {p1.x-perpVector.x, p1.y-perpVector.y};
+<<<<<<< HEAD
 
         texCoords[idx] = (ccTex2F) {0, texDelta*(float)i};
         texCoords[idx+1] = (ccTex2F) {1, texDelta*(float)i};
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
     }
 
     // Validate vertexes

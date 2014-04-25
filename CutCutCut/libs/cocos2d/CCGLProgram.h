@@ -29,6 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ccMacros.h"
+<<<<<<< HEAD
 
 #ifdef __CC_PLATFORM_IOS
 #import <OpenGLES/ES2/gl.h>
@@ -36,6 +37,9 @@
 #elif defined(__CC_PLATFORM_MAC)
 #import <OpenGL/gl.h>
 #endif // __CC_PLATFORM_MAC
+=======
+#import "Platforms/CCGL.h"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 enum {
 	kCCVertexAttrib_Position,
@@ -46,7 +50,17 @@ enum {
 };
 
 enum {
+<<<<<<< HEAD
 	kCCUniformMVPMatrix,
+=======
+	kCCUniformPMatrix,
+	kCCUniformMVMatrix,
+	kCCUniformMVPMatrix,
+	kCCUniformTime,
+	kCCUniformSinTime,
+	kCCUniformCosTime,
+	kCCUniformRandom01,
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	kCCUniformSampler,
 
 	kCCUniform_MAX,
@@ -59,11 +73,26 @@ enum {
 #define kCCShader_PositionTexture_uColor		@"ShaderPositionTexture_uColor"
 #define kCCShader_PositionTextureA8Color		@"ShaderPositionTextureA8Color"
 #define kCCShader_Position_uColor				@"ShaderPosition_uColor"
+<<<<<<< HEAD
 
 // uniform names
 #define kCCUniformMVPMatrix_s			"u_MVPMatrix"
 #define kCCUniformSampler_s				"u_texture"
 #define kCCUniformAlphaTestValue		"u_alpha_value"
+=======
+#define kCCShader_PositionLengthTexureColor		@"ShaderPositionLengthTextureColor"
+
+// uniform names
+#define kCCUniformPMatrix_s				"CC_PMatrix"
+#define kCCUniformMVMatrix_s			"CC_MVMatrix"
+#define kCCUniformMVPMatrix_s			"CC_MVPMatrix"
+#define kCCUniformTime_s				"CC_Time"
+#define kCCUniformSinTime_s				"CC_SinTime"
+#define kCCUniformCosTime_s				"CC_CosTime"
+#define kCCUniformRandom01_s			"CC_Random01"
+#define kCCUniformSampler_s				"CC_Texture0"
+#define kCCUniformAlphaTestValue_s		"CC_AlphaValue"
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 // Attribute names
 #define	kCCAttributeNameColor			@"a_color"
@@ -81,6 +110,7 @@ struct _hashUniformEntry;
  */
 @interface CCGLProgram : NSObject
 {
+<<<<<<< HEAD
 	struct _hashUniformEntry	*hashForUniforms_;
 
 @public
@@ -91,6 +121,33 @@ struct _hashUniformEntry;
 	GLint			uniforms_[kCCUniform_MAX];
 }
 
+=======
+	struct _hashUniformEntry	*_hashForUniforms;
+
+@public
+	GLuint          _program,
+					_vertShader,
+					_fragShader;
+
+	GLint			_uniforms[kCCUniform_MAX];
+
+	struct {
+        unsigned int usesTime:1;
+        unsigned int usesMVP:1;
+        unsigned int usesMV:1;
+		unsigned int usesRandom:1;
+    } _flags;
+}
+
+@property(nonatomic, readonly) GLuint program;
+
+/** creates the CCGLProgram with a vertex and fragment from byte arrays */
++ (id)programWithVertexShaderByteArray:(const GLchar*)vShaderByteArray fragmentShaderByteArray:(const GLchar*)fShaderByteArray;
+
+/** creates the CCGLProgram with a vertex and fragment with contents of filenames */
++ (id)programWithVertexShaderFilename:(NSString *)vShaderFilename fragmentShaderFilename:(NSString *)fShaderFilename;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** Initializes the CCGLProgram with a vertex and fragment with bytes array */
 - (id)initWithVertexShaderByteArray:(const GLchar*)vShaderByteArray fragmentShaderByteArray:(const GLchar*)fShaderByteArray;
 
@@ -106,15 +163,23 @@ struct _hashUniformEntry;
 /** it will call glUseProgram() */
 - (void)use;
 
+<<<<<<< HEAD
 /** It will create 3 uniforms:
 	- kCCUniformPMatrix
 	- kCCUniformMVMatrix
+=======
+/** It will create 4 uniforms:
+	- kCCUniformPMatrix
+	- kCCUniformMVMatrix
+	- kCCUniformMVPMatrix
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	- kCCUniformSampler
 
  And it will bind "kCCUniformSampler" to 0
  */
 - (void) updateUniforms;
 
+<<<<<<< HEAD
 /** calls glUniform1i only if the values are different than the previous call for this same shader program. */
 -(void) setUniformLocation:(NSUInteger)location withI1:(GLint)i1;
 
@@ -144,6 +209,43 @@ struct _hashUniformEntry;
 
 /** will update the MVP matrix on the MVP uniform if it is different than the previous call for this same shader program. */
 -(void) setUniformForModelViewProjectionMatrix;
+=======
+/** calls retrieves the named uniform location for this shader program. */
+- (GLint)uniformLocationForName:(NSString*)name;
+
+/** calls glUniform1i only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location withI1:(GLint)i1;
+
+/** calls glUniform1f only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1;
+
+/** calls glUniform2f only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1 f2:(GLfloat)f2;
+
+/** calls glUniform3f only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1 f2:(GLfloat)f2 f3:(GLfloat)f3;
+
+/** calls glUniform4f only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location withF1:(GLfloat)f1 f2:(GLfloat)f2 f3:(GLfloat)f3 f4:(GLfloat)f4;
+
+/** calls glUniform2fv only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location with2fv:(GLfloat*)floats count:(NSUInteger)numberOfArrays;
+
+/** calls glUniform3fv only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location with3fv:(GLfloat*)floats count:(NSUInteger)numberOfArrays;
+
+/** calls glUniform4fv only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location with4fv:(GLvoid*)floats count:(NSUInteger)numberOfArrays;
+
+/** calls glUniformMatrix4fv only if the values are different than the previous call for this same shader program. */
+-(void) setUniformLocation:(GLint)location withMatrix4fv:(GLvoid*)matrix_array count:(NSUInteger)numberOfMatrix;
+
+/** will update the builtin uniforms if they are different than the previous call for this same shader program. */
+-(void) setUniformsForBuiltins;
+
+/** Deprecated alias for setUniformsForBuiltins */
+-(void)setUniformForModelViewProjectionMatrix __attribute__((__deprecated__));
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** returns the vertexShader error log */
 - (NSString *)vertexShaderLog;

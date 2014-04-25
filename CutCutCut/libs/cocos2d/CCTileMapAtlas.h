@@ -47,6 +47,7 @@
 {
 
 	/// info about the map file
+<<<<<<< HEAD
 	tImageTGA		*tgaInfo;
 
 	/// x,y to altas dicctionary
@@ -54,6 +55,15 @@
 
 	/// numbers of tiles to render
 	int				itemsToRender;
+=======
+	tImageTGA		*_tgaInfo;
+
+	/// x,y to altas dictionary
+	NSMutableDictionary	*_posToAtlasIndex;
+
+	/// numbers of tiles to render
+	int				_itemsToRender;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** TileMap info */
@@ -72,12 +82,20 @@
 /** returns a tile from position x,y.
  For the moment only channel R is used
  */
+<<<<<<< HEAD
 -(ccColor3B) tileAt: (ccGridSize) position;
+=======
+-(ccColor3B) tileAt: (CGPoint) position;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** sets a tile at position x,y.
  For the moment only channel R is used
  */
+<<<<<<< HEAD
 -(void) setTile:(ccColor3B)tile at:(ccGridSize)position;
+=======
+-(void) setTile:(ccColor3B)tile at:(CGPoint)position;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** dealloc the map from memory */
 -(void) releaseMap;
 @end

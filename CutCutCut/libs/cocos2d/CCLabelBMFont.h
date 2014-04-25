@@ -40,8 +40,11 @@ enum {
 	kCCLabelAutomaticWidth = -1,
 };
 
+<<<<<<< HEAD
 struct _KerningHashElement;
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** @struct ccBMFontDef
  BMFont definition
  */
@@ -73,12 +76,32 @@ typedef struct _BMFontPadding {
 	int bottom;
 } ccBMFontPadding;
 
+<<<<<<< HEAD
+=======
+#pragma mark - Hash Element
+typedef struct _FontDefHashElement
+{
+	NSUInteger		key;		// key. Font Unicode value
+	ccBMFontDef		fontDef;	// font definition
+	UT_hash_handle	hh;
+} tCCFontDefHashElement;
+
+// Equal function for targetSet.
+typedef struct _KerningHashElement
+{
+	int				key;		// key for the hash. 16-bit for 1st element, 16-bit for 2nd element
+	int				amount;
+	UT_hash_handle	hh;
+} tCCKerningHashElement;
+#pragma mark -
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** CCBMFontConfiguration has parsed configuration of the the .fnt file
  @since v0.8
  */
 @interface CCBMFontConfiguration : NSObject
 {
+<<<<<<< HEAD
     // XXX: Creating a public interface so that the bitmapFontArray[] is accesible
 @public
 
@@ -98,6 +121,36 @@ typedef struct _BMFontPadding {
 	struct _KerningHashElement	*kerningDictionary_;
 }
 
+=======
+	// Character Set defines the letters that actually exist in the font
+	NSCharacterSet *_characterSet;
+  
+	// atlas name
+	NSString		*_atlasName;
+    
+    // XXX: Creating a public interface so that the bitmapFontArray[] is accessible
+@public
+    
+	// BMFont definitions
+	tCCFontDefHashElement	*_fontDefDictionary;
+    
+	// FNTConfig: Common Height. Should be signed (issue #1343)
+	NSInteger		_commonHeight;
+    
+	// Padding
+	ccBMFontPadding	_padding;
+    
+	// values for kerning
+	tCCKerningHashElement	*_kerningDictionary;
+}
+
+// Character set
+@property (nonatomic, retain, readonly) NSCharacterSet *characterSet;
+
+// atlasName
+@property (nonatomic, readwrite, retain) NSString *atlasName;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** allocates a CCBMFontConfiguration with a FNT file */
 +(id) configurationWithFNTFile:(NSString*)FNTfile;
 /** initializes a CCBMFontConfiguration with a FNT file */
@@ -106,7 +159,11 @@ typedef struct _BMFontPadding {
 
 
 /** CCLabelBMFont is a subclass of CCSpriteBatchNode
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  Features:
  - Treats each character like a CCSprite. This means that each individual character can be:
  - rotated
@@ -117,6 +174,7 @@ typedef struct _BMFontPadding {
  - It can be used as part of a menu item.
  - anchorPoint can be used to align the "label"
  - Supports AngelCode text format
+<<<<<<< HEAD
 
  Limitations:
  - All inner characters are using an anchorPoint of (0.5f, 0.5f) and it is not recommend to change it
@@ -126,19 +184,35 @@ typedef struct _BMFontPadding {
  CCLabelBMFont has the flexibility of CCLabel, the speed of CCLabelAtlas and all the features of CCSprite.
  If in doubt, use CCLabelBMFont instead of CCLabelAtlas / CCLabel.
 
+=======
+ 
+ Limitations:
+ - All inner characters are using an anchorPoint of (0.5f, 0.5f) and it is not recommend to change it
+ because it might affect the rendering
+ 
+ CCLabelBMFont implements the protocol CCLabelProtocol, like CCLabel and CCLabelAtlas.
+ CCLabelBMFont has the flexibility of CCLabel, the speed of CCLabelAtlas and all the features of CCSprite.
+ If in doubt, use CCLabelBMFont instead of CCLabelAtlas / CCLabel.
+ 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  Supported editors:
  - http://glyphdesigner.71squared.com/
  - http://www.bmglyph.com/
  - http://www.n4te.com/hiero/hiero.jnlp
  - http://slick.cokeandcode.com/demos/hiero.jnlp
  - http://www.angelcode.com/products/bmfont/
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  @since v0.8
  */
 
 @interface CCLabelBMFont : CCSpriteBatchNode <CCLabelProtocol, CCRGBAProtocol>
 {
 	// string to render
+<<<<<<< HEAD
 	NSString		*string_;
     
     // name of fntFile
@@ -160,6 +234,33 @@ typedef struct _BMFontPadding {
 	
 	// offset of the texture atlas
 	CGPoint			imageOffset_;
+=======
+	NSString		*_string;
+    
+    // name of fntFile
+    NSString        *_fntFile;
+    
+    // initial string without line breaks
+    NSString *_initialString;
+    // max width until a line break is added
+    float _width;
+    // alignment of all lines
+    CCTextAlignment _alignment;
+    
+	CCBMFontConfiguration	*_configuration;
+    
+	// texture RGBA
+	GLubyte		_displayedOpacity, _realOpacity;
+	ccColor3B	_displayedColor, _realColor;
+	BOOL		_cascadeOpacityEnabled, _cascadeColorEnabled;
+	BOOL		_opacityModifyRGB;
+	
+	// offset of the texture atlas
+	CGPoint			_imageOffset;
+	
+	// reused char
+	CCSprite		*_reusedChar;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** Purges the cached data.
@@ -182,7 +283,11 @@ typedef struct _BMFontPadding {
 +(id) labelWithString:(NSString*)string fntFile:(NSString*)fntFile;
 /** creates a BMFont label with an initial string, the FNT file, width, and alignment option */
 +(id) labelWithString:(NSString*)string fntFile:(NSString*)fntFile width:(float)width alignment:(CCTextAlignment)alignment;
+<<<<<<< HEAD
 /** creates a BMFont label with an initial string, the FNT file, width, alignment option and the offset of where the glpyhs start on the .PNG image */
+=======
+/** creates a BMFont label with an initial string, the FNT file, width, alignment option and the offset of where the glyphs start on the .PNG image */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 +(id) labelWithString:(NSString*)string fntFile:(NSString*)fntFile width:(float)width alignment:(CCTextAlignment)alignment imageOffset:(CGPoint)offset;
 
 /** init a BMFont label with an initial string and the FNT file */

@@ -32,6 +32,7 @@
 /** MotionStreak.
  Creates a trailing path.
  */
+<<<<<<< HEAD
 @interface CCMotionStreak : CCNode <CCTextureProtocol, CCRGBAProtocol>
 {
     CCTexture2D *texture_;
@@ -55,11 +56,42 @@
     ccTex2F *texCoords_;
 
     BOOL	fastMode_;
+=======
+@interface CCMotionStreak : CCNodeRGBA <CCTextureProtocol>
+{
+    CCTexture2D *_texture;
+    CGPoint _positionR;
+    ccBlendFunc _blendFunc;
+    float _stroke;
+    float _fadeDelta;
+    float _minSeg;
+
+    NSUInteger _maxPoints;
+    NSUInteger _nuPoints;
+	NSUInteger _previousNuPoints;
+
+    /** Pointers */
+    CGPoint *_pointVertexes;
+    float *_pointState;
+
+    // Opengl
+    ccVertex2F *_vertices;
+    unsigned char *_colorPointer;
+    ccTex2F *_texCoords;
+
+    BOOL	_fastMode;
+	
+	BOOL	_startingPositionInitialized;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** blending function */
 @property (nonatomic, readwrite, assign) ccBlendFunc blendFunc;
 
+<<<<<<< HEAD
 /** When fast mode is enbled, new points are added faster but with lower precision */
+=======
+/** When fast mode is enabled, new points are added faster but with lower precision */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @property (nonatomic, readwrite, assign, getter = isFastMode) BOOL fastMode;
 
 /** texture used for the motion streak */

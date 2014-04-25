@@ -33,7 +33,11 @@
 
 
 /** @def CCARRAY_FOREACH
+<<<<<<< HEAD
  A convience macro to iterate over a CCArray using. It is faster than the "fast enumeration" interface.
+=======
+ A convenience macro to iterate over a CCArray using. It is faster than the "fast enumeration" interface.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  @since v0.99.4
  */
 
@@ -69,6 +73,11 @@ for(const CC_ARC_UNSAFE_RETAINED id *__arr__ = __array__->data->arr, *end = __ar
 - (id) randomObject;
 - (id) lastObject;
 - (NSArray*) getNSArray;
+<<<<<<< HEAD
+=======
+/** @since 1.1 */
+- (BOOL) isEqualToArray:(CCArray*)otherArray;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 // Adding Objects
@@ -94,13 +103,34 @@ for(const CC_ARC_UNSAFE_RETAINED id *__arr__ = __array__->data->arr, *end = __ar
 
 - (void) exchangeObject:(id)object1 withObject:(id)object2;
 - (void) exchangeObjectAtIndex:(NSUInteger)index1 withObjectAtIndex:(NSUInteger)index2;
+<<<<<<< HEAD
 - (void) reverseObjects;
 - (void) reduceMemoryFootprint;
 
+=======
+/** @since 1.1 */
+- (void) replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
+- (void) reverseObjects;
+- (void) reduceMemoryFootprint;
+
+// Sorting Array 
+/** all since @1.1 */
+- (void) qsortUsingCFuncComparator:(int(*)(const void *, const void *))comparator;	// c qsort is used for sorting
+- (void) insertionSortUsingCFuncComparator:(int(*)(const void *, const void *))comparator;  // insertion sort 
+- (void) mergesortLUsingCFuncComparator:(int(*)(const void *, const void *))comparator;	// mergesort
+- (void) insertionSort:(SEL)selector; // It sorts source array in ascending order
+- (void) sortUsingFunction:(NSInteger (*)(id, id, void *))compare context:(void *)context;
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 // Sending Messages to Elements
 
 - (void) makeObjectsPerformSelector:(SEL)aSelector;
 - (void) makeObjectsPerformSelector:(SEL)aSelector withObject:(id)object;
+<<<<<<< HEAD
 
+=======
+/** @since 1.1 */
+- (void) makeObjectPerformSelectorWithArrayObjects:(id)object selector:(SEL)aSelector; 
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @end

@@ -186,6 +186,50 @@
 
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark -
+#pragma mark CCGestureEventDelegate
+
+/** CCGestureEventDelegate protocol.
+ Implement it in your node to receive any of gesture events
+ */
+@protocol CCGestureEventDelegate <NSObject>
+@optional
+
+/** called when the "beginGesture" event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccBeginGestureWithEvent:(NSEvent *)event;
+
+/** called when the "magnify" gesture event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccMagnifyWithEvent:(NSEvent *)event;
+
+/** called when the "smartMagnify" gesture event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccSmartMagnifyWithEvent:(NSEvent *)event;
+
+/** called when the "rotate" gesture event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccRotateWithEvent:(NSEvent *)event;
+
+/** called when the "swipe" gesture event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccSwipeWithEvent:(NSEvent *)event;
+
+/** called when the "endGesture" event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccEndGestureWithEvent:(NSEvent *)event;
+
+@end
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 #pragma mark - CCEventObject
 
 @interface CCEventObject : NSObject
@@ -211,6 +255,7 @@ struct _listAddedEntry;
 
  Only available on Mac
  */
+<<<<<<< HEAD
 @interface CCEventDispatcher : NSObject <CCEventDelegate> {
 
 	BOOL					dispatchEvents_;
@@ -222,6 +267,20 @@ struct _listAddedEntry;
 	
 	struct	_listDeletedEntry	*delegatesToBeRemoved_;
 	struct	_listAddedEntry		*delegatesToBeAdded_;
+=======
+@interface CCEventDispatcher : NSObject <CCEventDelegate>
+{
+	BOOL					_dispatchEvents;
+	BOOL					_locked;
+
+	struct	_listEntry		*_keyboardDelegates;
+	struct	_listEntry		*_mouseDelegates;
+	struct	_listEntry		*_touchDelegates;
+	struct	_listEntry		*_gestureDelegates;
+	
+	struct	_listDeletedEntry	*_delegatesToBeRemoved;
+	struct	_listAddedEntry		*_delegatesToBeAdded;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	
 }
 
@@ -231,7 +290,11 @@ struct _listAddedEntry;
 
 /** Adds a mouse delegate to the dispatcher's list.
  Delegates with a lower priority value will be called before higher priority values.
+<<<<<<< HEAD
  All the events will be propgated to all the delegates, unless the one delegate returns YES.
+=======
+ All the events will be propagated to all the delegates, unless the one delegate returns YES.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
  IMPORTANT: The delegate will be retained.
  */
@@ -247,7 +310,11 @@ struct _listAddedEntry;
 
 /** Adds a Keyboard delegate to the dispatcher's list.
  Delegates with a lower priority value will be called before higher priority values.
+<<<<<<< HEAD
  All the events will be propgated to all the delegates, unless the one delegate returns YES.
+=======
+ All the events will be propagated to all the delegates, unless the one delegate returns YES.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
  IMPORTANT: The delegate will be retained.
  */
@@ -263,7 +330,11 @@ struct _listAddedEntry;
 
 /** Adds a Touch delegate to the dispatcher's list.
  Delegates with a lower priority value will be called before higher priority values.
+<<<<<<< HEAD
  All the events will be propgated to all the delegates, unless the one delegate returns YES.
+=======
+ All the events will be propagated to all the delegates, unless the one delegate returns YES.
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
  IMPORTANT: The delegate will be retained.
  */
@@ -275,6 +346,27 @@ struct _listAddedEntry;
 /** Removes all touch delegates, releasing all the delegates */
 - (void)removeAllTouchDelegates;
 
+<<<<<<< HEAD
+=======
+#pragma mark CCEventDispatcher - Gesture
+
+/** Adds a gesture delegate to the dispatcher's list.
+ Delegates with a lower priority value will be called before higher priority values.
+ All the events will be propagated to all the delegates, unless the one delegate returns YES.
+ 
+ IMPORTANT: The delegate will be retained.
+ */
+- (void)addGestureDelegate:(id<CCGestureEventDelegate>)delegate priority:(NSInteger)priority;
+
+/** Removes a gesture delegate */
+- (void)removeGestureDelegate:(id) delegate;
+
+/** Removes all gesture delegates, releasing all the delegates */
+- (void)removeAllGestureDelegates;
+
+#pragma mark CCEventDispatcher - Dispatch
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 -(void) dispatchEvent:(CCEventObject*)event;
 
 @end

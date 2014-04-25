@@ -25,7 +25,10 @@
 #import "CCArray.h"
 #import "../ccMacros.h"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCArray
 
 + (id) array
@@ -107,7 +110,11 @@
 
 - (id) objectAtIndex:(NSUInteger)index
 {
+<<<<<<< HEAD
 	NSAssert2( index < data->num, @"index out of range in objectAtIndex(%d), index %i", data->num, index );
+=======
+	NSAssert2( index < data->num, @"index out of range in objectAtIndex(%lu), index %lu", (unsigned long)data->num, (unsigned long)index );
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	return data->arr[index];
 }
@@ -135,6 +142,20 @@
 	return [NSArray arrayWithObjects:data->arr count:data->num];
 }
 
+<<<<<<< HEAD
+=======
+- (BOOL) isEqualToArray:(CCArray*)otherArray {
+	for (int i = 0; i< [self count]; i++)
+	{
+		if (![[self objectAtIndex:i] isEqual: [otherArray objectAtIndex:i]])
+		{
+			return NO;
+		}
+	}
+	return YES;
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #pragma mark Adding Objects
 
@@ -218,6 +239,14 @@
 	ccArraySwapObjectsAtIndexes(data, index1, index2);
 }
 
+<<<<<<< HEAD
+=======
+- (void) replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+    ccArrayInsertObjectAtIndex(data, anObject, index);
+    ccArrayRemoveObjectAtIndex(data, index+1);
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 - (void) reverseObjects
 {
 	if (data->num > 1)
@@ -251,6 +280,13 @@
 	ccArrayMakeObjectsPerformSelectorWithObject(data, aSelector, object);
 }
 
+<<<<<<< HEAD
+=======
+- (void) makeObjectPerformSelectorWithArrayObjects:(id)object selector:(SEL)aSelector 
+{		
+	ccArrayMakeObjectPerformSelectorWithArrayObjects(data, aSelector, object);
+}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #pragma mark CCArray - NSFastEnumeration protocol
 
@@ -264,6 +300,118 @@
 	return data->num;
 }
 
+<<<<<<< HEAD
+=======
+#pragma mark CCArray - sorting 
+
+/** @since 1.1 */ 
+#pragma mark -
+#pragma mark CCArray insertionSortUsingCFuncComparator
+
+- (void) insertionSortUsingCFuncComparator:(int(*)(const void *, const void *))comparator
+{
+	cc_insertionSort(data, comparator);
+}
+
+#pragma mark CCArray qsortUsingCFuncComparator
+
+- (void) qsortUsingCFuncComparator:(cc_comparator)comparator {
+	
+	// stable c qsort is used - cost of sorting:  best n*log(n), average n*log(n)
+	//  qsort(void *, size_t, size_t, int (*)(const void *arg1, const void *arg2));
+	
+    qsort(data->arr, data->num, sizeof (id), comparator);  
+}
+
+#pragma mark CCArray mergesortLUsingCFuncComparator
+
+- (void) mergesortLUsingCFuncComparator:(cc_comparator)comparator
+{
+	cc_mergesortL(data, sizeof (id), comparator); 
+}
+
+#pragma mark CCArray insertionSort with (SEL)selector
+
+- (void) insertionSort:(SEL)selector // It sorts source array in ascending order
+{
+	NSInteger i,j,length = data->num;
+	
+	id * x = data->arr;
+	id temp;	
+	
+	// insertion sort
+	for(i=1; i<length; i++)
+	{
+		j = i;
+		// continue moving element downwards while order is descending 
+		while( j>0 && ( (int)([x[j-1] performSelector:selector withObject:x[j]]) == NSOrderedDescending) )
+		{
+			temp = x[j];
+			x[j] = x[j-1];
+			x[j-1] = temp;
+			j--;
+		}
+	}
+}
+
+static inline NSInteger selectorCompare(id object1,id object2,void *userData){
+    SEL selector=userData;
+    
+    return (NSInteger)[object1 performSelector:selector withObject:object2];
+}
+
+-(void)sortUsingSelector:(SEL)selector {
+    [self sortUsingFunction:selectorCompare context:selector];
+}
+
+#pragma mark CCArray sortUsingFunction
+
+// using a comparison function
+-(void)sortUsingFunction:(NSInteger (*)(id, id, void *))compare context:(void *)context
+{
+    NSInteger h, i, j, k, l, m, n = [self count];
+    id  A, *B = malloc( (n/2 + 1) * sizeof(id));
+    
+	// to prevent retain counts from temporarily hitting zero.  
+    for( i=0;i<n;i++)
+        // [[self objectAtIndex:i] retain]; // prevents compiler warning
+		[data->arr[i] retain];
+
+    
+    for (h = 1; h < n; h += h)
+    {
+        for (m = n - 1 - h; m >= 0; m -= h + h)
+        {
+            l = m - h + 1;
+            if (l < 0)
+                l = 0;
+            for (i = 0, j = l; j <= m; i++, j++)
+                B[i] = [self objectAtIndex:j];
+
+            for (i = 0, k = l; k < j && j <= m + h; k++)
+            {
+                A = [self objectAtIndex:j];
+                if (compare(A, B[i], context) == NSOrderedDescending)
+                    [self replaceObjectAtIndex:k withObject:B[i++]];
+                else
+                {
+                    [self replaceObjectAtIndex:k withObject:A];
+                    j++;
+                }
+            }
+            
+            while (k < j)
+                [self replaceObjectAtIndex:k++ withObject:B[i++]];
+        }
+    }
+    
+    for(i=0;i<n;i++)
+		// [[self objectAtIndex:i] release]; // prevents compiler warning
+		[data->arr[i] release];
+    
+    free(B);
+}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 #pragma mark CCArray - NSCopying protocol
 
@@ -291,7 +439,11 @@
 
 - (NSString*) description
 {
+<<<<<<< HEAD
 	NSMutableString *ret = [NSMutableString stringWithFormat:@"<%@ = %08X> = ( ", [self class], self];
+=======
+	NSMutableString *ret = [NSMutableString stringWithFormat:@"<%@ = %p> = ( ", [self class], self];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	for( id obj in self)
 		[ret appendFormat:@"%@, ",obj];

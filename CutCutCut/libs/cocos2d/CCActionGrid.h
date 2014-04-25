@@ -33,6 +33,7 @@
 /** Base class for Grid actions */
 @interface CCGridAction : CCActionInterval
 {
+<<<<<<< HEAD
 	ccGridSize gridSize_;
 }
 
@@ -43,6 +44,18 @@
 +(id) actionWithSize:(ccGridSize)size duration:(ccTime)d;
 /** initializes the action with size and duration */
 -(id) initWithSize:(ccGridSize)gridSize duration:(ccTime)d;
+=======
+	CGSize _gridSize;
+}
+
+/** size of the grid */
+@property (nonatomic,readwrite) CGSize gridSize;
+
+/** creates the action with size and duration */
++(id) actionWithDuration:(ccTime)duration size:(CGSize)gridSize;
+/** initializes the action with size and duration */
+-(id) initWithDuration:(ccTime)duration size:(CGSize)gridSize;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 /** returns the grid */
 -(CCGridBase *)grid;
 
@@ -58,11 +71,19 @@
 }
 
 /** returns the vertex than belongs to certain position in the grid */
+<<<<<<< HEAD
 -(ccVertex3F)vertex:(ccGridSize)pos;
 /** returns the non-transformed vertex than belongs to certain position in the grid */
 -(ccVertex3F)originalVertex:(ccGridSize)pos;
 /** sets a new vertex to a certain position of the grid */
 -(void)setVertex:(ccGridSize)pos vertex:(ccVertex3F)vertex;
+=======
+-(ccVertex3F)vertex:(CGPoint)position;
+/** returns the non-transformed vertex than belongs to certain position in the grid */
+-(ccVertex3F)originalVertex:(CGPoint)position;
+/** sets a new vertex to a certain position of the grid */
+-(void)setVertex:(CGPoint)position vertex:(ccVertex3F)vertex;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @end
 
@@ -74,11 +95,19 @@
 }
 
 /** returns the tile that belongs to a certain position of the grid */
+<<<<<<< HEAD
 -(ccQuad3)tile:(ccGridSize)pos;
 /** returns the non-transformed tile that belongs to a certain position of the grid */
 -(ccQuad3)originalTile:(ccGridSize)pos;
 /** sets a new tile to a certain position of the grid */
 -(void)setTile:(ccGridSize)pos coords:(ccQuad3)coords;
+=======
+-(ccQuad3)tile:(CGPoint)position;
+/** returns the non-transformed tile that belongs to a certain position of the grid */
+-(ccQuad3)originalTile:(CGPoint)position;
+/** sets a new tile to a certain position of the grid */
+-(void)setTile:(CGPoint)position coords:(ccQuad3)coords;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @end
 
@@ -87,8 +116,13 @@
 /** CCAccelDeccelAmplitude action */
 @interface CCAccelDeccelAmplitude : CCActionInterval
 {
+<<<<<<< HEAD
 	float			rate_;
 	CCActionInterval *other_;
+=======
+	float			_rate;
+	CCActionInterval *_other;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** amplitude rate */
@@ -106,8 +140,13 @@
 /** CCAccelAmplitude action */
 @interface CCAccelAmplitude : CCActionInterval
 {
+<<<<<<< HEAD
 	float			rate_;
 	CCActionInterval *other_;
+=======
+	float			_rate;
+	CCActionInterval *_other;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** amplitude rate */
@@ -125,8 +164,13 @@
 /** CCDeccelAmplitude action */
 @interface CCDeccelAmplitude : CCActionInterval
 {
+<<<<<<< HEAD
 	float			rate_;
 	CCActionInterval *other_;
+=======
+	float			_rate;
+	CCActionInterval *_other;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 /** amplitude rate */
@@ -149,6 +193,11 @@
 @interface CCStopGrid : CCActionInstant
 {
 }
+<<<<<<< HEAD
+=======
+// to make BridgeSupport happy
+-(void)startWithTarget:(id)aTarget;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 ////////////////////////////////////////////////////////////
@@ -156,7 +205,11 @@
 /** CCReuseGrid action */
 @interface CCReuseGrid : CCActionInstant
 {
+<<<<<<< HEAD
 	int t_;
+=======
+	int _times;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** creates an action with the number of times that the current grid will be reused */
 +(id) actionWithTimes: (int) times;

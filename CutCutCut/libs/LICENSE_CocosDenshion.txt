@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+ http://www.cocos2d-iphone.org/
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
  CocosDenshion Sound Engine
 
  Copyright (c) 2010 Steve Oldmeadow

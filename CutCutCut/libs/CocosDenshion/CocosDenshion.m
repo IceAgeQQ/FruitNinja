@@ -24,6 +24,14 @@
 
 #import "CocosDenshion.h"
 
+<<<<<<< HEAD
+=======
+// Use cocos2d Fileutils or Builtin fileutils ?
+#ifndef CD_USE_OWN_FILEUTILS
+#import "CCFileUtils.h"
+#endif
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
 ALvoid  alcMacOSXMixerOutputRateProc(const ALdouble value);
 
@@ -84,6 +92,12 @@ float const kCD_GainDefault = 1.0f;
 
 +(NSString*) fullPathFromRelativePath:(NSString*) relPath
 {
+<<<<<<< HEAD
+=======
+#ifndef CD_USE_OWN_FILEUTILS
+    return [[CCFileUtils sharedFileUtils] fullPathForFilenameIgnoringResolutions:relPath];
+#else
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	// do not convert an absolute path (starting with '/')
 	if(([relPath length] > 0) && ([relPath characterAtIndex:0] == '/'))
 	{
@@ -101,6 +115,10 @@ float const kCD_GainDefault = 1.0f;
 		fullpath = relPath;
 
 	return fullpath;
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 @end
@@ -521,7 +539,11 @@ static BOOL _mixerRateSet = NO;
 		if (soundId >= bufferTotal) {
 			//Need to resize the buffers
 			int requiredIncrement = CD_BUFFERS_INCREMENT;
+<<<<<<< HEAD
 			while (bufferTotal + requiredIncrement < soundId) {
+=======
+			while (bufferTotal + requiredIncrement <= soundId) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 				requiredIncrement += CD_BUFFERS_INCREMENT;
 			}
 			CDLOGINFO(@"Denshion::CDSoundEngine - attempting to resize buffers by %i for sound %i",requiredIncrement,soundId);
@@ -604,7 +626,11 @@ static BOOL _mixerRateSet = NO;
 #endif
 		return result;
 	} else {
+<<<<<<< HEAD
 		CDLOG(@"Denshion::CDSoundEngine Could not find file!\n");
+=======
+		CDLOG(@"Denshion::CDSoundEngine Could not find file: %@\n", filePath);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		//Don't change buffer state here as it will be the same as before method was called
 		return FALSE;
 	}

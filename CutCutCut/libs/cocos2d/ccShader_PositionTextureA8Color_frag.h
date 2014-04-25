@@ -1,3 +1,31 @@
+<<<<<<< HEAD
+=======
+/*
+ * cocos2d for iPhone: http://www.cocos2d-iphone.org
+ *
+ * Copyright (c) 2011 Ricardo Quesada
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 "													\n\
 #ifdef GL_ES										\n\
 precision lowp float;								\n\
@@ -5,12 +33,20 @@ precision lowp float;								\n\
 													\n\
 varying vec4 v_fragmentColor;						\n\
 varying vec2 v_texCoord;							\n\
+<<<<<<< HEAD
 uniform sampler2D u_texture;						\n\
+=======
+uniform sampler2D CC_Texture0;						\n\
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 													\n\
 void main()											\n\
 {													\n\
 	gl_FragColor = vec4( v_fragmentColor.rgb,										// RGB from uniform				\n\
+<<<<<<< HEAD
 						v_fragmentColor.a * texture2D(u_texture, v_texCoord).a		// A from texture & uniform		\n\
+=======
+						v_fragmentColor.a * texture2D(CC_Texture0, v_texCoord).a	// A from texture & uniform		\n\
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 						);							\n\
 }													\n\
 ";

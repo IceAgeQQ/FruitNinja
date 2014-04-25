@@ -31,16 +31,47 @@
 // Free functions
 void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 {
+<<<<<<< HEAD
 	[program setUniformForModelViewProjectionMatrix];
 }
 
+=======
+	[program setUniformsForBuiltins];
+}
+
+#pragma mark - Scheduler
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCScheduler (Deprecated)
 +(CCScheduler*) sharedScheduler
 {
 	return [[CCDirector sharedDirector] scheduler];
 }
+<<<<<<< HEAD
 @end
 
+=======
+-(void) scheduleSelector:(SEL)selector forTarget:(id)target interval:(ccTime)interval paused:(BOOL)paused repeat:(uint)repeat delay:(ccTime)delay
+{
+	[self scheduleSelector:selector forTarget:target interval:interval repeat:repeat delay:delay paused:paused];
+}
+-(void) unscheduleAllSelectorsForTarget:(id)target
+{
+	[self unscheduleAllForTarget:target];
+}
+-(void) unscheduleAllSelectorsWithMinPriority:(NSInteger)minPriority
+{
+	[self unscheduleAllWithMinPriority:minPriority];
+}
+-(void) unscheduleAllSelectors
+{
+	[self unscheduleAll];
+}
+@end
+
+#pragma mark - ActionManager
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCActionManager (Deprecated)
 +(CCActionManager*) sharedManager
 {
@@ -49,6 +80,12 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 @end
 
 #if __CC_PLATFORM_IOS
+<<<<<<< HEAD
+=======
+
+#pragma mark - TouchDispatcher
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCTouchDispatcher (Deprecated)
 +(CCTouchDispatcher*) sharedDispatcher
 {
@@ -56,6 +93,12 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 #elif __CC_PLATFORM_MAC
+<<<<<<< HEAD
+=======
+
+#pragma mark - EventDispatcher
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCEventDispatcher (Deprecated)
 +(CCEventDispatcher*) sharedDispatcher
 {
@@ -64,9 +107,20 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 @end
 #endif // __CC_PLATFORM_MAC
 
+<<<<<<< HEAD
 #pragma mark - CCDirector
 
 @implementation CCDirector (Deprecated)
+=======
+#pragma mark - Director
+
+@implementation CCDirector (Deprecated)
+-(BOOL) getIsPaused
+{
+	return [self isPaused];
+}
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 -(void) setDisplayFPS:(BOOL)display
 {
 	[self setDisplayStats:display];
@@ -79,10 +133,79 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 
 -(CCGLView*) openGLView
 {
+<<<<<<< HEAD
 	return (CCGLView*)view_;
 }
 @end
 
+=======
+	return (CCGLView*)__view;
+}
+@end
+
+#pragma mark - Node
+@implementation CCNode (Deprecated)
+-(void) setIsRelativeAnchorPoint:(BOOL)value
+{
+	[self setIgnoreAnchorPointForPosition:!value];
+}
+-(BOOL) isRelativeAnchorPoint
+{
+	return ! self.ignoreAnchorPointForPosition;
+}
+@end
+
+#pragma mark - Layer
+
+@implementation CCLayer (Deprecated)
+#if __CC_PLATFORM_IOS
+-(void) setIsTouchEnabled:(BOOL)enabled
+{
+	[self setTouchEnabled:enabled];
+}
+-(void) setIsAccelerometerEnabled:(BOOL)enabled
+{
+	[self setAccelerometerEnabled:enabled];
+}
+#elif __CC_PLATFORM_MAC
+-(void) setIsTouchEnabled:(BOOL)enabled
+{
+	[self setTouchEnabled:enabled];
+}
+-(void) setIsKeyboardEnabled:(BOOL)enabled
+{
+	[self setKeyboardEnabled:enabled];	
+}
+-(void) setIsMouseEnabled:(BOOL)enabled
+{
+	[self setMouseEnabled:enabled];
+}
+-(NSInteger) mouseDelegatePriority
+{
+	// new: setKeyboardEnabled:priority:
+	NSAssert(NO, @"deprecated method");
+	return 0;
+}
+-(NSInteger) keyboardDelegatePriority
+{
+	// new: setTouchEnabled:priority:
+	NSAssert(NO, @"deprecated method");
+	return 0;
+}
+-(NSInteger) touchDelegatePriority
+{
+	// new: setTouchEnabled:priority:
+	NSAssert(NO, @"deprecated method");
+	return 0;
+}
+
+#endif // __CC_PLATFORM_IOS
+@end
+
+
+#pragma mark - Sprite
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCSprite (Deprecated)
 
 +(id) spriteWithBatchNode:(CCSpriteBatchNode*)node rect:(CGRect)rect
@@ -101,10 +224,34 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 
 -(CCSpriteFrame*) displayedFrame
 {
+<<<<<<< HEAD
 	return [self displayedFrame];
 }
 @end
 
+=======
+	return [self displayFrame];
+}
+@end
+
+@implementation CCMenuItem (Deprecated)
+// new: -(CGRect) activeArea;
+-(CGRect) rect
+{
+	NSAssert(NO, @"Use CCMenuItem # activeArea instead");
+	return CGRectZero;
+}
+
+-(void) setRect:(CGRect)rect
+{
+	NSAssert(NO, @"Use CCMenuItem # setActiveArea instead");
+}
+
+@end
+
+#pragma mark - MenuItemAtlasFont
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCMenuItemAtlasFont (Deprecated)
 +(id) itemFromString: (NSString*) value charMapFile:(NSString*) charMapFile itemWidth:(int)itemWidth itemHeight:(int)itemHeight startCharMap:(char)startCharMap
 {
@@ -128,6 +275,11 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark - MenuItemFont
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCMenuItemFont (Deprecated)
 +(id) itemFromString: (NSString*) value
 {
@@ -151,6 +303,11 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark - MenuItemSprite
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCMenuItemSprite (Deprecated)
 +(id) itemFromNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite
 {
@@ -183,6 +340,11 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark - MenuItemImage
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCMenuItemImage (Deprecated)
 +(id) itemFromNormalImage: (NSString*)value selectedImage:(NSString*) value2
 {
@@ -214,6 +376,10 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark - Animation
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @implementation CCAnimation (Deprecated)
 +(id) animationWithFrames:(NSArray*)arrayOfSpriteFrameNames
@@ -246,6 +412,11 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark - Animate
+
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @implementation CCAnimate (Deprecated)
 +(id) actionWithAnimation:(CCAnimation*)animation restoreOriginalFrame:(BOOL)restoreOriginalFrame
 {
@@ -279,6 +450,30 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 
+<<<<<<< HEAD
+=======
+#pragma mark - Sequence
+
+@implementation CCSequence (Deprecated)
+// new: actionWithArray
++(id) actionsWithArray: (NSArray*) actions
+{
+	return [self actionWithArray:actions];
+}
+@end
+
+#pragma mark - Spawn
+
+@implementation CCSpawn (Deprecated)
+// new: actionWithArray
++(id) actionsWithArray: (NSArray*) actions
+{
+	return [self actionWithArray:actions];
+}
+@end
+
+#pragma mark - RenderTexture
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 @implementation CCRenderTexture (Deprecated)
 -(BOOL)saveBuffer:(NSString*)name
@@ -304,6 +499,7 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 #endif
 @end
 
+<<<<<<< HEAD
 #if __CC_PLATFORM_IOS
 @implementation CCFileUtils (Deprecated)
 +(void) setRetinaDisplaySuffix:(NSString*)suffix
@@ -312,6 +508,289 @@ void ccGLUniformModelViewProjectionMatrix( CCGLProgram* program )
 }
 @end
 #endif
+=======
+#pragma mark - FileUtils
+
+@implementation CCFileUtils (Deprecated)
++(NSString*) fullPathFromRelativePath:(NSString*) relPath
+{
+	return [[self sharedFileUtils] fullPathFromRelativePath:relPath];
+}
+
++(NSString*) fullPathFromRelativePath:(NSString*)relPath resolutionType:(ccResolutionType*)resolutionType
+{
+	return [[self sharedFileUtils] fullPathFromRelativePath:relPath resolutionType:resolutionType];
+}
+
+#if __CC_PLATFORM_IOS
++(void) setRetinaDisplaySuffix:(NSString*)suffix
+{
+	return [[self sharedFileUtils] setiPhoneRetinaDisplaySuffix:suffix];
+}
++(NSString *)removeSuffixFromFile:(NSString*) path
+{
+	return [[self sharedFileUtils] removeSuffixFromFile:path];
+}
++(BOOL) iPhoneRetinaDisplayFileExistsAtPath:(NSString*)filename
+{
+	return [[self sharedFileUtils] iPhoneRetinaDisplayFileExistsAtPath:filename];
+}
++(BOOL) iPadFileExistsAtPath:(NSString*)filename
+{
+	return [[self sharedFileUtils] iPadFileExistsAtPath:filename];
+}
++(BOOL) iPadRetinaDisplayFileExistsAtPath:(NSString*)filename
+{
+	return [[self sharedFileUtils] iPadRetinaDisplayFileExistsAtPath:filename];
+}
+#endif
+@end
+
+#pragma mark - SpriteFrameCache
+
+@implementation CCSpriteFrameCache (Deprecated)
+-(void) addSpriteFramesWithDictionary:(NSDictionary*)dictionary textureFile:(NSString*)filename
+{
+	NSAssert(NO, @"unimplemented. Use addSpriteFramesWithFile:textureFile: instead");
+//	[self addSpriteFramesWithDictionary:dictionary textureFilename:filename];
+}
+
+-(void) addSpriteFramesWithFile:(NSString*)plist textureFile:(NSString*)filename
+{
+	[self addSpriteFramesWithFile:plist textureFilename:filename];
+}
+@end
+
+#pragma mark - LabelTTF
+
+@implementation CCLabelTTF (Deprecated)
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self labelWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment];
+}
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self labelWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment lineBreakMode:lineBreakMode];
+}
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self labelWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment];
+}
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self labelWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment lineBreakMode:lineBreakMode];	
+}
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment vAlignment:(CCVerticalTextAlignment)vertAlignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self labelWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment vAlignment:vertAlignment lineBreakMode:lineBreakMode];
+}
+
++ (id) labelWithString:(NSString*)string dimensions:(CGSize)dimensions hAlignment:(CCTextAlignment)alignment vAlignment:(CCVerticalTextAlignment)vertAlignment fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self labelWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment vAlignment:vertAlignment];
+}
+
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self initWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment];
+}
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self initWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment lineBreakMode:lineBreakMode];
+}
+@end
+
+#pragma mark - Texture2D
+
+@implementation CCTexture2D (Deprecated)
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return  [self initWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment vAlignment:kCCVerticalTextAlignmentTop lineBreakMode:lineBreakMode ];
+}
+- (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
+{
+	return [self initWithString:string fontName:name fontSize:size dimensions:dimensions hAlignment:alignment vAlignment:kCCVerticalTextAlignmentTop ];
+}
+@end
+
+#pragma mark - Effects
+
+@implementation CCGridAction (Deprecated)
++(id) actionWithSize:(CGSize)size duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:size];
+}
+-(id) initWithSize:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize];
+}
+@end
+
+@implementation CCWaves3D (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize waves:wav amplitude:amp];
+}
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize waves:wav amplitude:amp];
+}
+@end
+
+@implementation CCLens3D (Deprecated)
++(id)actionWithPosition:(CGPoint)pos radius:(float)r grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize position:pos radius:r];
+}
+-(id)initWithPosition:(CGPoint)pos radius:(float)r grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize position:pos radius:r];
+}
+@end
+
+@implementation CCRipple3D (Deprecated)
++(id)actionWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize position:pos radius:r waves:wav amplitude:amp];
+}
+-(id)initWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize position:pos radius:r waves:wav amplitude:amp];
+}
+@end
+
+@implementation CCShaky3D (Deprecated)
++(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize range:range shakeZ:shakeZ];
+}
+-(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize range:range shakeZ:shakeZ];
+}
+@end
+
+@implementation CCLiquid (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize waves:wav amplitude:amp];
+}
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize waves:wav amplitude:amp];
+}
+@end
+
+@implementation CCWaves (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize waves:wav amplitude:amp horizontal:h vertical:v];
+}
+-(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize waves:wav amplitude:amp horizontal:h vertical:v];
+}
+@end
+
+@implementation CCTwirl (Deprecated)
++(id)actionWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize position:pos twirls:t amplitude:amp];
+}
+-(id)initWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize position:pos twirls:t amplitude:amp];
+}
+@end
+
+@implementation CCShakyTiles3D (Deprecated)
++(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize range:range shakeZ:shakeZ];
+}
+-(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize range:range shakeZ:shakeZ];
+}
+@end
+
+@implementation CCShatteredTiles3D  (Deprecated)
++(id)actionWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize	range:range shatterZ:shatterZ];
+}
+-(id)initWithRange:(int)range shatterZ:(BOOL)shatterZ grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize range:range shatterZ:shatterZ];
+}
+@end
+
+@implementation CCShuffleTiles (Deprecated)
++(id)actionWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize seed:s];
+}
+-(id)initWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize seed:s];
+}
+@end
+
+@implementation CCTurnOffTiles (Deprecated)
++(id)actionWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize seed:s];
+}
+-(id)initWithSeed:(int)s grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize seed:s];
+}
+@end
+
+@implementation CCWavesTiles3D  (Deprecated)
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize waves:wav amplitude:amp];
+}
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize waves:wav amplitude:amp];
+}
+@end
+
+@implementation CCJumpTiles3D (Deprecated)
++(id)actionWithJumps:(int)j amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self actionWithDuration:d size:gridSize jumps:j amplitude:amp];
+}
+-(id)initWithJumps:(int)j amplitude:(float)amp grid:(CGSize)gridSize duration:(ccTime)d
+{
+	return [self initWithDuration:d size:gridSize jumps:j amplitude:amp];
+}
+@end
+
+@implementation CCSplitRows (Deprecated)
++(id)actionWithRows:(int)rows duration:(ccTime)duration
+{
+	return [self actionWithDuration:duration rows:rows];
+}
+-(id)initWithRows:(int)rows duration:(ccTime)duration
+{
+	return [self initWithDuration:duration rows:rows];
+}
+@end
+
+@implementation CCSplitCols  (Deprecated)
++(id)actionWithCols:(int)cols duration:(ccTime)duration
+{
+	return [self actionWithDuration:duration cols:cols];
+}
+-(id)initWithCols:(int)cols duration:(ccTime)duration
+{
+	return [self initWithDuration:duration cols:cols];
+}
+@end
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 
 #if __CC_PLATFORM_IOS

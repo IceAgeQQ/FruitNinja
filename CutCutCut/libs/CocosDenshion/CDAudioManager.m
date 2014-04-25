@@ -86,7 +86,11 @@ NSString * const kCDN_AudioManagerInitialised = @"kCDN_AudioManagerInitialised";
 		[self pause];
 		[self rewind];
 	}
+<<<<<<< HEAD
 	audioSourcePlayer.volume = volume;
+=======
+	audioSourcePlayer.volume = mute ? 0.0f : volume;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	audioSourcePlayer.numberOfLoops = numberOfLoops;
 	state = kLAS_Loaded;
 }

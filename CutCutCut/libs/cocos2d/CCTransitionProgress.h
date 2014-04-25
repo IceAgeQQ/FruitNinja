@@ -27,6 +27,7 @@
 
 #import "CCTransition.h"
 
+<<<<<<< HEAD
 @interface CCTransitionProgress : CCTransitionScene
 {
 	float to_, from_;
@@ -59,4 +60,60 @@
 @end
 
 @interface CCTransitionProgressOutIn : CCTransitionProgress
+=======
+@class CCProgressTimer;
+
+@interface CCTransitionProgress : CCTransitionScene
+{
+	float _to, _from;
+	CCScene *_sceneToBeModified;
+}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+@end
+
+/** CCTransitionRadialCCW transition.
+ A counter clock-wise radial transition to the next scene
+ */
+@interface CCTransitionProgressRadialCCW : CCTransitionProgress
+{}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+@end
+
+/** CCTransitionRadialCW transition.
+ A counter clock-wise radial transition to the next scene
+*/
+@interface CCTransitionProgressRadialCW : CCTransitionProgress
+{}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+@end
+
+/** CCTransitionProgressHorizontal transition.
+ A  clock-wise radial transition to the next scene
+ */
+@interface CCTransitionProgressHorizontal : CCTransitionProgress
+{}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+@end
+
+@interface CCTransitionProgressVertical : CCTransitionProgress
+{}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+@end
+
+@interface CCTransitionProgressInOut : CCTransitionProgress
+{}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+@end
+
+@interface CCTransitionProgressOutIn : CCTransitionProgress
+{}
+// Needed for BridgeSupport
+-(CCProgressTimer*) progressTimerNodeWithRenderTexture:(CCRenderTexture*)texture;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end

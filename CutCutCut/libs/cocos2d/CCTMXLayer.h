@@ -63,6 +63,7 @@
  */
 @interface CCTMXLayer : CCSpriteBatchNode
 {
+<<<<<<< HEAD
 	CCTMXTilesetInfo	*tileset_;
 	NSString			*layerName_;
 	CGSize				layerSize_;
@@ -83,21 +84,55 @@
 	// used for optimization
 	CCSprite		*reusedTile_;
 	ccCArray		*atlasIndexArray_;
+=======
+	CCTMXTilesetInfo	*_tileset;
+	NSString			*_layerName;
+	CGSize				_layerSize;
+	CGSize				_mapTileSize;
+	uint32_t			*_tiles;			// GID are 32 bit
+	NSUInteger			_layerOrientation;
+	NSMutableDictionary	*_properties;
+
+	unsigned char		_opacity; // TMX Layer supports opacity
+
+	NSUInteger			_minGID;
+	NSUInteger			_maxGID;
+
+	// Only used when vertexZ is used
+	NSInteger			_vertexZvalue;
+	BOOL				_useAutomaticVertexZ;
+
+	// used for optimization
+	CCSprite		*_reusedTile;
+	ccCArray		*_atlasIndexArray;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 /** name of the layer */
 @property (nonatomic,readwrite,retain) NSString *layerName;
 /** size of the layer in tiles */
 @property (nonatomic,readwrite) CGSize layerSize;
+<<<<<<< HEAD
 /** size of the map's tile (could be differnt from the tile's size) */
 @property (nonatomic,readwrite) CGSize mapTileSize;
 /** pointer to the map of tiles */
 @property (nonatomic,readwrite) uint32_t *tiles;
 /** Tilset information for the layer */
+=======
+/** size of the map's tile (could be different from the tile's size) */
+@property (nonatomic,readwrite) CGSize mapTileSize;
+/** pointer to the map of tiles */
+@property (nonatomic,readwrite) uint32_t *tiles;
+/** Tileset information for the layer */
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @property (nonatomic,readwrite,retain) CCTMXTilesetInfo *tileset;
 /** Layer orientation, which is the same as the map orientation */
 @property (nonatomic,readwrite) NSUInteger layerOrientation;
 /** properties from the layer. They can be added using Tiled */
+<<<<<<< HEAD
 @property (nonatomic,readwrite,retain) NSMutableArray *properties;
+=======
+@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 /** creates a CCTMXLayer with an tileset info, a layer info and a map info */
 +(id) layerWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo;

@@ -32,6 +32,7 @@
  */
 @interface CCActionCamera : CCActionInterval <NSCopying>
 {
+<<<<<<< HEAD
 	float centerXOrig_;
 	float centerYOrig_;
 	float centerZOrig_;
@@ -44,6 +45,22 @@
 	float upYOrig_;
 	float upZOrig_;
 }
+=======
+	float _centerXOrig;
+	float _centerYOrig;
+	float _centerZOrig;
+
+	float _eyeXOrig;
+	float _eyeYOrig;
+	float _eyeZOrig;
+
+	float _upXOrig;
+	float _upYOrig;
+	float _upZOrig;
+}
+// XXX Needed for BridgeSupport
+-(void) startWithTarget:(id)aTarget;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 @end
 
 /** CCOrbitCamera action
@@ -51,6 +68,7 @@
  */
 @interface CCOrbitCamera : CCActionCamera <NSCopying>
 {
+<<<<<<< HEAD
 	float radius_;
 	float deltaRadius_;
 	float angleZ_;
@@ -62,6 +80,19 @@
 	float radDeltaZ_;
 	float radX_;
 	float radDeltaX_;
+=======
+	float _radius;
+	float _deltaRadius;
+	float _angleZ;
+	float _deltaAngleZ;
+	float _angleX;
+	float _deltaAngleX;
+
+	float _radZ;
+	float _radDeltaZ;
+	float _radX;
+	float _radDeltaX;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 }
 /** creates a CCOrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX */

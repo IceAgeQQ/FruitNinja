@@ -89,11 +89,19 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 @implementation CCGLView
 
+<<<<<<< HEAD
 @synthesize surfaceSize=size_;
 @synthesize pixelFormat=pixelformat_, depthFormat=depthFormat_;
 @synthesize touchDelegate=touchDelegate_;
 @synthesize context=context_;
 @synthesize multiSampling=multiSampling_;
+=======
+@synthesize surfaceSize=_size;
+@synthesize pixelFormat=_pixelformat, depthFormat=_depthFormat;
+@synthesize touchDelegate=_touchDelegate;
+@synthesize context=_context;
+@synthesize multiSampling=_multiSampling;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 + (Class) layerClass
 {
@@ -134,11 +142,19 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	if((self = [super initWithFrame:frame]))
 	{
+<<<<<<< HEAD
 		pixelformat_ = format;
 		depthFormat_ = depth;
 		multiSampling_ = sampling;
 		requestedSamples_ = nSamples;
 		preserveBackbuffer_ = retained;
+=======
+		_pixelformat = format;
+		_depthFormat = depth;
+		_multiSampling = sampling;
+		_requestedSamples = nSamples;
+		_preserveBackbuffer = retained;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		if( ! [self setupSurfaceWithSharegroup:sharegroup] ) {
 			[self release];
@@ -157,11 +173,19 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 		CAEAGLLayer* eaglLayer = (CAEAGLLayer*)[self layer];
 
+<<<<<<< HEAD
 		pixelformat_ = kEAGLColorFormatRGB565;
 		depthFormat_ = 0; // GL_DEPTH_COMPONENT24;
 		multiSampling_= NO;
 		requestedSamples_ = 0;
 		size_ = [eaglLayer bounds].size;
+=======
+		_pixelformat = kEAGLColorFormatRGB565;
+		_depthFormat = 0; // GL_DEPTH_COMPONENT24;
+		_multiSampling= NO;
+		_requestedSamples = 0;
+		_size = [eaglLayer bounds].size;
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		if( ! [self setupSurfaceWithSharegroup:nil] ) {
 			[self release];
@@ -180,6 +204,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 	eaglLayer.opaque = YES;
 	eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+<<<<<<< HEAD
 									[NSNumber numberWithBool:preserveBackbuffer_], kEAGLDrawablePropertyRetainedBacking,
 									pixelformat_, kEAGLDrawablePropertyColorFormat, nil];
 
@@ -198,6 +223,26 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	context_ = [renderer_ context];
 
 	discardFramebufferSupported_ = [[CCConfiguration sharedConfiguration] supportsDiscardFramebuffer];
+=======
+									[NSNumber numberWithBool:_preserveBackbuffer], kEAGLDrawablePropertyRetainedBacking,
+									_pixelformat, kEAGLDrawablePropertyColorFormat, nil];
+
+	// ES2 renderer only
+	_renderer = [[CCES2Renderer alloc] initWithDepthFormat:_depthFormat
+										 withPixelFormat:[self convertPixelFormat:_pixelformat]
+										  withSharegroup:sharegroup
+									   withMultiSampling:_multiSampling
+									 withNumberOfSamples:_requestedSamples];
+
+	NSAssert( _renderer, @"OpenGL ES 2.0 is required");
+
+	if (!_renderer)
+		return NO;
+
+	_context = [_renderer context];
+
+	_discardFramebufferSupported = [[CCConfiguration sharedConfiguration] supportsDiscardFramebuffer];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	CHECK_GL_ERROR_DEBUG();
 
@@ -208,12 +253,17 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	CCLOGINFO(@"cocos2d: deallocing %@", self);
 
+<<<<<<< HEAD
 	[renderer_ release];
+=======
+	[_renderer release];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	[super dealloc];
 }
 
 - (void) layoutSubviews
 {
+<<<<<<< HEAD
 	[renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
 
 	size_ = [renderer_ backingSize];
@@ -225,12 +275,29 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	// Avoid flicker. Issue #350
 	NSThread *thread = [director runningThread];
 	[director performSelector:@selector(drawScene) onThread:thread withObject:nil waitUntilDone:YES];
+=======
+	[_renderer resizeFromLayer:(CAEAGLLayer*)self.layer];
+
+	_size = [_renderer backingSize];
+
+	// Issue #914 #924
+	CCDirector *director = [CCDirector sharedDirector];
+	[director reshapeProjection:_size];
+
+	// Avoid flicker. Issue #350
+	// Only draw if there is something to draw, otherwise it actually creates a flicker of the current glClearColor
+//	if(director.runningScene){
+//		NSThread *thread = [director runningThread];
+//		[director performSelector:@selector(drawScene) onThread:thread withObject:nil waitUntilDone:YES];
+//	}
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (void) swapBuffers
 {
 	// IMPORTANT:
 	// - preconditions
+<<<<<<< HEAD
 	//	-> context_ MUST be the OpenGL context
 	//	-> renderbuffer_ must be the the RENDER BUFFER
 
@@ -248,6 +315,25 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 		if (multiSampling_)
 		{
 			if (depthFormat_)
+=======
+	//	-> _context MUST be the OpenGL context
+	//	-> renderbuffer_ must be the the RENDER BUFFER
+
+	if (_multiSampling)
+	{
+		/* Resolve from msaaFramebuffer to resolveFramebuffer */
+		//glDisable(GL_SCISSOR_TEST);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, [_renderer msaaFrameBuffer]);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, [_renderer defaultFrameBuffer]);
+		glResolveMultisampleFramebufferAPPLE();
+	}
+
+	if( _discardFramebufferSupported)
+	{
+		if (_multiSampling)
+		{
+			if (_depthFormat)
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			{
 				GLenum attachments[] = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
 				glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, attachments);
@@ -258,24 +344,41 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 				glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, attachments);
 			}
 
+<<<<<<< HEAD
 			glBindRenderbuffer(GL_RENDERBUFFER, [renderer_ colorRenderBuffer]);
+=======
+			glBindRenderbuffer(GL_RENDERBUFFER, [_renderer colorRenderBuffer]);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 		}
 
 		// not MSAA
+<<<<<<< HEAD
 		else if (depthFormat_ ) {
+=======
+		else if (_depthFormat ) {
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 			GLenum attachments[] = { GL_DEPTH_ATTACHMENT};
 			glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, attachments);
 		}
 	}
 
+<<<<<<< HEAD
 	if(![context_ presentRenderbuffer:GL_RENDERBUFFER])
+=======
+	if(![_context presentRenderbuffer:GL_RENDERBUFFER])
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 		CCLOG(@"cocos2d: Failed to swap renderbuffer in %s\n", __FUNCTION__);
 
 	// We can safely re-bind the framebuffer here, since this will be the
 	// 1st instruction of the new main loop
+<<<<<<< HEAD
 	if( multiSampling_ )
 		glBindFramebuffer(GL_FRAMEBUFFER, [renderer_ msaaFrameBuffer]);
+=======
+	if( _multiSampling )
+		glBindFramebuffer(GL_FRAMEBUFFER, [_renderer msaaFrameBuffer]);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 
 	CHECK_GL_ERROR_DEBUG();
 }
@@ -310,14 +413,22 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	CGRect bounds = [self bounds];
 
+<<<<<<< HEAD
 	return CGPointMake((point.x - bounds.origin.x) / bounds.size.width * size_.width, (point.y - bounds.origin.y) / bounds.size.height * size_.height);
+=======
+	return CGPointMake((point.x - bounds.origin.x) / bounds.size.width * _size.width, (point.y - bounds.origin.y) / bounds.size.height * _size.height);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 - (CGRect) convertRectFromViewToSurface:(CGRect)rect
 {
 	CGRect bounds = [self bounds];
 
+<<<<<<< HEAD
 	return CGRectMake((rect.origin.x - bounds.origin.x) / bounds.size.width * size_.width, (rect.origin.y - bounds.origin.y) / bounds.size.height * size_.height, rect.size.width / bounds.size.width * size_.width, rect.size.height / bounds.size.height * size_.height);
+=======
+	return CGRectMake((rect.origin.x - bounds.origin.x) / bounds.size.width * _size.width, (rect.origin.y - bounds.origin.y) / bounds.size.height * _size.height, rect.size.width / bounds.size.width * _size.width, rect.size.height / bounds.size.height * _size.height);
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 }
 
 // Pass the touches to the superview
@@ -325,32 +436,56 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	if(touchDelegate_)
 	{
 		[touchDelegate_ touchesBegan:touches withEvent:event];
+=======
+	if(_touchDelegate)
+	{
+		[_touchDelegate touchesBegan:touches withEvent:event];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	if(touchDelegate_)
 	{
 		[touchDelegate_ touchesMoved:touches withEvent:event];
+=======
+	if(_touchDelegate)
+	{
+		[_touchDelegate touchesMoved:touches withEvent:event];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	if(touchDelegate_)
 	{
 		[touchDelegate_ touchesEnded:touches withEvent:event];
+=======
+	if(_touchDelegate)
+	{
+		[_touchDelegate touchesEnded:touches withEvent:event];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
+<<<<<<< HEAD
 	if(touchDelegate_)
 	{
 		[touchDelegate_ touchesCancelled:touches withEvent:event];
+=======
+	if(_touchDelegate)
+	{
+		[_touchDelegate touchesCancelled:touches withEvent:event];
+>>>>>>> 8c32fb7f9531a9401eb529e574735b5ecdc02d6c
 	}
 }
 
